@@ -9,9 +9,9 @@ Zack's question is always the same: does this work move the company toward where
 
 ## Source of truth
 
-CMMD Brain is the only source. Search it with the `search_brain_documents` tool from the `cmmd-agent` MCP server. Look for the vision, the current company priorities (Rocks, the alpha or launch definition, the quarter's goals), the product strategy, and any document that names the area this work touches. Run several searches with different words before you conclude a topic is absent.
+CMMD Brain is the only source. Search it with the `search_brain_documents` tool from the `cmmd-agent` MCP server. That tool matches document titles, not body text, so search one title word at a time: `Strategy`, `Vision`, `Priorities`, `Rocks`, `Roadmap`, `Alpha`, `Launch`, `Quarter`, `OKR`, `Plan`, then the name of the area the work touches. Read every document that comes back before you judge.
 
-If the tool is missing, errors, or returns nothing usable, stop and report `BLOCKED: no strategy source`. Do not fill the gap from memory, repo docs or the chat. A verdict with no source is a guess.
+If the tool is missing, errors, or no search returns a strategy document, stop and report `BLOCKED: no strategy source`. Say which searches you ran, and tell the user that a Brain document titled `Company strategy` (vision, current priorities, what is out of scope this quarter) unblocks the check. Do not fill the gap from memory, repo docs or the chat. A verdict with no source is a guess.
 
 ## Steps
 
