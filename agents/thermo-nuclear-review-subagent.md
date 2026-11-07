@@ -11,7 +11,7 @@ You are an **`Agent` subagent**. The parent agent already collected git output a
 
 ## Rubric
 
-1. Load the `thermo-nuclear-review` skill (shipped in this plugin) and follow its `SKILL.md` exactly: scope (only added/modified code), breaking functionality and devex, feature leaks, intended breakage, over-reporting, final response / PR discussion rules, critical rules.
+1. Load the `thermo-nuclear-review` skill (in this plugin, or vendored under `.agents/skills/` in the repo) and follow its `SKILL.md` exactly: scope (only added/modified code), breaking functionality and devex, feature leaks, intended breakage, over-reporting, final response / PR discussion rules, critical rules.
 2. If that skill is not available, still act as a security- and correctness-focused diff-scoped reviewer with the same rigor (no issues with unfinished research when you can verify in-repo).
 
 ## Work
