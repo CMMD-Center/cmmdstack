@@ -13,7 +13,7 @@ On Codex, read [`../cmmd-mode/references/codex-tools.md`](../cmmd-mode/reference
 
 Do the work on this machine. Use the terminal, a CLI that is already logged in, and the browser. Return only when a step needs the user, such as a login, a physical action, or a product call no check can settle.
 
-Do not wait for permission on reversible work. Commit, open the pull request, and after an independent review of the published head has no actionable findings, enable auto-merge. Stay with the pull request until it merges. Stop only when the user says to wait.
+Do not wait for permission on reversible work. Commit, and when the user or the repo asks for a pull request, open it and stay with it until it is merge-ready: green checks, an independent review of the published head with no actionable findings, no open threads. Then stop and hand it to the owner. Merging, enabling auto-merge, and `--admin` need the owner's explicit word for that pull request, as in `full-stop`. When the repo says to keep work local, commit locally and do not push.
 
 ## Verify
 
@@ -29,7 +29,7 @@ Send review to a separate agent on a different model from the author. Point it a
 
 Fan independent work out in parallel. Park a decision only the user can make, and keep the other work moving.
 
-Orchestrate through the T3 Code MCP, not native subagents. Use `delegate_task` with `isolation: "worktree"` for each independent change or PR. Set the provider instance on every call: `codex_fleet` or `claudeAgent_fleet`, never `codex` or `claudeAgent`. Open the first message to each idle thread with T3's `goal` slash command, naming the objective and a stop condition, and invoke `/cmmd-mode`. Send later messages to a running thread as plain steers without the goal command. If the T3 MCP is missing, tell the user before you fall back to native agents.
+Orchestrate through the T3 Code MCP, not native subagents. Use `delegate_task` with `isolation: "worktree"` for each independent change or PR. Set the provider instance on every call, using the instance names `orchestrator_capabilities` lists. Open the first message to each idle thread with T3's `goal` slash command, naming the objective and a stop condition, and invoke `/cmmd-mode`. Send later messages to a running thread as plain steers without the goal command. If the T3 MCP is missing, tell the user before you fall back to native agents.
 
 When a plan is hard to follow, put it in a shareable artifact with the comparison, the phases, and the checklist.
 
