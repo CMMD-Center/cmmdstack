@@ -56,7 +56,7 @@ Install one way per repo. A plugin plus a vendored copy shows every skill twice.
 
 - `node scripts/check.mjs` must pass before every commit. It checks frontmatter, Codex prompts, relative links, dashes and manifest versions. `--fix` writes missing Codex prompts.
 - `node scripts/release.mjs 0.2.0` bumps every manifest, runs the check, commits and tags `v0.2.0`. Push the tag to publish. CMMD's weekly update job opens a PR when it sees the new tag.
-- Edit a skill in place. Do not add a CMMD-only path, product name or person to a skill here. Those belong in the CMMD repo's own `.agents/skills/`.
+- Edit a skill in place. Keep skills free of any one repo's paths, services and private details. Those belong in that repo's own `.agents/skills/`. CMMD-wide conventions (CMMD Brain, the V11 tip sheet, the ask-alex and ask-zack habits) are fine here.
 
 ## Data handling
 

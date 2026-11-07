@@ -24,7 +24,13 @@ for (const f of manifests) {
   json.version = version;
   writeFileSync(path, `${JSON.stringify(json, null, 2)}\n`);
 }
-run("node", ["scripts/check.mjs"]);
+try {
+  run("node", ["scripts/check.mjs"]);
+} catch {
+  run("git", ["checkout", "--", ...manifests]);
+  console.error("check failed; manifests restored, nothing committed or tagged");
+  process.exit(1);
+}
 run("git", ["add", ...manifests]);
 run("git", ["commit", "-m", `release: v${version}`]);
 run("git", ["tag", "-a", `v${version}`, "-m", `cmmdstack v${version}`]);

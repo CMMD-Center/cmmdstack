@@ -10,7 +10,7 @@ function sheet_roles(roles, panel,    n) {
   split("", roles)
   split("", panel)
   n = 0
-  # Stamped from ./models.json; edit there and rerun tools/generate.mjs.
+  # Copied from ./models.json; change both together.
   roles[++n] = "feature, refactoring"
   roles[++n] = "bug-fix"
   roles[++n] = "perf-issue"

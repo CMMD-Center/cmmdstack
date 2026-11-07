@@ -47,7 +47,7 @@ Return one consolidated in-chat report with a result table, issue one-liners, ga
 
 ## Models
 
-Role defaults, stamped from `./models.json` (edit there, rerun `tools/generate.mjs`). A matching role line in the `cmmdstack-models.md` override sheet overrides each at runtime; `/setup-cmmdstack` writes it and lists its path per runtime.
+Role defaults, copied from `models.json` at the plugin root. Change both together; `scripts/check.mjs` fails when they disagree. A matching role line in the `cmmdstack-models.md` override sheet overrides each at runtime; `/setup-cmmdstack` writes it and lists its path per runtime.
 
 - swarm workers: `opus`
 

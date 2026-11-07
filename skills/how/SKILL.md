@@ -42,7 +42,7 @@ The explanation uses the sections defined in `references/explainer-prompt.md`, d
 
 ## Models
 
-Role defaults, stamped from `./models.json` (edit there, rerun `tools/generate.mjs`). A matching role line in the `cmmdstack-models.md` override sheet overrides each at runtime; `/setup-cmmdstack` writes it and lists its path per runtime.
+Role defaults, copied from `models.json` at the plugin root. Change both together; `scripts/check.mjs` fails when they disagree. A matching role line in the `cmmdstack-models.md` override sheet overrides each at runtime; `/setup-cmmdstack` writes it and lists its path per runtime.
 
 - how explorer: `opus`
 - how explainer: `opus`

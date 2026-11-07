@@ -1,6 +1,6 @@
 ---
 name: principle-build-the-lever
-description: apply to any non-trivial work, not just bulk work: edits, migrations, analyses, checks
+description: "apply to any non-trivial work, not just bulk work: edits, migrations, analyses, checks"
 disable-model-invocation: true
 ---
 

@@ -39,8 +39,8 @@ Match the situation to one row. Read the named skill before you answer, because 
 | A large migration or a plan you will review later | `figure-it-out`, with `show-me-your-work` for the trail |
 | Proving UI or CLI behavior with no driver yet | `create-verification-skill`, later `maintain-verification-skill` |
 | A race, invariant or state machine tests rarely hit | `create-formal-verification-skill` or `statechart` |
-| A PR to open | `file-pr` or `pr`, then `babysit-pr` |
-| A PR to get green or merged | `babysit`, `fix-ci`, `fix-merge-conflicts` |
+| A PR to open | `cmmd-mode` Opening a PR, with `pr` for the body |
+| A PR to get green or reviewed | `cmmd-mode` Babysit playbook; `fix-ci` and `fix-merge-conflicts` for one-off fixes |
 | Hand the whole thing off and walk away | `full-send` (merges) or `full-stop` (stops at ready) |
 | Taking over someone else's branch or PR | `takeover`, which uses `modernize` |
 | A review from several providers | `council` or `sol-loop` |

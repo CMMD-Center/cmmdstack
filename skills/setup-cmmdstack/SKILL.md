@@ -110,7 +110,7 @@ The role lines are the same everywhere. What differs is the sheet path, how the 
 | --- | --- | --- | --- | --- |
 | Claude Code | `<config>/cmmdstack-models.md` | `@<config>/cmmdstack-models.md` in `<config>/CLAUDE.md` | the `Agent` tool's model parameter | verified live |
 | Codex | `<codex-home>/cmmdstack-models.md` | model rows: paste into `<codex-home>/AGENTS.md`; hook setting: read by the plugin | your configured Codex models, see [codex-tools.md](../cmmd-mode/references/codex-tools.md#model-names) | hook contract tested; discovery verified |
-| Pi | `cmmdstack-models.md` in the Pi agent directory, `$PI_CODING_AGENT_DIR` or `~/.pi/agent` | read by the cmmdstack Pi extension, model rows and hook setting both; no include line | `pi --list-models`, see [pi-tools.md](../cmmd-mode/references/pi-tools.md#model-names) and its `setup-cmmdstack` note | extension contract tested offline; live results in the repository's `docs/pi-equivalence.md` |
+| Pi | `cmmdstack-models.md` in the Pi agent directory, `$PI_CODING_AGENT_DIR` or `~/.pi/agent` | read by the cmmdstack Pi extension, model rows and hook setting both; no include line | `pi --list-models`, see [pi-tools.md](../cmmd-mode/references/pi-tools.md#model-names) and its `setup-cmmdstack` note | extension contract tested offline |
 | GitHub Copilot (CLI and app) | `${COPILOT_HOME:-~/.copilot}/cmmdstack-models.md` | the plugin hook checks it and injects its role lines at session start; skills-only installs read it with `view` | the `task` tool's `model` enum, see [copilot-tools.md](../cmmd-mode/references/copilot-tools.md#model-names) | hook contract tested; CLI install smoke-tested |
 | Muse | `${XDG_CONFIG_HOME:-~/.config}/muse/cmmdstack-models.md` | the plugin hook reads it and injects its role lines at session start, once hooks are approved; no include line | the model catalog (`muse model-profile show <model>` names each one), see [muse-tools.md](../cmmd-mode/references/muse-tools.md#model-names) | hook contract tested; plugin install verified |
 | opencode | `~/.config/opencode/cmmdstack-models.md` | add the path to the `instructions` array in `opencode.json` | the `models` slash command in the session | from published docs, no live session |
@@ -119,7 +119,7 @@ The role lines are the same everywhere. What differs is the sheet path, how the 
 
 ## Models
 
-Stamped from `./models.json` (edit there, rerun `tools/generate.mjs`).
+Copied from `models.json` at the plugin root. Change both together; `scripts/check.mjs` fails when they disagree.
 
 - Available Claude models: `opus`, `fable`, `sonnet`, `haiku`
 - Default panel: `opus`, `fable`, `sonnet`, `haiku`

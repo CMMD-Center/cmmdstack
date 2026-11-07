@@ -49,4 +49,4 @@ Copy commands and results from this session's output. A check you did not run go
 
 ### Merge danger
 
-A two-way door is cheap to walk back: revert the commit and nothing is lost. A one-way door is not: a destructive migration, a deleted column, a message already sent, a contract a consumer already depends on. The blast radius is everything the change could break if it is wrong: layout shift, consumers of an API, mobile clients, other tenants' data. Tick every area in the checklist the diff touches, not only the one the PR is about.
+A two-way door is cheap to walk back: revert the commit and nothing is lost. A one-way door is not: a destructive migration, a deleted column, a message already sent, a contract a consumer already depends on. The blast radius is everything the change could break if it is wrong: layout shift, consumers of an API, mobile clients, other tenants' data. Name every area the diff touches, not only the one the PR is about.

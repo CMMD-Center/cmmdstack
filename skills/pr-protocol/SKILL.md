@@ -39,7 +39,7 @@ If the repo has extra publish gates for user-visible work, such as a design revi
 
 A request to "push to main" means prepare and push a branch or PR targeting `main`, unless the user explicitly says to merge directly into `main`.
 
-Do not push a PR branch that has not fetched and reconciled with the base in the current session. If the base moves repeatedly, do not chase it indefinitely. Push the current branch, leave the PR as a draft if needed, and report that it may need one more update.
+Do not push a PR branch that has not fetched and reconciled with the base in the current session. If the base moves repeatedly, do not chase it indefinitely. Push the current branch and report that it may need one more update.
 
 ## After an approved merge
 
@@ -95,7 +95,7 @@ Required:
 - Run the repo's required pre-push checks before the final push.
 - Run any additional security or platform checks the repo documents.
 
-Push rule: if local required checks are blocked, keep the PR as a draft and label the blocker clearly in the PR body or a comment. Do not mark it ready for review unless required validation passed or the user explicitly accepts the skipped or failed checks.
+Push rule: if local required checks are blocked, do not open the PR. Report the blocker and what it needs. Do not mark it ready for review unless required validation passed or the user explicitly accepts the skipped or failed checks.
 
 ## Validation churn
 

@@ -90,6 +90,8 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 **Just do it.** Use any MCP tool. Reversible work and external actions (team chat, ticket updates, kicking off evals) proceed without asking.
 
+**Merging.** Only an explicit grant merges: the user says to merge that PR, or runs `full-send`. `full-stop`, `alex-mode` and every playbook stop at merge-ready.
+
 **Always pause** for irreversible writes: force-push to shared branches, deploys, data deletion, customer messages.
 
 **Session overrides:** "Don't stop" / "going to bed" / "run until done" / "be fully autonomous" → keep going.
@@ -162,7 +164,7 @@ A large or cross-cutting effort (a migration across many call sites, an ambitiou
 
 ## Models
 
-Role defaults, stamped from `./models.json` (edit there, rerun `tools/generate.mjs`). A matching role line in the `cmmdstack-models.md` override sheet overrides each at runtime; `/setup-cmmdstack` writes it and lists its path per runtime.
+Role defaults, copied from `models.json` at the plugin root. Change both together; `scripts/check.mjs` fails when they disagree. A matching role line in the `cmmdstack-models.md` override sheet overrides each at runtime; `/setup-cmmdstack` writes it and lists its path per runtime.
 
 - feature, refactoring: `sonnet`
 - bug-fix: `opus`

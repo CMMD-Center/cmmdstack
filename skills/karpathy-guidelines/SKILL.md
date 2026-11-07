@@ -6,6 +6,8 @@ license: MIT
 
 # Karpathy guidelines
 
+Adapted from [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills), MIT.
+
 Behavioral guidelines to reduce common LLM coding mistakes, derived from [Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876) on LLM coding pitfalls.
 
 **Tradeoff:** these guidelines bias toward caution over speed. For trivial tasks, use judgment.

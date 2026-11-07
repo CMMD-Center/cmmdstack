@@ -26,6 +26,16 @@
         "enabledDefault": true
       },
       {
+        "id": "ask-alex",
+        "path": "skills/ask-alex/SKILL.md",
+        "enabledDefault": true
+      },
+      {
+        "id": "ask-zack",
+        "path": "skills/ask-zack/SKILL.md",
+        "enabledDefault": true
+      },
+      {
         "id": "automate-me",
         "path": "skills/automate-me/SKILL.md",
         "enabledDefault": true
@@ -33,6 +43,11 @@
       {
         "id": "babysit",
         "path": "skills/babysit/SKILL.md",
+        "enabledDefault": true
+      },
+      {
+        "id": "babysit-pr",
+        "path": "skills/babysit-pr/SKILL.md",
         "enabledDefault": true
       },
       {
@@ -46,18 +61,33 @@
         "enabledDefault": true
       },
       {
-        "id": "cmmd-help",
-        "path": "skills/cmmd-help/SKILL.md",
-        "enabledDefault": true
-      },
-      {
         "id": "bro",
         "path": "skills/bro/SKILL.md",
         "enabledDefault": true
       },
       {
+        "id": "cleanup",
+        "path": "skills/cleanup/SKILL.md",
+        "enabledDefault": true
+      },
+      {
+        "id": "cmmd-help",
+        "path": "skills/cmmd-help/SKILL.md",
+        "enabledDefault": true
+      },
+      {
+        "id": "cmmd-mode",
+        "path": "skills/cmmd-mode/SKILL.md",
+        "enabledDefault": true
+      },
+      {
         "id": "correct",
         "path": "skills/correct/SKILL.md",
+        "enabledDefault": true
+      },
+      {
+        "id": "council",
+        "path": "skills/council/SKILL.md",
         "enabledDefault": true
       },
       {
@@ -71,13 +101,28 @@
         "enabledDefault": true
       },
       {
+        "id": "debrief",
+        "path": "skills/debrief/SKILL.md",
+        "enabledDefault": true
+      },
+      {
         "id": "deslop",
         "path": "skills/deslop/SKILL.md",
         "enabledDefault": true
       },
       {
+        "id": "durable-workflow-review",
+        "path": "skills/durable-workflow-review/SKILL.md",
+        "enabledDefault": true
+      },
+      {
         "id": "figure-it-out",
         "path": "skills/figure-it-out/SKILL.md",
+        "enabledDefault": true
+      },
+      {
+        "id": "file-pr",
+        "path": "skills/file-pr/SKILL.md",
         "enabledDefault": true
       },
       {
@@ -91,13 +136,18 @@
         "enabledDefault": true
       },
       {
-        "id": "get-pr-comments",
-        "path": "skills/get-pr-comments/SKILL.md",
+        "id": "full-send",
+        "path": "skills/full-send/SKILL.md",
         "enabledDefault": true
       },
       {
-        "id": "cmmd-mode",
-        "path": "skills/cmmd-mode/SKILL.md",
+        "id": "full-stop",
+        "path": "skills/full-stop/SKILL.md",
+        "enabledDefault": true
+      },
+      {
+        "id": "get-pr-comments",
+        "path": "skills/get-pr-comments/SKILL.md",
         "enabledDefault": true
       },
       {
@@ -116,6 +166,11 @@
         "enabledDefault": true
       },
       {
+        "id": "karpathy-guidelines",
+        "path": "skills/karpathy-guidelines/SKILL.md",
+        "enabledDefault": true
+      },
+      {
         "id": "ketchup",
         "path": "skills/ketchup/SKILL.md",
         "enabledDefault": true
@@ -123,6 +178,11 @@
       {
         "id": "ketchup-video",
         "path": "skills/ketchup-video/SKILL.md",
+        "enabledDefault": true
+      },
+      {
+        "id": "leaving-pr-comments",
+        "path": "skills/leaving-pr-comments/SKILL.md",
         "enabledDefault": true
       },
       {
@@ -141,8 +201,28 @@
         "enabledDefault": true
       },
       {
+        "id": "modernize",
+        "path": "skills/modernize/SKILL.md",
+        "enabledDefault": true
+      },
+      {
         "id": "no-comments",
         "path": "skills/no-comments/SKILL.md",
+        "enabledDefault": true
+      },
+      {
+        "id": "parallel-agent-work",
+        "path": "skills/parallel-agent-work/SKILL.md",
+        "enabledDefault": true
+      },
+      {
+        "id": "pr",
+        "path": "skills/pr/SKILL.md",
+        "enabledDefault": true
+      },
+      {
+        "id": "pr-protocol",
+        "path": "skills/pr-protocol/SKILL.md",
         "enabledDefault": true
       },
       {
@@ -276,6 +356,11 @@
         "enabledDefault": true
       },
       {
+        "id": "research",
+        "path": "skills/research/SKILL.md",
+        "enabledDefault": true
+      },
+      {
         "id": "setup-cmmdstack",
         "path": "skills/setup-cmmdstack/SKILL.md",
         "enabledDefault": true
@@ -291,6 +376,11 @@
         "enabledDefault": true
       },
       {
+        "id": "sol-loop",
+        "path": "skills/sol-loop/SKILL.md",
+        "enabledDefault": true
+      },
+      {
         "id": "statechart",
         "path": "skills/statechart/SKILL.md",
         "enabledDefault": true
@@ -298,6 +388,11 @@
       {
         "id": "swarm",
         "path": "skills/swarm/SKILL.md",
+        "enabledDefault": true
+      },
+      {
+        "id": "takeover",
+        "path": "skills/takeover/SKILL.md",
         "enabledDefault": true
       },
       {
@@ -313,6 +408,11 @@
       {
         "id": "technical-writing",
         "path": "skills/technical-writing/SKILL.md",
+        "enabledDefault": true
+      },
+      {
+        "id": "test-assertion-quality",
+        "path": "skills/test-assertion-quality/SKILL.md",
         "enabledDefault": true
       },
       {
@@ -348,6 +448,11 @@
       {
         "id": "why",
         "path": "skills/why/SKILL.md",
+        "enabledDefault": true
+      },
+      {
+        "id": "worktree-main-sync",
+        "path": "skills/worktree-main-sync/SKILL.md",
         "enabledDefault": true
       }
     ],

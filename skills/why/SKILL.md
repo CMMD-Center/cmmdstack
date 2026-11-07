@@ -104,7 +104,7 @@ After Sources Consulted, if the user's `why` question is a precursor to changing
 
 ## Models
 
-Role defaults, stamped from `./models.json` (edit there, rerun `tools/generate.mjs`). A matching role line in the `cmmdstack-models.md` override sheet overrides each at runtime; `/setup-cmmdstack` writes it and lists its path per runtime.
+Role defaults, copied from `models.json` at the plugin root. Change both together; `scripts/check.mjs` fails when they disagree. A matching role line in the `cmmdstack-models.md` override sheet overrides each at runtime; `/setup-cmmdstack` writes it and lists its path per runtime.
 
 - why investigators: `opus`
 - why synthesizer: `opus`

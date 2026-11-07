@@ -48,7 +48,7 @@ for (const name of skills) {
       const summary = fm.description.split(/(?<=\.)\s/)[0].replace(/\.$/, "");
       writeFileSync(
         prompt,
-        `---\nname: ${name}\ndescription: ${summary.charAt(0).toLowerCase()}${summary.slice(1)}\ndisable-model-invocation: true\n---\n\nInvoke the \`${name}\` skill and follow it.\n`,
+        `---\nname: ${name}\ndescription: ${JSON.stringify(summary.charAt(0).toLowerCase() + summary.slice(1))}\ndisable-model-invocation: true\n---\n\nInvoke the \`${name}\` skill and follow it.\n`,
       );
     } else errors.push(`.codex-plugin/prompts/${name}.md: missing (run with --fix)`);
   }
@@ -92,7 +92,34 @@ for (const file of walk(root)) {
   }
 }
 
-const versions = [".claude-plugin/plugin.json", ".codex-plugin/plugin.json", ".github/plugin/plugin.json"]
+// Codex reads prompt frontmatter as YAML: an unquoted value with ": " in it does not parse.
+for (const p of readdirSync(promptsDir)) {
+  const fm = readFileSync(join(promptsDir, p), "utf8").match(/^---\n([\s\S]*?)\n---/);
+  for (const line of fm ? fm[1].split("\n") : []) {
+    const value = line.match(/^[a-z-]+:\s+(.*)$/)?.[1] ?? "";
+    if (!/^["']/.test(value) && /: |\s#/.test(value)) {
+      errors.push(`.codex-plugin/prompts/${p}: unquoted value "${value.slice(0, 40)}..." is not valid YAML; quote it`);
+    }
+  }
+}
+
+// Muse lists every skill by hand.
+const muse = JSON.parse(readFileSync(join(root, ".muse-plugin/plugin.json"), "utf8"));
+const museIds = new Set((muse.capabilities?.skills ?? []).map((s) => s.id));
+for (const name of skills) if (!museIds.has(name)) errors.push(`.muse-plugin/plugin.json: skill ${name} is missing`);
+for (const id of museIds) if (!skills.includes(id)) errors.push(`.muse-plugin/plugin.json: lists ${id}, which has no skill`);
+
+// Each skill's Models section repeats its role defaults from models.json.
+const models = JSON.parse(readFileSync(join(root, "models.json"), "utf8"));
+for (const { role, models: tier, skill } of models.roles) {
+  const resolved = [models.tiers[tier]].flat().map((m) => `\`${m}\``).join(", ");
+  const text = readFileSync(join(skillsDir, skill, "SKILL.md"), "utf8");
+  if (!text.includes(`- ${role}: ${resolved}`)) {
+    errors.push(`skills/${skill}/SKILL.md: Models line for "${role}" must read "- ${role}: ${resolved}" (models.json)`);
+  }
+}
+
+const versions = [".claude-plugin/plugin.json", ".codex-plugin/plugin.json", ".github/plugin/plugin.json", ".muse-plugin/plugin.json"]
   .filter((f) => existsSync(join(root, f)))
   .map((f) => [f, JSON.parse(readFileSync(join(root, f), "utf8")).version]);
 if (new Set(versions.map(([, v]) => v)).size > 1) {

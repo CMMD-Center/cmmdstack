@@ -9,7 +9,7 @@ Answer the user's question about cmmdstack, hand them a prompt they can send, an
 
 A message that asks for work, such as "use cmmdstack to fix this bug", is not a help question. Read [`cmmd-mode`](../cmmd-mode/SKILL.md) and do the work under it.
 
-This file maps questions to the installed skills, playbooks, and platform mappings that own the answers. Read the matching source before answering. Its instructions take precedence over this map and any upstream guide, which describes Cursor and may differ from this port. The local links point into the installed plugin, so give the user the file's public copy: `https://github.com/CMMD-Center/cmmdstack/blob/main/` followed by its path relative to the plugin root.
+This file maps questions to the installed skills, playbooks, and platform mappings that own the answers. Read the matching source before answering. Its instructions take precedence over this map. The local links point into the installed plugin, so give the user the file's public copy: `https://github.com/CMMD-Center/cmmdstack/blob/main/` followed by its path relative to the plugin root.
 
 ## Find out what they need
 
@@ -34,11 +34,11 @@ When the model sheet is missing and it matters, ask whether the user wants to pi
 
 ## Get set up
 
-1. Identify the user's runtime and whether they want a native plugin/package or skills-only installation. Read its section in the [README](https://github.com/CMMD-Center/cmmdstack/blob/main/README.md#install) or [shared installation reference](https://github.com/CMMD-Center/cmmdstack/blob/main/docs/reference.md#shared-skills-installation), then give the matching install command.
+1. Identify the user's runtime and whether they want a native plugin/package or skills-only installation. Read the Install section of the [README](https://github.com/CMMD-Center/cmmdstack/blob/main/README.md#install), then give the matching install command.
 2. Read [`/setup-cmmdstack`](../setup-cmmdstack/SKILL.md), including its Other runtimes table, before explaining model choices, effort, sheet loading, or automatic routing. For a bundled routing hook or extension, use its persistent `session hook: off` setting in the current runtime's sheet to turn routing off. After the model sheet, it offers once each to generate a verification skill and a formal verification skill for the project, unless the project already has one.
-3. Offer a first task prompt with a goal and a check that can pass or fail, per [`references/prompting.md`](references/prompting.md). Use the current runtime's invocation syntax from the [slash-command reference](https://github.com/CMMD-Center/cmmdstack/blob/main/docs/reference.md#slash-commands).
+3. Offer a first task prompt with a goal and a check that can pass or fail, per [`references/prompting.md`](references/prompting.md). Use the current runtime's invocation syntax: `/cmmdstack:<skill>` for a plugin install, `/<skill>` for a vendored copy, `$<skill>` on Codex.
 
-Before giving runtime-specific instructions or adapting a recipe, read the [Codex mapping](../cmmd-mode/references/codex-tools.md) or [Pi mapping](../cmmd-mode/references/pi-tools.md) when applicable. Their routing sections cover hook trust, extension loading, and skills-only installs. For other runtimes, use the [runtime support reference](https://github.com/CMMD-Center/cmmdstack/blob/main/docs/reference.md#runtime-support).
+Before giving runtime-specific instructions or adapting a recipe, read the [Codex mapping](../cmmd-mode/references/codex-tools.md) or [Pi mapping](../cmmd-mode/references/pi-tools.md) when applicable. Their routing sections cover hook trust, extension loading, and skills-only installs.
 
 If cost is the worry, say where the tokens go and how to spend less. cmmdstack spends extra tokens on subagents and review panels. Rerun `/setup-cmmdstack` and pick a lower effort or cheaper models. A role set to `auto` or `inherit-parent` runs on the chat's model, which costs less when the chat runs on a cheaper model. A shorter panel list runs fewer subagents, one for each entry. Save `/cmmd-mode` for work that needs rigor.
 
@@ -88,6 +88,9 @@ The default answer is `/cmmd-mode`, which runs most of the others when its steps
 | Turn what a finished task taught into skill edits | [`/reflect`](../reflect/SKILL.md) |
 | Stop agents from repeating the same mistakes in this repo | [`/correct`](../correct/SKILL.md) |
 | Find their way around cmmdstack | `/cmmd-help` |
+| Pick a flow for a situation, or "what would Alex do" | [`/ask-alex`](../ask-alex/SKILL.md), which routes over every skill |
+| Check that work is worth doing | [`/ask-zack`](../ask-zack/SKILL.md) |
+| Settle a plan by interview and write the glossary and ADRs | [`/debrief`](../debrief/SKILL.md) |
 
 If a skill directory next to this one is missing from the table, read its frontmatter and route by its description. The `principle-*` directories are covered under principles below.
 

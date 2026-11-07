@@ -29,7 +29,7 @@ Send review to a separate agent on a different model from the author. Point it a
 
 Fan independent work out in parallel. Park a decision only the user can make, and keep the other work moving.
 
-Orchestrate through the T3 Code MCP, not native subagents. Use `delegate_task` with `isolation: "worktree"` for each independent change or PR. Set the provider instance on every call, using the instance names `orchestrator_capabilities` lists. Open the first message to each idle thread with T3's `goal` slash command, naming the objective and a stop condition, and invoke `/cmmd-mode`. Send later messages to a running thread as plain steers without the goal command. If the T3 MCP is missing, tell the user before you fall back to native agents.
+When the T3 Code MCP is present, put each independent change or PR in its own T3 thread. Use `delegate_task` with `isolation: "worktree"` for each independent change or PR. Set the provider instance on every call, using the instance names `orchestrator_capabilities` lists. Open the first message to each idle thread with T3's `goal` slash command, naming the objective and a stop condition, and invoke `/cmmd-mode`. Send later messages to a running thread as plain steers without the goal command. Without the T3 MCP, use native subagents as cmmd-mode's Subagents section says.
 
 When a plan is hard to follow, put it in a shareable artifact with the comparison, the phases, and the checklist.
 
