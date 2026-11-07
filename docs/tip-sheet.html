@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>cmmdstack tip sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* CMMD V11 tokens: paper and ink, 4px radius, Google Sans headings over Roboto. */
+  :root {
+    --paper: #fbfbfa;
+    --card: #ffffff;
+    --tint: #f6f6f4;
+    --ink: #171717;
+    --ink-2: #525252;
+    --ink-3: #6b6b6b;
+    --line: #e6e6e2;
+    --line-strong: #d4d4d0;
+    --warm: #f5e7dc;
+    --signal: #ff3b30;
+    --radius: 4px;
+    --heading: "Google Sans", "Product Sans", "Roboto", system-ui, sans-serif;
+    --body: "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "Roboto Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  @page { size: letter; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #e9e9e6; color: var(--ink); font-family: var(--body); }
+  body { padding: 24px 16px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page {
+    width: 8.5in; min-height: 11in; margin: 0 auto 24px; padding: 0.4in 0.45in;
+    background: var(--paper); box-shadow: 0 16px 40px rgb(23 23 23 / 0.14);
+    display: flex; flex-direction: column; gap: 9px; font-size: 8.9pt; line-height: 1.32;
+  }
+  @media print {
+    html, body { background: var(--paper); }
+    body { padding: 0; }
+    .page { margin: 0; box-shadow: none; page-break-after: always; break-after: page; height: 11in; overflow: hidden; }
+    .page:last-child { page-break-after: auto; break-after: auto; }
+  }
+  @media screen and (max-width: 8.9in) {
+    .page { width: 100%; min-height: 0; padding: 20px 16px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr !important; }
+  }
+  h1, h2, h3 { font-family: var(--heading); margin: 0; font-weight: 500; letter-spacing: -0.01em; }
+  h1 { font-size: 21pt; line-height: 1.05; }
+  h2 { font-size: 10.5pt; margin-bottom: 4px; }
+  h3 { font-size: 9.8pt; font-weight: 700; }
+  p { margin: 0; }
+  code, .cmd { font-family: var(--mono); font-size: 8.2pt; }
+  .cmd { font-weight: 500; white-space: nowrap; }
+  .top { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--ink); padding-bottom: 10px; }
+  .eyebrow { font-family: var(--mono); font-size: 8pt; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.08em; }
+  .lede { color: var(--ink-2); max-width: 4.6in; margin-top: 6px; }
+  .mark { width: 46px; height: 46px; border-radius: 10px; background: var(--ink); color: #fff; display: grid; place-items: center; font-family: var(--heading); font-weight: 700; font-size: 13pt; letter-spacing: -0.02em; }
+  .box { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 10px; }
+  .box.warm { background: var(--warm); border-color: #ead5c5; }
+  .box.ink { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .box.ink .cmd, .box.ink code { color: #fff; }
+  .box.ink p, .box.ink li { color: #e6e6e2; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 9px; }
+  ol, ul { margin: 0; padding-left: 16px; }
+  li { margin: 1px 0; }
+  .rules { list-style: none; padding: 0; display: grid; gap: 3px; counter-reset: rule; }
+  .rules li { counter-increment: rule; display: grid; grid-template-columns: 20px 1fr; gap: 6px; margin: 0; }
+  .rules li::before { content: counter(rule); font-family: var(--mono); font-weight: 500; color: var(--signal); }
+  .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .step { border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 7px 8px; background: var(--card); position: relative; }
+  .step .n { font-family: var(--mono); font-size: 7.6pt; color: var(--ink-3); }
+  .step > .cmd { display: block; margin: 2px 0 3px; }
+  .step p { font-size: 8pt; color: var(--ink-2); }
+  table { width: 100%; border-collapse: collapse; font-size: 8.8pt; }
+  th { text-align: left; font-family: var(--mono); font-weight: 500; font-size: 7.6pt; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); border-bottom: 1.5px solid var(--ink); padding: 0 6px 4px 0; }
+  td { padding: 2.5px 6px 2.5px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td:first-child { width: 46%; }
+  td:last-child .cmd { font-size: 8pt; }
+  tr:last-child td { border-bottom: 0; }
+  .muted { color: var(--ink-3); }
+  .foot { margin-top: auto; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 7.6pt; color: var(--ink-3); border-top: 1px solid var(--line); padding-top: 6px; }
+  .say { font-family: var(--mono); font-size: 8pt; background: var(--tint); border-radius: var(--radius); padding: 5px 7px; margin-top: 5px; }
+</style>
+</head>
+<body>
+
+<!-- Front -->
+<section class="page" aria-label="Front">
+  <header class="top">
+    <div>
+      <div class="eyebrow">CMMD developer tip sheet &middot; front</div>
+      <h1>cmmdstack</h1>
+      <p class="lede">The skill library every agent in a CMMD repo uses, on Claude Code, Codex and Cursor. Give the agent a goal and a check. It picks the playbook and the skills.</p>
+    </div>
+    <div class="mark" aria-hidden="true">C/</div>
+  </header>
+
+  <div class="grid-2">
+    <div class="box ink">
+      <h2>Start every real task here</h2>
+      <p>Type <span class="cmd">/cmmd-mode</span> when the work touches more than one file, makes a design choice, or chases a bug with an unknown cause. It matches a playbook, copies its steps into the todo list, and calls the other skills as the steps need them.</p>
+      <div class="say" style="background:#2e2e2e;color:#fff">/cmmd-mode Fix the duplicate toast on task save. Done when the e2e spec shows one toast and a lint blocks the pattern.</div>
+    </div>
+    <div class="box">
+      <h2>Two questions before you start</h2>
+      <p><span class="cmd">/ask-alex</span> What would Alex do here? Names the flow and the skills, and hands back a prompt to send.</p>
+      <p style="margin-top:6px"><span class="cmd">/ask-zack</span> Is this worth doing now? Checks the work against the strategy in CMMD Brain. An <b>OFF TRACK</b> verdict stops the work until the owner overrides it.</p>
+    </div>
+  </div>
+
+  <div class="box warm">
+    <h2>The hard rules</h2>
+    <ol class="rules">
+      <li><span><b>Every bug ends in a guard.</b> Fix it, then <span class="cmd">/correct</span> adds a lint, type check or static check that fails on the bad code, in the same change. A test only when no static check can say it.</span></li>
+      <li><span><b>Done means proven on the real surface.</b> The browser, the API, the CLI, an end-to-end run. Green unit tests are not proof.</span></li>
+      <li><span><b>Review comes from another model.</b> Never the author, never your own read of your own diff.</span></li>
+      <li><span><b>Facts come from running something.</b> A question a check can settle never goes to a human.</span></li>
+      <li><span><b>AGENTS.md is the one instruction file.</b> CLAUDE.md is <code>@AGENTS.md</code>. The build fails otherwise.</span></li>
+      <li><span><b>Plain prose.</b> <span class="cmd">/unslop</span> on every PR body, doc and comment. No em dashes.</span></li>
+    </ol>
+  </div>
+
+  <div>
+    <h2>Idea to merged PR</h2>
+    <div class="flow">
+      <div class="step"><span class="n">01</span><span class="cmd">/debrief</span><p>Interview until every decision is settled. Writes CONTEXT.md and ADRs.</p></div>
+      <div class="step"><span class="n">02</span><span class="cmd">/architect</span><p>Types and module shape before code that crosses files.</p></div>
+      <div class="step"><span class="n">03</span><span class="cmd">/cmmd-mode</span><p>Feature playbook. Test first with <span class="cmd">/tdd</span>.</p></div>
+      <div class="step"><span class="n">04</span><span class="cmd">/interrogate</span><p>Multi-model review of the diff. <span class="cmd">/council</span> for three providers.</p></div>
+      <div class="step"><span class="n">05</span><span class="cmd">/file-pr</span><p>Then <span class="cmd">/babysit-pr</span> until green and reviewed.</p></div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="box">
+      <h3>Something is broken</h3>
+      <ul>
+        <li><span class="cmd">/cmmd-mode</span> Bug fix: reproduce, root cause, fix, guard</li>
+        <li><span class="cmd">/why</span> when it used to work</li>
+        <li><span class="cmd">/how</span> to map the subsystem first</li>
+        <li><span class="cmd">/fix-ci</span> for a red pipeline</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>Lots of similar work</h3>
+      <ul>
+        <li><span class="cmd">/swarm</span> N workers, one report</li>
+        <li><span class="cmd">/arena</span> race designs, keep the best parts</li>
+        <li><span class="cmd">/figure-it-out</span> big migration, own playbook</li>
+        <li><span class="cmd">/research</span> primary sources, cited note</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>Walking away</h3>
+      <ul>
+        <li><span class="cmd">/full-stop</span> runs to merge-ready, never merges</li>
+        <li><span class="cmd">/full-send</span> runs through the merge</li>
+        <li><span class="cmd">/show-me-your-work</span> leaves a decision trail</li>
+        <li><span class="cmd">/ketchup</span> catches you up after</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box">
+    <h2>A prompt that works</h2>
+    <p>State the goal and a check that can pass or fail. Leave out the skill list, because <span class="cmd">/cmmd-mode</span> picks the skills, and a hand-written list drops steps.</p>
+    <div class="grid-2" style="margin-top:6px">
+      <div class="say"><b>Weak</b><br>Use tdd and swarm to make the board faster.</div>
+      <div class="say"><b>Strong</b><br>Board loads in under 800 ms on the 2k-card fixture. Prove it with the perf spec before and after.</div>
+    </div>
+  </div>
+
+  <footer class="foot"><span>github.com/CMMD-Center/cmmdstack</span><span>Turn over for every skill &rarr;</span></footer>
+</section>
+
+<!-- Back -->
+<section class="page" aria-label="Back">
+  <header class="top">
+    <div>
+      <div class="eyebrow">CMMD developer tip sheet &middot; back</div>
+      <h1>Which skill, when</h1>
+    </div>
+    <div class="mark" aria-hidden="true">C/</div>
+  </header>
+
+  <div class="grid-2">
+    <div>
+      <table>
+        <thead><tr><th>Situation</th><th>Skill</th></tr></thead>
+        <tbody>
+          <tr><td>New idea, plan not clear yet</td><td><span class="cmd">/debrief</span></td></tr>
+          <tr><td>Not sure it is worth doing</td><td><span class="cmd">/ask-zack</span></td></tr>
+          <tr><td>Not sure which skill fits</td><td><span class="cmd">/ask-alex</span></td></tr>
+          <tr><td>Bug with an unknown cause</td><td><span class="cmd">/cmmd-mode</span></td></tr>
+          <tr><td>Same mistake made twice</td><td><span class="cmd">/correct</span></td></tr>
+          <tr><td>Design that crosses files</td><td><span class="cmd">/architect</span></td></tr>
+          <tr><td>Contested design or diff</td><td><span class="cmd">/interrogate</span></td></tr>
+          <tr><td>Several candidate fixes</td><td><span class="cmd">/arena</span></td></tr>
+          <tr><td>Sweep, race, coverage matrix</td><td><span class="cmd">/swarm</span></td></tr>
+          <tr><td>How does X work</td><td><span class="cmd">/how</span></td></tr>
+          <tr><td>Why was Y built this way</td><td><span class="cmd">/why</span></td></tr>
+          <tr><td>Docs or API facts</td><td><span class="cmd">/research</span></td></tr>
+          <tr><td>What breaks if I change this</td><td><span class="cmd">/blast-radius</span></td></tr>
+          <tr><td>Large migration</td><td><span class="cmd">/figure-it-out</span></td></tr>
+          <tr><td>State machine or race</td><td><span class="cmd">/statechart</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <table>
+        <thead><tr><th>Situation</th><th>Skill</th></tr></thead>
+        <tbody>
+          <tr><td>Prove UI, no driver yet</td><td><span class="cmd">/create-verification-skill</span></td></tr>
+          <tr><td>Invariant tests miss</td><td><span class="cmd">/create-formal-verification-skill</span></td></tr>
+          <tr><td>Report a speedup</td><td><span class="cmd">/benchmark-checklist</span></td></tr>
+          <tr><td>Before a commit</td><td><span class="cmd">/deslop</span></td></tr>
+          <tr><td>Before review</td><td><span class="cmd">/no-comments</span></td></tr>
+          <tr><td>Open a PR</td><td><span class="cmd">/file-pr</span> or <span class="cmd">/pr</span></td></tr>
+          <tr><td>Watch a PR to green</td><td><span class="cmd">/babysit-pr</span></td></tr>
+          <tr><td>Bot review comments</td><td><span class="cmd">/get-pr-comments</span></td></tr>
+          <tr><td>Merge conflicts</td><td><span class="cmd">/fix-merge-conflicts</span></td></tr>
+          <tr><td>Take over a PR</td><td><span class="cmd">/takeover</span></td></tr>
+          <tr><td>Old PR, new main</td><td><span class="cmd">/modernize</span></td></tr>
+          <tr><td>GPT review loop</td><td><span class="cmd">/sol-loop</span></td></tr>
+          <tr><td>PR body or doc</td><td><span class="cmd">/unslop</span></td></tr>
+          <tr><td>What did I ship</td><td><span class="cmd">/what-did-i-get-done</span></td></tr>
+          <tr><td>Find an old chat</td><td><span class="cmd">/recall</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="box">
+      <h2>Playbooks inside /cmmd-mode</h2>
+      <p class="muted" style="margin-bottom:4px">Name the situation and the mode matches one.</p>
+      <p>Investigation &middot; Bug fix &middot; Perf issue &middot; Hillclimb &middot; Runtime forensics &middot; Trace forensics &middot; Feature &middot; Refactoring &middot; Prototype &middot; Visual parity &middot; Authoring a skill &middot; Eval &middot; Babysit &middot; Shipping &middot; Autonomous run &middot; Orchestrate &middot; Autopilot &middot; Session pickup &middot; Pause safely &middot; Multi-phase plan &middot; Worktree cleanup &middot; Opening a PR</p>
+    </div>
+    <div class="box">
+      <h2>Principles it cites</h2>
+      <p class="muted" style="margin-bottom:4px">Each is its own <code>principle-*</code> skill.</p>
+      <p>Laziness protocol &middot; Subtract before you add &middot; Attack the premise &middot; Model the domain &middot; Boundary discipline &middot; Type system discipline &middot; Make operations idempotent &middot; Prove it works &middot; Fix root causes &middot; Test behavior, not implementation &middot; Explain the number &middot; Build the lever &middot; Guard the context window &middot; Never block on the human &middot; Encode lessons in structure</p>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="box ink">
+      <h2>Install and update</h2>
+      <p><code>node scripts/install-cmmdstack.mjs</code> installs the latest tag into <code>.agents/skills/</code> and mirrors it for every tool.</p>
+      <p style="margin-top:4px"><code>npm run check:cmmdstack-fresh</code> says whether a newer tag exists. A weekly job opens the update PR for you.</p>
+      <p style="margin-top:4px">Outside CMMD: <code>/plugin marketplace add CMMD-Center/cmmdstack</code></p>
+    </div>
+    <div class="box">
+      <h2>Changing a skill</h2>
+      <ul>
+        <li>Edit it in the cmmdstack repo, run <code>node scripts/check.mjs</code>, release a tag.</li>
+        <li>A hand edit to <code>.agents/skills/</code> in CMMD fails <code>check:skills-vendored</code>.</li>
+        <li>CMMD-only skills (Sidekick, Forge, migrations) stay unpinned in CMMD.</li>
+        <li>The rules in <code>.agents/</code> win when a skill disagrees.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer class="foot"><span>cmmdstack v0.1.0 &middot; MIT</span><span>Stuck? Type /ask-alex</span></footer>
+</section>
+
+</body>
+</html>

@@ -48,6 +48,10 @@ Install one way per repo. A plugin plus a vendored copy shows every skill twice.
 | Catching up | `ketchup`, `ketchup-video`, `what-did-i-get-done`, `show-me-your-work`, `reflect`, `bro` |
 | Upkeep | `cleanup`, `automate-me`, `karpathy-guidelines`, `typescript-best-practices` |
 
+## Tip sheet
+
+`docs/tip-sheet.html` is a one-page, front-and-back tip sheet in the CMMD V11 style. Open it in a browser and print double-sided on letter paper.
+
 ## Working on cmmdstack
 
 - `node scripts/check.mjs` must pass before every commit. It checks frontmatter, Codex prompts, relative links, dashes and manifest versions. `--fix` writes missing Codex prompts.
