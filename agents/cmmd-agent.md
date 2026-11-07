@@ -1,6 +1,8 @@
 ---
 name: cmmd-agent
 description: Delegate subagent for code-writing and helper tasks spawned during a `/cmmd-mode` run. Use for delegates, not as the runner for `/cmmd-mode` itself. Spawn a fresh `cmmd-agent` for each new task, and resume one only in the strict cases that cmmd-mode's Subagents section names. Reads the `cmmd-mode` skill's `SKILL.md` in full before any work, including its inline Principles index. Substituting `general-purpose` skips that read and drifts.
+tools: Agent, Bash, Read, Edit, Write, Glob, Grep, WebFetch, WebSearch, Skill, TodoWrite, NotebookEdit
+model: inherit
 ---
 
 # CMMD subagent
