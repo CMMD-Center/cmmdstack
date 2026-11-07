@@ -1,0 +1,4 @@
+interface:
+  display_name: "Worktree Main Sync"
+  short_description: "Create worktrees from latest origin/main with verification."
+  default_prompt: "Create a new git worktree from origin/main, verify it is up to date, and report branch/worktree details."

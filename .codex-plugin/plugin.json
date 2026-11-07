@@ -1,0 +1,51 @@
+{
+  "name": "cmmdstack",
+  "version": "0.1.0",
+  "description": "CMMD Stack. CMMD's agent skill library for Claude Code, Codex and Cursor. Skills are shared, and tool names resolve via skills/cmmd-mode/references/codex-tools.md.",
+  "author": {
+    "name": "CMMD",
+    "url": "https://github.com/CMMD-Center/cmmdstack"
+  },
+  "homepage": "https://github.com/CMMD-Center/cmmdstack",
+  "repository": "https://github.com/CMMD-Center/cmmdstack",
+  "license": "MIT",
+  "keywords": [
+    "cmmdstack",
+    "cmmd-mode",
+    "workflow",
+    "principles",
+    "agent-style",
+    "subagents",
+    "unslop",
+    "claude-code",
+    "skills",
+    "tdd",
+    "code-review",
+    "parallel-agents",
+    "codex",
+    "opencode",
+    "gemini-cli"
+  ],
+  "skills": "./skills/",
+  "hooks": "./hooks/codex-hooks.json",
+  "interface": {
+    "displayName": "CMMD Stack",
+    "shortDescription": "Rigorous, parallelizable agent workflows: go deep first, write less, verify everything",
+    "longDescription": "CMMD Stack guides agent work through cmmd-mode's principles, parallel design exploration (architect/arena), adversarial multi-model review (interrogate), root-cause debugging, prose deslopping, and verified delivery. Skills are shared across Claude Code, Codex, and Cursor.",
+    "developerName": "CMMD",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Work on this in cmmd-mode.",
+      "Interrogate this diff with multiple models."
+    ],
+    "websiteURL": "https://github.com/CMMD-Center/cmmdstack",
+    "brandColor": "#fe4e0b",
+    "composerIcon": "./assets/cmmdstack-icon.png",
+    "logo": "./assets/cmmdstack-icon.png"
+  }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cleanup"
+  short_description: "Safely reclaim agent-related disk space"
+  default_prompt: "Use $cleanup to audit agent worktrees and caches and recommend safe cleanup before deleting anything."

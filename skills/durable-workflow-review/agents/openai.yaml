@@ -1,0 +1,4 @@
+interface:
+  display_name: "Durable Workflow Review"
+  short_description: "Review lifecycle state machines, reconcilers, retries, and crash recovery."
+  default_prompt: "Use $durable-workflow-review to build the transition matrix and review this durable workflow change."

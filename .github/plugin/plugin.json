@@ -1,0 +1,22 @@
+{
+  "name": "cmmdstack",
+  "displayName": "CMMD Stack",
+  "version": "0.1.0",
+  "description": "CMMD Stack. CMMD's agent skill library for Claude Code, Codex and Cursor.",
+  "author": {
+    "name": "CMMD",
+    "url": "https://github.com/CMMD-Center/cmmdstack"
+  },
+  "homepage": "https://github.com/CMMD-Center/cmmdstack",
+  "repository": "https://github.com/CMMD-Center/cmmdstack",
+  "license": "MIT",
+  "keywords": [
+    "cmmdstack",
+    "cmmd-mode",
+    "workflow",
+    "skills",
+    "subagents",
+    "github-copilot"
+  ],
+  "hooks": "hooks/copilot-hooks.json"
+}

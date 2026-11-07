@@ -1,0 +1,11 @@
+{
+  "name": "cmmdstack",
+  "owner": { "name": "CMMD", "url": "https://github.com/CMMD-Center" },
+  "plugins": [
+    {
+      "name": "cmmdstack",
+      "source": "./",
+      "description": "CMMD's agent skill library for Claude Code, Codex and Cursor."
+    }
+  ]
+}
