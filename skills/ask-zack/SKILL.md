@@ -11,34 +11,41 @@ cmmd-mode runs this skill as its **Strategy check** before Feature, Multi-phase 
 
 ## Source of truth
 
-CMMD Brain is the only source, read through the `cmmd-agent` MCP server for the repository's company.
+The company's strategy lives in CMMD: the Strategy app, the Rocks, and Brain. Read it through the
+`cmmd-agent` MCP server for the repository's company, in this order.
 
 0. **Check the connection.** Run [`connect-cmmd`](../connect-cmmd/SKILL.md)'s script with `--check`. On
    any status but `OK`, stop with `BLOCKED: <status>`, the line the script printed, and the fix from
-   that skill's table. `NOT_CONNECTED` and `NO_FULL_SERVER` mean run connect-cmmd. `WRONG_WORKSPACE`
-   means the token reads another company, and a verdict from it would judge this work against the wrong
-   strategy.
-   Pass `workspace_id` from that check on every Brain call below, so an account-wide token reads
-   this repository's company and not the person's default.
-1. **Find the strategy.** Call `list_brain_documents` with `search` set to one word at a time:
-   `strategy`, `vision`, `priorities`, `rocks`, `roadmap`, `alpha`, `launch`, `quarter`, `OKR`, `plan`,
-   then the name of the area the work touches. It searches titles and text. `search_brain_documents`
-   matches titles only; use it as a second pass.
-2. **Read them.** Call `get_brain_document_content` on every strategy document found. A title is not a
-   source; quote only text you read.
+   that skill's table. `WRONG_WORKSPACE` means the token reads another company, and a verdict from it
+   would judge this work against the wrong strategy. Pass `workspace_id` from that check on every call
+   below, so an account-wide token reads this repository's company and not the person's default.
+1. **The Strategy app.** Call `search_strategy` with no `sections`. It returns purpose, vision and
+   victory, core values, horizon goals, SWOT, target markets, personas, the business model and the
+   strategic items (The List). This is the strategy of record.
+2. **What is being executed now.** Call `manage_rock` with `action: "search"` for the current Rocks:
+   the quarter's commitments, with owners and health. Add `search_goals` for annual and quarterly goals.
+3. **Brain, for the reasoning behind it.** Call `search_brain_documents` with `strategy`, `plan`,
+   `roadmap`, `alpha`, then the area the work touches. It ranks by relevance, so the first hits are the
+   ones to read. Read each with `get_brain_document_content`. Prefer written plans and strategy
+   documents over Slack archives and meeting recordings, which match almost every search.
 
-If no strategy document turns up, stop and report `BLOCKED: no strategy source`. Say which searches you
-ran, and tell the user that a Brain document titled `Company strategy` (vision, current priorities,
-what is out of scope this quarter) unblocks the check. Do not fill the gap from memory, repo docs or
-the chat. A verdict with no source is a guess.
+Read only. Never call a tool that writes strategy or goals (`update_strategy_vision`,
+`add_horizon_goals`, `add_swot_items`, `add_strategic_items`, `populate_strategy`, `create_goal`,
+`update_goal`, `delete_goal`, or `manage_rock` with any action but `search` or `get`). Checking work
+against the strategy never changes the strategy.
+
+If the Strategy app is empty, no Rock is open and Brain has no strategy document, stop and report
+`BLOCKED: no strategy source`, with the calls you made. Tell the user that filling in the Strategy app
+in CMMD (vision, horizon goals, this quarter's Rocks) unblocks the check. Do not fill the gap from
+memory, repo docs or the chat. A verdict with no source is a guess.
 
 ## Steps
 
 1. **State the work.** In two or three sentences: what the thread is building or changing, who it is for, and what the user would see when it ships. Read the thread and the diff or plan; do not ask the user for this.
 2. **Pull the strategy.** Follow Source of truth above. Keep the exact lines you will cite, with the document title.
 3. **Judge it.** Answer each:
-   - Which stated priority does this serve? Quote it. "None" is a valid answer.
-   - Is it the most valuable next step for that priority, or is something the strategy names as more urgent still open?
+   - Which Rock, horizon goal, strategic item or stated priority does this serve? Quote it with its source. "None" is a valid answer.
+   - Is it the most valuable next step for that priority, or is something the strategy names as more urgent still open, such as an off-track Rock?
    - What does it cost: time, risk to what already works, attention pulled from a priority?
    - Would a customer, a buyer or the team notice it within the current planning period?
 4. **Give the verdict.** One of:
@@ -54,4 +61,4 @@ The user can still override. If they do, record the override and their reason in
 
 ## Reply
 
-Lead with the verdict. Then the work as you stated it, each Brain line you relied on with its document title, the answers to step 3, and the recommended next action. Keep it to one screen.
+Lead with the verdict. Then the work as you stated it, each line you relied on with its source (Strategy app section, Rock name, or Brain document title), the answers to step 3, and the recommended next action. Keep it to one screen.

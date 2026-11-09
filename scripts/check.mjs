@@ -118,6 +118,15 @@ for (const pb of ["feature", "multi-phase-plan", "autonomous-run", "orchestrate"
     errors.push(`skills/cmmd-mode/playbooks/${pb}.md: must run cmmd-mode's **Strategy check** (the ask-zack skill) before work starts`);
   }
 }
+// ask-zack judges against the Strategy app first, and never writes to it.
+{
+  const zack = readFileSync(join(skillsDir, "ask-zack", "SKILL.md"), "utf8");
+  const src = zack.slice(zack.indexOf("## Source of truth"), zack.indexOf("## Steps"));
+  if (!/1\. \*\*The Strategy app\.\*\* Call `search_strategy`/.test(src)) {
+    errors.push("skills/ask-zack/SKILL.md: Source of truth step 1 must read the Strategy app with search_strategy");
+  }
+  if (!src.includes("Read only.")) errors.push("skills/ask-zack/SKILL.md: Source of truth must forbid writing strategy");
+}
 if (!readFileSync(join(skillsDir, "cmmd-mode", "SKILL.md"), "utf8").includes("## Strategy check")) {
   errors.push("skills/cmmd-mode/SKILL.md: the Strategy check section is missing");
 }

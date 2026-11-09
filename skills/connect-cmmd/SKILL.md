@@ -40,7 +40,7 @@ belongs to, then commit the file. Do not guess the id.
 | `OK` | Connected to the full server for the right company | None |
 | `NOT_CONNECTED` | No token, a revoked token, or the workspace needs the token authorized | Run without `--check`; if it repeats, the user authorizes the token in CMMD Settings, Agents |
 | `WRONG_WORKSPACE` | The token cannot reach the repository's company | `node <script> --relogin` and pick it; if the user is not a member, a workspace admin adds them |
-| `NO_FULL_SERVER` | Connected, but Brain tools are missing | Run without `--check`; it replaces the server entry with the full server |
+| `NO_FULL_SERVER` | Connected, but the Strategy or Brain tools are missing | Run without `--check`; it replaces the server entry with the full server |
 | `NO_PIN` | No `cmmd-workspace.json` | Ask the user for the workspace and commit the file |
 | `ERROR` | Network or CLI failure | Report the line before it |
 
@@ -69,4 +69,5 @@ nothing and accepts the same argument. Never pass a workspace the repository doe
 - Never put the token on a command line or in a committed file, including `.mcp.json`.
 - Never approve the login for the user. The browser step is theirs.
 - The server is `https://cmmd.ai/api/mcp-server/http`, the full server. The Forge connector at
-  `/api/mcp-server/forge` is a smaller tool set for claude.ai and cannot read Brain documents.
+  `/api/mcp-server/forge` is a smaller tool set for claude.ai and cannot read the Strategy app or
+  Brain documents.

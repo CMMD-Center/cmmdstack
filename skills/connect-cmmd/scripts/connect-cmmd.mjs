@@ -52,7 +52,7 @@ const TOKEN_FILE = join(DIR, "agent-token");
 const ORIGIN_FILE = join(DIR, "agent-token.origin");
 const HEADER_HELPER = join(DIR, "auth-header.sh");
 // get_account_context is listed only for account-wide tokens, so it is not required.
-const REQUIRED_TOOLS = ["list_brain_documents", "search_brain_documents", "get_brain_document_content"];
+const REQUIRED_TOOLS = ["search_strategy", "manage_rock", "search_brain_documents", "get_brain_document_content"];
 
 // Text from a repository file or the server, safe to print: no control characters.
 const clean = (value) => String(value ?? "").replace(/[\u0000-\u001f\u007f]/g, "");
