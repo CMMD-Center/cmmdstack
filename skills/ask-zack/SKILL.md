@@ -9,14 +9,29 @@ Zack's question is always the same: does this work move the company toward where
 
 ## Source of truth
 
-CMMD Brain is the only source. Search it with the `search_brain_documents` tool from the `cmmd-agent` MCP server. That tool matches document titles, not body text, so search one title word at a time: `Strategy`, `Vision`, `Priorities`, `Rocks`, `Roadmap`, `Alpha`, `Launch`, `Quarter`, `OKR`, `Plan`, then the name of the area the work touches. Read every document that comes back before you judge.
+CMMD Brain is the only source, read through the `cmmd-agent` MCP server for the repository's company.
 
-If the tool is missing, errors, or no search returns a strategy document, stop and report `BLOCKED: no strategy source`. Say which searches you ran, and tell the user that a Brain document titled `Company strategy` (vision, current priorities, what is out of scope this quarter) unblocks the check. Do not fill the gap from memory, repo docs or the chat. A verdict with no source is a guess.
+0. **Check the connection.** Run [`connect-cmmd`](../connect-cmmd/SKILL.md)'s script with `--check`. On
+   any status but `OK`, stop with `BLOCKED: <status>`, the line the script printed, and the fix from
+   that skill's table. `NOT_CONNECTED` and `NO_FULL_SERVER` mean run connect-cmmd. `WRONG_WORKSPACE`
+   means the token reads another company, and a verdict from it would judge this work against the wrong
+   strategy.
+1. **Find the strategy.** Call `list_brain_documents` with `search` set to one word at a time:
+   `strategy`, `vision`, `priorities`, `rocks`, `roadmap`, `alpha`, `launch`, `quarter`, `OKR`, `plan`,
+   then the name of the area the work touches. It searches titles and text. `search_brain_documents`
+   matches titles only; use it as a second pass.
+2. **Read them.** Call `get_brain_document_content` on every strategy document found. A title is not a
+   source; quote only text you read.
+
+If no strategy document turns up, stop and report `BLOCKED: no strategy source`. Say which searches you
+ran, and tell the user that a Brain document titled `Company strategy` (vision, current priorities,
+what is out of scope this quarter) unblocks the check. Do not fill the gap from memory, repo docs or
+the chat. A verdict with no source is a guess.
 
 ## Steps
 
 1. **State the work.** In two or three sentences: what the thread is building or changing, who it is for, and what the user would see when it ships. Read the thread and the diff or plan; do not ask the user for this.
-2. **Pull the strategy.** Search Brain as above. Keep the exact lines you will cite, with the document title.
+2. **Pull the strategy.** Follow Source of truth above. Keep the exact lines you will cite, with the document title.
 3. **Judge it.** Answer each:
    - Which stated priority does this serve? Quote it. "None" is a valid answer.
    - Is it the most valuable next step for that priority, or is something the strategy names as more urgent still open?

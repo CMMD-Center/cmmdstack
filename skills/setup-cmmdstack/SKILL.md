@@ -27,6 +27,8 @@ with `<config>` written as the resolved path, so the file is loaded as context f
 
 The Codex home directory is `$CODEX_HOME` when that variable is set and `~/.codex` otherwise. This skill calls it `<codex-home>`.
 
+This skill sets models and the session hook. To connect agents to CMMD Brain and the board, run [`connect-cmmd`](../connect-cmmd/SKILL.md).
+
 ## Steps
 
 ### 1. Detect available models

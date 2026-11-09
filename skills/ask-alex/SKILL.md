@@ -29,6 +29,7 @@ Match the situation to one row. Read the named skill before you answer, because 
 |---|---|
 | A new idea or plan, not yet clear | `debrief` until the frontier is empty, then `cmmd-mode` Feature |
 | Not sure the work is worth doing | `ask-zack` first. If it says OFF TRACK, stop |
+| CMMD tools missing, a 401, or a new machine | `connect-cmmd` |
 | A bug with an unknown cause | `cmmd-mode` Bug fix: reproduce first, root cause, fix, then `correct` adds the guard |
 | An agent made a mistake someone already corrected once | `correct` |
 | Design or module shape that crosses files | `architect`, then `interrogate` if it is contested |

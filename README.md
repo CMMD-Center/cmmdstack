@@ -2,7 +2,7 @@
 
 cmmdstack is CMMD's skill library for AI coding agents. The same skills run on Claude Code, Codex and Cursor. Every CMMD repo installs it, and anyone else can too.
 
-Start every non-trivial task with `cmmd-mode`. It matches the task to a playbook (bug fix, feature, refactor, perf, PR, autonomous run and more), copies the steps into the todo list, and calls the other skills as the steps need them. Not sure where to start: `/ask-alex`. Not sure the work is worth doing: `/ask-zack`.
+Start every non-trivial task with `cmmd-mode`. It matches the task to a playbook (bug fix, feature, refactor, perf, PR, autonomous run and more), copies the steps into the todo list, and calls the other skills as the steps need them. Not sure where to start: `/ask-alex`. Not sure the work is worth doing: `/ask-zack`. Agents reach CMMD Brain and the board through `/connect-cmmd`: one browser approval, a token that never expires, the full CMMD MCP server for the repository's company.
 
 ## Hard rules every skill follows
 
@@ -37,7 +37,7 @@ Install one way per repo. A plugin plus a vendored copy shows every skill twice.
 
 | Area | Skills |
 |---|---|
-| Entry and routing | `cmmd-mode`, `ask-alex`, `ask-zack`, `alex-mode`, `cmmd-help`, `setup-cmmdstack` |
+| Entry and routing | `cmmd-mode`, `ask-alex`, `ask-zack`, `alex-mode`, `cmmd-help`, `setup-cmmdstack`, `connect-cmmd` |
 | Planning and design | `debrief`, `architect`, `arena`, `interrogate`, `figure-it-out`, `statechart`, the `principle-*` skills |
 | Investigation | `how`, `why`, `research`, `blast-radius`, `recall` |
 | Fixing mistakes for good | `correct`, `deslop`, `no-comments`, `thermos`, `thermo-nuclear-review`, `thermo-nuclear-code-quality-review` |

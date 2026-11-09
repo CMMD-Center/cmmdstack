@@ -81,6 +81,11 @@
         "enabledDefault": true
       },
       {
+        "id": "connect-cmmd",
+        "path": "skills/connect-cmmd/SKILL.md",
+        "enabledDefault": true
+      },
+      {
         "id": "correct",
         "path": "skills/correct/SKILL.md",
         "enabledDefault": true

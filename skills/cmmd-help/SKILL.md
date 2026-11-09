@@ -90,6 +90,7 @@ The default answer is `/cmmd-mode`, which runs most of the others when its steps
 | Find their way around cmmdstack | `/cmmd-help` |
 | Pick a flow for a situation, or "what would Alex do" | [`/ask-alex`](../ask-alex/SKILL.md), which routes over every skill |
 | Check that work is worth doing | [`/ask-zack`](../ask-zack/SKILL.md) |
+| Connect agents to CMMD Brain and the board | [`/connect-cmmd`](../connect-cmmd/SKILL.md) |
 | Settle a plan by interview and write the glossary and ADRs | [`/debrief`](../debrief/SKILL.md) |
 
 If a skill directory next to this one is missing from the table, read its frontmatter and route by its description. The `principle-*` directories are covered under principles below.

@@ -92,6 +92,24 @@ for (const file of walk(root)) {
   }
 }
 
+// A CMMD agent token in any tracked file would publish it. connect-cmmd keeps tokens in
+// ~/.config/cmmd; nothing in this repo may hold one.
+function walkAll(dir, out = []) {
+  for (const n of readdirSync(dir)) {
+    if (n === "node_modules" || n === ".git") continue;
+    const p = join(dir, n);
+    if (statSync(p).isDirectory()) walkAll(p, out);
+    else out.push(p);
+  }
+  return out;
+}
+for (const file of walkAll(root)) {
+  if (/\.(png|pdf|jpg|woff2?)$/.test(file)) continue;
+  if (/cmmd_pat_[0-9a-f]{8}/.test(readFileSync(file, "utf8"))) {
+    errors.push(`${file.slice(root.length + 1)}: contains a CMMD agent token; remove it and revoke it in CMMD`);
+  }
+}
+
 // Codex reads prompt frontmatter as YAML: an unquoted value with ": " in it does not parse.
 for (const p of readdirSync(promptsDir)) {
   const fm = readFileSync(join(promptsDir, p), "utf8").match(/^---\n([\s\S]*?)\n---/);
