@@ -6,12 +6,16 @@
 <title>cmmdstack tip sheet</title>
 <style>
   /*
-   * CMMD V11 light ("Soft mono"), copied from CMMD client/src/styles/brand-v11.css:
-   * paper #fbfbfa, ink #171717, hairlines #e6e6e2, lift shadows, 4px controls and 6px to 10px
-   * containers, Google Sans headings over Roboto, the six core app tile colors, and the
-   * section label style (11px, 600, 0.06em, uppercase). The faces load from cmmd.ai.
-   * The logo and app glyphs are the V11 masters from client/public/brand and
-   * client/src/assets/brand/app-icons/v11. Edit this file, then run scripts/build-tip-sheet.mjs.
+   * CMMD V11, Round 11 preset V, set for print. Every value comes from the CMMD app:
+   *   tokens and type      client/src/styles/brand-v11.css
+   *   page language        client/src/pages/front-page/front-page.css (cmmd.ai)
+   *   Still Horizon field  client/src/components/brand/brand-horizon.css
+   *   identity             D Horizon Mirror, client/public/brand/candidates/round11/r11-d-*.svg
+   *   app glyphs           client/src/assets/brand/app-icons/v11
+   * Round 11 spends color in three places only: the Still Horizon on arrival, the three brand
+   * hues as thin rules, and the Horizon glow under the black closing panel. Everything else is
+   * ink on paper with hairline rules.
+   * Edit this file, then run scripts/build-tip-sheet.mjs.
    */
   @font-face {
     font-family: "CMMD Google Sans V11";
@@ -35,38 +39,32 @@
     --color-border-default: #e6e6e2;
     --color-border-subtle: #efefec;
     --color-border-strong: #d4d4d0;
-    --color-primary: #171717;
-    --color-primary-hover: #2e2e2e;
-    --color-primary-foreground: #ffffff;
     --brand-layer: 23 23 23;
-    --brand-sel-bg: rgb(var(--brand-layer) / 0.1);
-    --brand-field-line: #8a8a85;
-    --brand-tile-warm-bg: #f5e3d4;
-    --brand-tile-warm-fg: #643b22;
-    --brand-tile-violet-bg: #e9e2f3;
-    --brand-tile-violet-fg: #4e3b66;
-    --brand-tile-blue-bg: #dce8f2;
-    --brand-tile-blue-fg: #304e69;
     --brand-radius-md: 4px;
     --brand-radius-lg: 6px;
     --brand-radius-xl: 8px;
-    --brand-radius-2xl: 10px;
-    --brand-shadow-sm: 0 1px 2px rgb(var(--brand-layer) / 0.06), 0 1px 1px rgb(var(--brand-layer) / 0.04);
     --brand-shadow-md: 0 4px 12px rgb(var(--brand-layer) / 0.08), 0 1px 2px rgb(var(--brand-layer) / 0.04);
-    --brand-shadow-lg: 0 16px 40px rgb(var(--brand-layer) / 0.14), 0 2px 6px rgb(var(--brand-layer) / 0.06);
+    --brand-warm: #ff6b35;
+    --brand-pink: #ff0082;
+    --brand-cool: #00b4ff;
     --font-family-sans: "CMMD Roboto V11", Roboto, system-ui, -apple-system, "Segoe UI", sans-serif;
     --font-family-heading: "CMMD Google Sans V11", "CMMD Roboto V11", Roboto, system-ui, sans-serif;
     --font-family-mono: "SF Mono", SFMono-Regular, ui-monospace, Menlo, Monaco, monospace;
+    --gutter: 0.5in;
+    --rail: 1in;
   }
   @page { size: letter; margin: 0; }
   * { box-sizing: border-box; }
-  html, body { margin: 0; background: #ececea; color: var(--color-text-primary); font-family: var(--font-family-sans); }
+  html, body { margin: 0; background: #e9e9e6; color: var(--color-text-primary); font-family: var(--font-family-sans); -webkit-font-smoothing: antialiased; }
   body { padding: 24px 16px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  ::selection { background: rgb(var(--brand-layer) / 0.12); }
   .page {
-    width: 8.5in; height: 11in; margin: 0 auto 24px; padding: 0.42in 0.46in 0.36in;
-    background: var(--color-bg-primary); box-shadow: var(--brand-shadow-lg); overflow: hidden;
-    display: flex; flex-direction: column; gap: 10px; font-size: 8.7pt; line-height: 1.36;
+    position: relative; isolation: isolate; overflow: hidden;
+    width: 8.5in; height: 11in; margin: 0 auto 24px; padding: 0 var(--gutter) 0.34in;
+    background: var(--color-bg-primary); box-shadow: 0 16px 40px rgb(23 23 23 / 0.14);
+    display: flex; flex-direction: column; font-size: 8.6pt; line-height: 1.4;
   }
+  .page > * { flex-shrink: 0; }
   @media print {
     html, body { background: var(--color-bg-primary); }
     body { padding: 0; }
@@ -74,123 +72,190 @@
     .page:last-child { break-after: auto; }
   }
   @media screen and (max-width: 8.9in) {
-    .page { width: 100%; height: auto; padding: 20px 16px; }
-    .grid-2, .grid-3, .flow { grid-template-columns: 1fr !important; }
+    .page { width: 100%; height: auto; padding: 0 16px 24px; }
+    .row, .pair, .when, .rules, .flow, .index, .lists, .close-grid, .hero-body, .back-head, .compare { grid-template-columns: 1fr !important; }
+    .hero h1 { font-size: 44pt; }
+    .close-foot { position: static; margin-top: 16px; }
   }
 
-  h1, h2, h3 { font-family: var(--font-family-heading); margin: 0; font-weight: 500; letter-spacing: -0.005em; }
-  h1 { font-size: 24pt; line-height: 1.02; letter-spacing: -0.02em; }
-  h2 { font-size: 11pt; line-height: 1.25; }
-  h3 { font-size: 10pt; line-height: 1.25; }
   p { margin: 0; }
-  code, .cmd { font-family: var(--font-family-mono); font-size: 7.9pt; }
-  .cmd { font-weight: 600; white-space: nowrap; }
-  ol, ul { margin: 0; padding-left: 15px; }
-  li { margin: 1.5px 0; }
-  li::marker { color: var(--color-text-tertiary); }
+  b { font-weight: 500; color: var(--color-text-primary); }
+  code, .cmd { font-family: var(--font-family-mono); font-size: 7.8pt; letter-spacing: -0.01em; }
+  .cmd { font-weight: 600; white-space: nowrap; color: var(--color-text-primary); }
+  ul, ol { margin: 0; padding: 0; list-style: none; }
 
-  /* Section label: the sidebar section label from V11. */
-  .label { font-size: 7.4pt; line-height: 1.3; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-secondary); }
+  /* Still Horizon: brand-horizon.css on paper, never drifting, faded out before the content. */
+  .horizon {
+    position: absolute; inset: 0 0 auto; height: 3.4in; z-index: -1; pointer-events: none;
+    background:
+      linear-gradient(115deg, #fbfbfa 0%, rgb(251 251 250 / 0.82) 34%, rgb(255 255 255 / 0.32) 100%),
+      radial-gradient(105% 90% at 6% 72%, rgb(255 107 53 / 34%) 0%, rgb(255 107 53 / 12%) 37%, transparent 70%),
+      radial-gradient(116% 92% at 46% 88%, rgb(255 0 130 / 22%) 0%, rgb(255 0 130 / 8%) 42%, transparent 72%),
+      radial-gradient(120% 98% at 94% 26%, rgb(0 180 255 / 30%) 0%, rgb(0 180 255 / 10%) 42%, transparent 76%);
+    background-position: center, 0% 68%, 45% 82%, 100% 20%;
+    background-size: 100% 100%, 140% 140%, 146% 146%, 142% 142%;
+    filter: saturate(1.16);
+    -webkit-mask-image: linear-gradient(to bottom, #000 34%, transparent);
+    mask-image: linear-gradient(to bottom, #000 34%, transparent);
+  }
 
-  .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--color-border-default); }
-  .top .lede { color: var(--color-text-secondary); max-width: 4.5in; margin-top: 7px; font-size: 9.4pt; line-height: 1.4; }
-  .top h1 { margin-top: 6px; }
-  .lockup { width: 118px; height: auto; color: var(--color-text-primary); flex: none; margin-top: -6px; }
+  /* Masthead: the D Horizon Mirror lockup in r11-d-horizontal proportions (symbol 66/80 of the
+     wordmark height, gap 22/80). */
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 0.66in; }
+  .mark { display: inline-flex; align-items: center; gap: 4.4px; color: var(--color-text-primary); }
+  .mark svg { display: block; flex: none; }
+  .mark .symbol { width: 13.2px; height: 13.2px; }
+  .mark .wordmark { width: 56.8px; height: 16px; }
+  .meta { font-size: 7.4pt; color: var(--color-text-secondary); display: flex; align-items: center; gap: 12px; }
+  .pill { padding: 1px 8px; border: 1px solid var(--color-border-strong); border-radius: 999px; font-size: 6.8pt; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-secondary); }
 
-  /* Lift: a card sits on a soft shadow, with a hairline only where it must. */
-  .card { background: var(--color-bg-secondary); border-radius: var(--brand-radius-xl); box-shadow: var(--brand-shadow-sm), 0 0 0 1px var(--color-border-subtle); padding: 10px 12px; }
-  .card.primary { background: var(--color-primary); color: var(--color-primary-foreground); box-shadow: var(--brand-shadow-md); }
-  .card.primary p, .card.primary li { color: #e6e6e2; }
-  .card.primary .label { color: #bdbdb8; }
-  .card.tinted { background: var(--color-bg-tertiary); box-shadow: none; }
-  .card > .label { display: block; margin-bottom: 4px; }
-  .card h2 + p, .card h3 + ul, .card h2 + ul, .card h2 + ol { margin-top: 5px; }
+  .hero { padding: 0.12in 0 0.2in; }
+  .hero h1, h2 { font-family: var(--font-family-heading); font-weight: 400; margin: 0; }
+  .hero h1 { font-size: 60pt; line-height: 0.96; letter-spacing: -0.04em; margin-left: -3px; }
+  .hero-body { display: grid; grid-template-columns: 1fr 3.1in; gap: 0.36in; align-items: start; margin-top: 14px; }
+  .lede { font-size: 12pt; line-height: 1.42; color: var(--color-text-secondary); max-width: 34ch; text-wrap: pretty; }
+  .lede b { font-weight: 400; color: var(--color-text-primary); }
 
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  /* The composer: the Sidekick ask from the cmmd.ai product example, with the V11 underline field. */
+  .composer { background: var(--color-bg-secondary); border: 1px solid var(--color-border-default); border-radius: var(--brand-radius-xl); box-shadow: var(--brand-shadow-md); padding: 9px 11px 8px; }
+  .composer-head { display: flex; align-items: center; gap: 7px; font-size: 7.8pt; font-weight: 500; }
+  .composer-head .hint { margin-left: auto; font-weight: 400; color: var(--color-text-tertiary); font-size: 7pt; }
+  .composer-text { margin-top: 7px; padding-bottom: 6px; border-bottom: 1.5px solid #8a8a85; font-family: var(--font-family-mono); font-size: 7.6pt; line-height: 1.45; }
+  .composer-text .cmd { font-size: inherit; }
+  .caret { display: inline-block; width: 1px; height: 8.6pt; background: var(--color-text-primary); vertical-align: -1.6pt; margin-left: 1px; }
+  .composer-foot { margin-top: 6px; font-size: 7pt; line-height: 1.35; color: var(--color-text-tertiary); }
 
-  /* App tile: 26px, 4px corners, the core app color families. */
-  .tile { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: var(--brand-radius-md); flex: none; background: var(--color-bg-tertiary); color: var(--color-text-primary); }
-  .tile svg { width: 16px; height: 16px; }
-  .tile.warm { background: var(--brand-tile-warm-bg); color: var(--brand-tile-warm-fg); }
-  .tile.violet { background: var(--brand-tile-violet-bg); color: var(--brand-tile-violet-fg); }
-  .tile.blue { background: var(--brand-tile-blue-bg); color: var(--brand-tile-blue-fg); }
-  .tile.ink { background: #2e2e2e; color: #ffffff; }
-  .head { display: flex; align-items: center; gap: 8px; }
+  /* App tile in a monochrome context: ink glyph on paper with a hairline. */
+  .tile { display: inline-grid; place-items: center; flex: none; width: 20px; height: 20px; border: 1px solid var(--color-border-default); border-radius: var(--brand-radius-lg); background: var(--color-bg-secondary); color: var(--color-text-primary); }
+  .tile svg { width: 11px; height: 11px; }
 
-  .q { display: grid; grid-template-columns: 26px 1fr; gap: 9px; align-items: start; }
-  .q + .q { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--color-border-subtle); }
-  .q p { color: var(--color-text-secondary); }
-  .q .cmd { color: var(--color-text-primary); font-size: 8.4pt; }
+  /* Section: the Round 11 head, the label in a narrow left rail and the content beside it,
+     divided by a hairline the width of the measure. */
+  .row { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); gap: 0.22in; padding: 11px 0 12px; border-top: 1px solid var(--color-border-default); }
+  .label { font-size: 6.9pt; font-weight: 600; line-height: 1.4; letter-spacing: 0.13em; text-transform: uppercase; color: var(--color-text-secondary); padding-top: 3px; }
+  h2 { font-family: var(--font-family-heading); font-weight: 400; margin: 0; font-size: 15pt; line-height: 1.12; letter-spacing: -0.035em; text-wrap: balance; }
+  h2.h3 { font-size: 10.6pt; line-height: 1.2; letter-spacing: -0.02em; }
 
-  /* Underline field: the V11 field has no box, only a 3:1 underline. */
-  .field { margin-top: 7px; padding: 4px 0 5px; border-bottom: 1.5px solid #8a8a85; font-family: var(--font-family-mono); font-size: 7.9pt; color: #ffffff; }
-  .field .caret { display: inline-block; width: 1px; height: 9pt; background: #fff; vertical-align: -1.5pt; margin-left: 2px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.28in; }
+  .ask { display: grid; grid-template-columns: 20px 1fr; gap: 9px; }
+  .ask .h3 { font-family: var(--font-family-mono); font-size: 9pt; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 2px; }
+  .ask p { color: var(--color-text-secondary); }
+  .verdicts { display: flex; gap: 4px; margin-top: 5px; }
+  .verdicts span { font-size: 6.4pt; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 1px 6px; border-radius: 999px; border: 1px solid var(--color-border-strong); color: var(--color-text-secondary); }
+  .verdicts span.stop { background: var(--color-text-primary); border-color: var(--color-text-primary); color: #fff; }
 
-  .rules { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; counter-reset: rule; margin-top: 6px; }
-  .rules li { counter-increment: rule; display: grid; grid-template-columns: 18px 1fr; gap: 6px; margin: 0; }
-  .rules li::before { content: counter(rule); display: grid; place-items: center; width: 18px; height: 18px; border-radius: var(--brand-radius-md); background: var(--color-primary); color: #fff; font-family: var(--font-family-heading); font-weight: 600; font-size: 7.6pt; }
-  .rules b { font-weight: 600; }
+  .rules { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 0.26in; counter-reset: rule; }
+  .rules li { counter-increment: rule; display: grid; grid-template-columns: 12px 1fr; gap: 6px; color: var(--color-text-secondary); }
+  .rules li::before { content: counter(rule); font-family: var(--font-family-heading); font-size: 8.6pt; color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; }
 
-  /* Segmented tray: the V11 workbar, steps as segments, the first raised. */
-  .tray { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; padding: 3px; background: var(--color-bg-tertiary); border-radius: var(--brand-radius-lg); }
-  .seg { padding: 7px 8px 8px; border-radius: var(--brand-radius-md); }
-  .seg.raised { background: var(--color-bg-secondary); box-shadow: var(--brand-shadow-sm); }
-  .seg .n { font-family: var(--font-family-heading); font-weight: 600; font-size: 7.4pt; color: var(--color-text-tertiary); letter-spacing: 0.04em; }
-  .seg > .cmd { display: block; margin: 2px 0 3px; font-size: 8.3pt; }
-  .seg p { font-size: 7.8pt; line-height: 1.32; color: var(--color-text-secondary); }
+  /* The flow, drawn like the cmmd.ai step line: a node per step on one hairline. */
+  .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; position: relative; padding-top: 15px; }
+  .flow::before { content: ""; position: absolute; left: 4px; right: 4px; top: 4px; height: 1px; background: var(--color-border-strong); }
+  .flow li { position: relative; }
+  .flow li::before { content: ""; position: absolute; top: -15px; left: 0; width: 9px; height: 9px; border-radius: 50%; background: var(--color-bg-primary); border: 1.5px solid var(--color-text-primary); }
+  .flow li:last-child::before { background: var(--color-text-primary); }
+  .flow li > .cmd { display: block; font-size: 8.4pt; margin-bottom: 2px; }
+  .flow p { font-size: 7.7pt; line-height: 1.35; color: var(--color-text-secondary); }
 
-  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 7px; }
-  .compare > div { padding: 6px 8px 7px; border-radius: var(--brand-radius-md); background: var(--color-bg-tertiary); font-family: var(--font-family-mono); font-size: 7.8pt; line-height: 1.38; }
-  .compare > div.good { background: var(--brand-sel-bg); }
-  .compare .label { font-family: var(--font-family-sans); display: block; margin-bottom: 2px; }
-  .compare .weak { color: var(--color-text-tertiary); text-decoration: line-through; text-decoration-color: #b5b5b0; }
+  /* Three panels on tertiary paper, each under one brand hue, as Round 11 marks its screens. */
+  .when { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .when > div { padding: 9px 11px 9px; border-top: 2px solid var(--accent); border-radius: 0 0 var(--brand-radius-xl) var(--brand-radius-xl); background: var(--color-bg-tertiary); }
+  .when .h3 { margin-bottom: 3px; }
+  .when li { padding: 2px 0; border-top: 1px solid var(--color-border-default); color: var(--color-text-secondary); }
+  .when li:first-child { border-top: 0; }
+  .warm { --accent: var(--brand-warm); }
+  .pink { --accent: var(--brand-pink); }
+  .cool { --accent: var(--brand-cool); }
 
-  table { width: 100%; border-collapse: collapse; font-size: 8.6pt; }
-  th { text-align: left; padding: 0 6px 5px 0; border-bottom: 1px solid var(--color-border-strong); }
-  td { padding: 3.2px 6px 3.2px 0; border-bottom: 1px solid var(--color-border-subtle); vertical-align: top; }
-  td:first-child { width: 50%; color: var(--color-text-secondary); }
-  tr:last-child td { border-bottom: 0; }
-  .muted { color: var(--color-text-tertiary); }
-  .chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
-  .chip { padding: 2px 7px; border-radius: 999px; background: var(--color-bg-tertiary); font-size: 7.7pt; line-height: 1.45; }
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 0.28in; margin-top: 8px; }
+  .compare p { font-family: var(--font-family-mono); font-size: 7.7pt; line-height: 1.45; }
+  .compare .tag { display: block; font-family: var(--font-family-sans); font-size: 6.9pt; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; margin-bottom: 3px; color: var(--color-text-secondary); }
+  .compare .weak p { color: var(--color-text-tertiary); text-decoration: line-through; text-decoration-color: #b5b5b0; }
 
-  .back table { font-size: 9.2pt; }
-  .back td { padding: 3.9px 6px 3.9px 0; }
-  .back .wide-skill td:first-child { width: 40%; }
-  .back .chip { font-size: 8pt; padding: 2.5px 8px; }
-  .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 7px; border-top: 1px solid var(--color-border-default); font-size: 7.6pt; color: var(--color-text-tertiary); }
-  .foot svg { width: 13px; height: 13px; vertical-align: -2px; margin-right: 5px; color: var(--color-text-primary); }
+  .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 9px; border-top: 1px solid var(--color-border-default); font-size: 7.2pt; color: var(--color-text-tertiary); }
+  .foot .mark .symbol { width: 9.9px; height: 9.9px; }
+  .foot .mark .wordmark { width: 42.6px; height: 12px; }
+  .foot .mark { gap: 3.3px; }
+
+  /* Back page */
+  .back-head { padding: 0.06in 0 0.16in; }
+  .full { padding: 11px 0 13px; border-top: 1px solid var(--color-border-default); }
+  .back-head h1 { font-family: var(--font-family-heading); font-weight: 400; margin: 0; font-size: 34pt; line-height: 1; letter-spacing: -0.04em; }
+  .index { display: grid; grid-template-columns: 1fr 1fr; gap: 0.36in; }
+  .index td:last-child { white-space: nowrap; }
+  .index table { width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+  .index td { padding: 4.9px 8px 4.9px 0; border-bottom: 1px solid var(--color-border-default); vertical-align: baseline; }
+  .index td:first-child { color: var(--color-text-secondary); }
+  .index td:last-child { text-align: right; padding-right: 0; }
+  .index tr:last-child td { border-bottom: 0; }
+  .lists { display: grid; grid-template-columns: 1fr 1fr; gap: 0.3in; }
+  .lists .h3 { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .lists .sub { color: var(--color-text-tertiary); margin-bottom: 5px; }
+  .inline { display: flex; flex-wrap: wrap; gap: 2px 0; color: var(--color-text-secondary); font-size: 8.2pt; line-height: 1.5; }
+  .inline li:not(:last-child)::after { content: "/"; color: var(--color-border-strong); margin: 0 6px; }
+
+  /* The close: Round 11's black panel with the Horizon glow at its foot. */
+  .close { position: relative; isolation: isolate; overflow: hidden; margin-top: auto; margin-bottom: 0.04in; padding: 16px 18px 48px; border-radius: var(--brand-radius-xl); background: #000; color: #fff; }
+  .close::before { content: ""; position: absolute; z-index: -1; inset: 62% -10% -32%;
+    background:
+      radial-gradient(ellipse at 0% 100%, var(--brand-warm) 0%, transparent 65%),
+      radial-gradient(ellipse at 55% 100%, var(--brand-pink) 0%, transparent 62%),
+      radial-gradient(ellipse at 100% 100%, var(--brand-cool) 0%, transparent 62%);
+    opacity: 0.9; }
+  .close .label { color: #bcbcbc; }
+  .close h2 { font-size: 21pt; line-height: 1.04; letter-spacing: -0.04em; margin: 4px 0 12px; }
+  .close-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.3in; }
+  .close p { color: #d6d6d2; }
+  .close code { color: #fff; white-space: nowrap; }
+  .close .step { padding: 7px 0; border-top: 1px solid rgb(255 255 255 / 0.16); }
+  .close .step:first-child { border-top: 0; padding-top: 0; }
+  .close .step > code { display: block; margin-bottom: 1px; }
+  .close-foot { position: absolute; left: 18px; right: 18px; bottom: 13px; display: flex; justify-content: space-between; align-items: center; font-size: 7.4pt; color: #fff; }
+  .close-foot .mark { color: #fff; gap: 3.6px; }
+  .close-foot .mark .symbol { width: 10.9px; height: 10.9px; }
+  .close-foot .mark .wordmark { width: 47.3px; height: 13.3px; }
 </style>
 </head>
 <body>
 
 <!-- Front -->
 <section class="page" aria-label="Front">
-  <header class="top">
-    <div>
-      <span class="label">CMMD developer tip sheet</span>
-      <h1>cmmdstack</h1>
-      <p class="lede">The skill library every agent in a CMMD repo uses, on Claude Code, Codex and Cursor. Give the agent a goal and a check. It picks the playbook and the skills.</p>
+  <div class="horizon" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <span class="mark"><svg class="symbol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 16.8V7.2C3 5.985 3.985 5 5.2 5h2.1c.9 0 1.7.5 2.1 1.3L12 11l2.6-4.7c.4-.8 1.2-1.3 2.1-1.3h2.1C20.015 5 21 5.985 21 7.2v9.6c0 1.215-.985 2.2-2.2 2.2h-3.5L12 13.7 8.7 19H5.2C3.985 19 3 18.015 3 16.8Z"/></svg><svg class="wordmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 284 80" role="img" aria-label="CMMD"><g fill="currentColor"><path d="M58 10H34C15 10 4 22 4 40s11 30 30 30h24V58H34c-11 0-17-7-17-18s6-18 17-18h24Z"/><path d="M73 70V10h13l18 24 18-24h13v60h-13V31l-18 23-18-23v39Z"/><g transform="translate(284 0) scale(-1 1)"><path d="M58 10H34C15 10 4 22 4 40s11 30 30 30h24V58H34c-11 0-17-7-17-18s6-18 17-18h24Z"/><path d="M73 70V10h13l18 24 18-24h13v60h-13V31l-18 23-18-23v39Z"/></g></g></svg></span>
+    <span class="meta"><span>Developer tip sheet</span><span class="pill">v0.1.0</span></span>
+  </nav>
+
+  <header class="hero">
+    <h1>cmmdstack</h1>
+    <div class="hero-body">
+      <p class="lede">The skill library every agent in a CMMD repo uses, on Claude Code, Codex and Cursor. <b>Give the agent a goal and a check.</b> It picks the playbook and the skills.</p>
+      <div class="composer" aria-label="Example prompt">
+        <div class="composer-head"><span class="tile"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><path d="M2 21 8.2 4a3 3 0 0 1 2.8-2h2a3 3 0 0 1 2.8 2L18 10h-5.2L12 6l-1.9 6h8.6L22 21h-5.5l-1.6-5H9.1l-1.6 5Z"/></g></svg></span>Start every real task here</div>
+        <p class="composer-text"><span class="cmd">/cmmd-mode</span> Saving a task twice creates two rows. Done when the e2e spec shows one row and a lint blocks the pattern.<span class="caret"></span></p>
+        <p class="composer-foot">For work across files, a design choice, or a bug with an unknown cause. It picks a playbook and runs the skills its steps need.</p>
+      </div>
     </div>
-    <svg class="lockup" role="img" aria-label="CMMD" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 48" ><g><g color="currentColor" transform="translate(9.718912760416668 11.838053385416666) scale(0.9223090277777778)"><path d="M18 9a3 3 0 1 0-3-3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12Z" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></g><g fill="currentColor" transform="translate(44 32) scale(0.01220703125 -0.01220703125)"><path d="M786 -20Q588 -20 431.5 70Q275 160 184.5 331Q94 502 94 744Q94 987 185 1158.5Q276 1330 433 1420Q590 1510 786 1510Q913 1510 1022.5 1474.5Q1132 1439 1217 1371Q1302 1303 1356 1204.5Q1410 1106 1427 980H1118Q1108 1042 1079.5 1089.5Q1051 1137 1008.5 1170.5Q966 1204 911 1221.5Q856 1239 792 1239Q676 1239 588.5 1181Q501 1123 452.5 1012.5Q404 902 404 744Q404 583 453 473Q502 363 589 307Q676 251 791 251Q855 251 909.5 268.5Q964 286 1007.5 319.5Q1051 353 1079.5 401Q1108 449 1119 510H1428Q1416 406 1366.5 311Q1317 216 1235 141Q1153 66 1040 23Q927 -20 786 -20Z" transform="translate(0 0)"/><path d="M135 0V1490H603L845 806Q860 758 879.5 682Q899 606 919 518Q939 430 956.5 347Q974 264 985 203H926Q937 263 954.5 345.5Q972 428 992 516Q1012 604 1031.5 681Q1051 758 1066 806L1304 1490H1774V0H1467V702Q1467 751 1468.5 824Q1470 897 1472.5 981.5Q1475 1066 1477 1151.5Q1479 1237 1480 1313H1499Q1480 1230 1457 1141.5Q1434 1053 1410.5 970Q1387 887 1366 817.5Q1345 748 1330 702L1083 0H826L575 702Q560 748 539 816.5Q518 885 494.5 968Q471 1051 447 1139.5Q423 1228 402 1313H425Q426 1241 428 1156Q430 1071 432.5 985.5Q435 900 436.5 826.5Q438 753 438 702V0Z" transform="translate(1596.92 0)"/><path d="M135 0V1490H603L845 806Q860 758 879.5 682Q899 606 919 518Q939 430 956.5 347Q974 264 985 203H926Q937 263 954.5 345.5Q972 428 992 516Q1012 604 1031.5 681Q1051 758 1066 806L1304 1490H1774V0H1467V702Q1467 751 1468.5 824Q1470 897 1472.5 981.5Q1475 1066 1477 1151.5Q1479 1237 1480 1313H1499Q1480 1230 1457 1141.5Q1434 1053 1410.5 970Q1387 887 1366 817.5Q1345 748 1330 702L1083 0H826L575 702Q560 748 539 816.5Q518 885 494.5 968Q471 1051 447 1139.5Q423 1228 402 1313H425Q426 1241 428 1156Q430 1071 432.5 985.5Q435 900 436.5 826.5Q438 753 438 702V0Z" transform="translate(3586.84 0)"/><path d="M659 0H273V263H644Q788 263 885.5 314Q983 365 1032 472Q1081 579 1081 746Q1081 912 1031.5 1018.5Q982 1125 885.5 1176Q789 1227 646 1227H266V1490H664Q888 1490 1049.5 1400.5Q1211 1311 1298 1144.5Q1385 978 1385 746Q1385 513 1298 346Q1211 179 1048.5 89.5Q886 0 659 0ZM440 1490V0H135V1490Z" transform="translate(5576.76 0)"/></g></g></svg>
   </header>
 
-  <div class="grid-2">
-    <div class="card primary">
-      <div class="head"><span class="tile ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><path d="M2 21 8.2 4a3 3 0 0 1 2.8-2h2a3 3 0 0 1 2.8 2L18 10h-5.2L12 6l-1.9 6h8.6L22 21h-5.5l-1.6-5H9.1l-1.6 5Z"/></g></svg></span><h2>Start every real task here</h2></div>
-      <p style="margin-top:7px">Type <span class="cmd">/cmmd-mode</span> when the work touches more than one file, makes a design choice, or chases a bug with an unknown cause. It matches a playbook, copies its steps into the todo list, and calls the other skills as the steps need them.</p>
-      <div class="field">/cmmd-mode Saving a task twice creates two rows. Done when the e2e spec shows one row and a lint blocks the pattern.<span class="caret"></span></div>
+  <section class="row">
+    <span class="label">Ask first</span>
+    <div class="pair">
+      <div class="ask">
+        <span class="tile"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10.8 3H7.6C4.5 3 2 5.5 2 8.6V15.4C2 18.5 4.5 21 7.6 21H8.4C11.5 21 14 18.5 14 15.4V8.6C14 7.7 14.7 7 15.6 7H16.4C17.3 7 18 7.7 18 8.6V15.4C18 16.3 17.3 17 16.4 17H15.2L13.2 21H16.4C19.5 21 22 18.5 22 15.4V8.6C22 5.5 19.5 3 16.4 3H15.6C12.5 3 10 5.5 10 8.6V15.4C10 16.3 9.3 17 8.4 17H7.6C6.7 17 6 16.3 6 15.4V8.6C6 7.7 6.7 7 7.6 7H8.8Z"/></svg></span>
+        <div><h2 class="h3">/ask-alex</h2><p>What would Alex do here? Names the flow and the skills, and hands back a prompt to send.</p></div>
+      </div>
+      <div class="ask">
+        <span class="tile"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><path d="M11 2h8l-2 2.5L19 7h-5v3l8 11H2l9-12Zm1 10-4.5 6h9Z" fill-rule="evenodd"/></g></svg></span>
+        <div><h2 class="h3">/ask-zack</h2><p>Is this worth doing now? Checks the work against the strategy in CMMD Brain. Off track stops the work until the owner overrides it.</p>
+        <div class="verdicts"><span>On track</span><span>Drifting</span><span class="stop">Off track</span></div></div>
+      </div>
     </div>
-    <div class="card">
-      <span class="label">Two questions before you start</span>
-      <div class="q"><span class="tile warm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10.8 3H7.6C4.5 3 2 5.5 2 8.6V15.4C2 18.5 4.5 21 7.6 21H8.4C11.5 21 14 18.5 14 15.4V8.6C14 7.7 14.7 7 15.6 7H16.4C17.3 7 18 7.7 18 8.6V15.4C18 16.3 17.3 17 16.4 17H15.2L13.2 21H16.4C19.5 21 22 18.5 22 15.4V8.6C22 5.5 19.5 3 16.4 3H15.6C12.5 3 10 5.5 10 8.6V15.4C10 16.3 9.3 17 8.4 17H7.6C6.7 17 6 16.3 6 15.4V8.6C6 7.7 6.7 7 7.6 7H8.8Z"/></svg></span><p><span class="cmd">/ask-alex</span> What would Alex do here? Names the flow and the skills, and hands back a prompt to send.</p></div>
-      <div class="q"><span class="tile violet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><path d="M11 2h8l-2 2.5L19 7h-5v3l8 11H2l9-12Zm1 10-4.5 6h9Z" fill-rule="evenodd"/></g></svg></span><p><span class="cmd">/ask-zack</span> Is this worth doing now? Checks the work against the strategy in CMMD Brain. An <b style="color:var(--color-text-primary)">OFF TRACK</b> verdict stops the work until the owner overrides it.</p></div>
-    </div>
-  </div>
+  </section>
 
-  <div class="card">
-    <span class="label">The hard rules</span>
+  <section class="row">
+    <span class="label">Hard rules</span>
     <ol class="rules">
       <li><span><b>Every bug ends in a guard.</b> Fix it, then <span class="cmd">/correct</span> adds a lint, type check or static check that fails on the bad code, in the same change. A test only when no static check can say it.</span></li>
       <li><span><b>Done means proven on the real surface.</b> The browser, the API, the CLI, an end-to-end run. Green unit tests are not proof.</span></li>
@@ -199,75 +264,80 @@
       <li><span><b>AGENTS.md is the one instruction file.</b> CLAUDE.md is <code>@AGENTS.md</code>. The build fails otherwise.</span></li>
       <li><span><b>Plain prose.</b> <span class="cmd">/unslop</span> on every PR body, doc and comment. No em dashes.</span></li>
     </ol>
-  </div>
+  </section>
 
-  <div>
-    <span class="label" style="display:block;margin-bottom:5px">Idea to merged PR</span>
-    <div class="tray">
-      <div class="seg raised"><span class="n">01</span><span class="cmd">/debrief</span><p>Interview until every decision is settled. Writes CONTEXT.md and ADRs.</p></div>
-      <div class="seg"><span class="n">02</span><span class="cmd">/architect</span><p>Types and module shape before code that crosses files.</p></div>
-      <div class="seg"><span class="n">03</span><span class="cmd">/cmmd-mode</span><p>Feature playbook. Test first with <span class="cmd">/tdd</span>.</p></div>
-      <div class="seg"><span class="n">04</span><span class="cmd">/interrogate</span><p>Multi-model review of the diff. <span class="cmd">/council</span> for three providers.</p></div>
-      <div class="seg"><span class="n">05</span><span class="cmd">/file-pr</span><p>Then <span class="cmd">/babysit-pr</span> until green and reviewed.</p></div>
-    </div>
-  </div>
+  <section class="row">
+    <span class="label">Idea to merged PR</span>
+    <ol class="flow">
+      <li><span class="cmd">/debrief</span><p>Interview until every decision is settled. Writes CONTEXT.md and ADRs.</p></li>
+      <li><span class="cmd">/architect</span><p>Types and module shape before code that crosses files.</p></li>
+      <li><span class="cmd">/cmmd-mode</span><p>Feature playbook. Test first with <span class="cmd">/tdd</span>.</p></li>
+      <li><span class="cmd">/interrogate</span><p>Multi-model review of the diff. <span class="cmd">/council</span> for three providers.</p></li>
+      <li><span class="cmd">/file-pr</span><p>Then <span class="cmd">/babysit-pr</span> until green and reviewed.</p></li>
+    </ol>
+  </section>
 
-  <div class="grid-3">
-    <div class="card">
-      <div class="head"><span class="tile blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><path d="m3 6 2 2 4-4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><rect x="12" y="5" width="9" height="3" rx="1.5"/><circle cx="5" cy="13" r="1.5"/><rect x="12" y="11.5" width="9" height="3" rx="1.5"/><circle cx="5" cy="19" r="1.5"/><rect x="12" y="17.5" width="6" height="3" rx="1.5"/></g></svg></span><h3>Something is broken</h3></div>
-      <ul style="margin-top:6px">
-        <li><span class="cmd">/cmmd-mode</span> Bug fix: reproduce, root cause, fix, guard</li>
-        <li><span class="cmd">/why</span> when it used to work</li>
-        <li><span class="cmd">/how</span> to map the subsystem first</li>
-        <li><span class="cmd">/fix-ci</span> for a red pipeline</li>
-      </ul>
+  <section class="row">
+    <span class="label">When</span>
+    <div class="when">
+      <div class="warm">
+        <h2 class="h3">Something is broken</h2>
+        <ul>
+          <li><span class="cmd">/cmmd-mode</span> Bug fix: reproduce, root cause, fix, guard</li>
+          <li><span class="cmd">/why</span> when it used to work</li>
+          <li><span class="cmd">/how</span> to map the subsystem first</li>
+          <li><span class="cmd">/fix-ci</span> for a red pipeline</li>
+        </ul>
+      </div>
+      <div class="pink">
+        <h2 class="h3">Lots of similar work</h2>
+        <ul>
+          <li><span class="cmd">/swarm</span> N workers, one report</li>
+          <li><span class="cmd">/arena</span> race designs, keep the best parts</li>
+          <li><span class="cmd">/figure-it-out</span> big migration, own playbook</li>
+          <li><span class="cmd">/research</span> primary sources, cited note</li>
+        </ul>
+      </div>
+      <div class="cool">
+        <h2 class="h3">Walking away</h2>
+        <ul>
+          <li><span class="cmd">/full-stop</span> runs to merge-ready, never merges</li>
+          <li><span class="cmd">/full-send</span> runs through the merge</li>
+          <li><span class="cmd">/show-me-your-work</span> leaves a decision trail</li>
+          <li><span class="cmd">/ketchup</span> catches you up after</li>
+        </ul>
+      </div>
     </div>
-    <div class="card">
-      <div class="head"><span class="tile violet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><path d="M4 4h2a5 5 0 0 1 5 5v12l-2-2H6a3 3 0 0 1-3-3V5a1 1 0 0 1 1-1ZM20 4h-2a5 5 0 0 0-5 5v12l2-2h3a3 3 0 0 0 3-3V5a1 1 0 0 0-1-1Z"/></g></svg></span><h3>Lots of similar work</h3></div>
-      <ul style="margin-top:6px">
-        <li><span class="cmd">/swarm</span> N workers, one report</li>
-        <li><span class="cmd">/arena</span> race designs, keep the best parts</li>
-        <li><span class="cmd">/figure-it-out</span> big migration, own playbook</li>
-        <li><span class="cmd">/research</span> primary sources, cited note</li>
-      </ul>
-    </div>
-    <div class="card">
-      <div class="head"><span class="tile warm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><path fill-rule="evenodd" d="M12 1a11 11 0 1 0 0 22 11 11 0 0 0 0-22Zm-6 10 4 4 8-8 2 2-10 10-6-6Z"/></g></svg></span><h3>Walking away</h3></div>
-      <ul style="margin-top:6px">
-        <li><span class="cmd">/full-stop</span> runs to merge-ready, never merges</li>
-        <li><span class="cmd">/full-send</span> runs through the merge</li>
-        <li><span class="cmd">/show-me-your-work</span> leaves a decision trail</li>
-        <li><span class="cmd">/ketchup</span> catches you up after</li>
-      </ul>
-    </div>
-  </div>
+  </section>
 
-  <div class="card">
+  <section class="row">
     <span class="label">A prompt that works</span>
-    <p>State the goal and a check that can pass or fail. Leave out the skill list, because <span class="cmd">/cmmd-mode</span> picks the skills, and a hand-written list drops steps.</p>
-    <div class="compare">
-      <div><span class="label">Weak</span><span class="weak">Use tdd and swarm to make the board faster.</span></div>
-      <div class="good"><span class="label">Strong</span>Board loads in under 800 ms on the 2k-card fixture. Prove it with the perf spec before and after.</div>
+    <div>
+      <p style="color:var(--color-text-secondary)">State the goal and a check that can pass or fail. Leave out the skill list, because <span class="cmd">/cmmd-mode</span> picks the skills, and a hand-written list drops steps.</p>
+      <div class="compare">
+        <div class="weak"><span class="tag">Weak</span><p>Use tdd and swarm to make the board faster.</p></div>
+        <div><span class="tag">Strong</span><p>Board loads in under 800 ms on the 2k-card fixture. Prove it with the perf spec before and after.</p></div>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <footer class="foot"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><g color="currentColor"><path d="M18 9a3 3 0 1 0-3-3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12Z" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></g></svg>github.com/CMMD-Center/cmmdstack</span><span>Turn over for every skill</span></footer>
+  <footer class="foot"><span class="mark"><svg class="symbol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 16.8V7.2C3 5.985 3.985 5 5.2 5h2.1c.9 0 1.7.5 2.1 1.3L12 11l2.6-4.7c.4-.8 1.2-1.3 2.1-1.3h2.1C20.015 5 21 5.985 21 7.2v9.6c0 1.215-.985 2.2-2.2 2.2h-3.5L12 13.7 8.7 19H5.2C3.985 19 3 18.015 3 16.8Z"/></svg><svg class="wordmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 284 80" role="img" aria-label="CMMD"><g fill="currentColor"><path d="M58 10H34C15 10 4 22 4 40s11 30 30 30h24V58H34c-11 0-17-7-17-18s6-18 17-18h24Z"/><path d="M73 70V10h13l18 24 18-24h13v60h-13V31l-18 23-18-23v39Z"/><g transform="translate(284 0) scale(-1 1)"><path d="M58 10H34C15 10 4 22 4 40s11 30 30 30h24V58H34c-11 0-17-7-17-18s6-18 17-18h24Z"/><path d="M73 70V10h13l18 24 18-24h13v60h-13V31l-18 23-18-23v39Z"/></g></g></svg></span><span>github.com/CMMD-Center/cmmdstack</span><span>Every skill on the back</span></footer>
 </section>
 
 <!-- Back -->
-<section class="page back" aria-label="Back">
-  <header class="top">
-    <div>
-      <span class="label">CMMD developer tip sheet</span>
-      <h1>Which skill, when</h1>
-    </div>
-    <svg class="lockup" role="img" aria-label="CMMD" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 48" ><g><g color="currentColor" transform="translate(9.718912760416668 11.838053385416666) scale(0.9223090277777778)"><path d="M18 9a3 3 0 1 0-3-3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12Z" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></g><g fill="currentColor" transform="translate(44 32) scale(0.01220703125 -0.01220703125)"><path d="M786 -20Q588 -20 431.5 70Q275 160 184.5 331Q94 502 94 744Q94 987 185 1158.5Q276 1330 433 1420Q590 1510 786 1510Q913 1510 1022.5 1474.5Q1132 1439 1217 1371Q1302 1303 1356 1204.5Q1410 1106 1427 980H1118Q1108 1042 1079.5 1089.5Q1051 1137 1008.5 1170.5Q966 1204 911 1221.5Q856 1239 792 1239Q676 1239 588.5 1181Q501 1123 452.5 1012.5Q404 902 404 744Q404 583 453 473Q502 363 589 307Q676 251 791 251Q855 251 909.5 268.5Q964 286 1007.5 319.5Q1051 353 1079.5 401Q1108 449 1119 510H1428Q1416 406 1366.5 311Q1317 216 1235 141Q1153 66 1040 23Q927 -20 786 -20Z" transform="translate(0 0)"/><path d="M135 0V1490H603L845 806Q860 758 879.5 682Q899 606 919 518Q939 430 956.5 347Q974 264 985 203H926Q937 263 954.5 345.5Q972 428 992 516Q1012 604 1031.5 681Q1051 758 1066 806L1304 1490H1774V0H1467V702Q1467 751 1468.5 824Q1470 897 1472.5 981.5Q1475 1066 1477 1151.5Q1479 1237 1480 1313H1499Q1480 1230 1457 1141.5Q1434 1053 1410.5 970Q1387 887 1366 817.5Q1345 748 1330 702L1083 0H826L575 702Q560 748 539 816.5Q518 885 494.5 968Q471 1051 447 1139.5Q423 1228 402 1313H425Q426 1241 428 1156Q430 1071 432.5 985.5Q435 900 436.5 826.5Q438 753 438 702V0Z" transform="translate(1596.92 0)"/><path d="M135 0V1490H603L845 806Q860 758 879.5 682Q899 606 919 518Q939 430 956.5 347Q974 264 985 203H926Q937 263 954.5 345.5Q972 428 992 516Q1012 604 1031.5 681Q1051 758 1066 806L1304 1490H1774V0H1467V702Q1467 751 1468.5 824Q1470 897 1472.5 981.5Q1475 1066 1477 1151.5Q1479 1237 1480 1313H1499Q1480 1230 1457 1141.5Q1434 1053 1410.5 970Q1387 887 1366 817.5Q1345 748 1330 702L1083 0H826L575 702Q560 748 539 816.5Q518 885 494.5 968Q471 1051 447 1139.5Q423 1228 402 1313H425Q426 1241 428 1156Q430 1071 432.5 985.5Q435 900 436.5 826.5Q438 753 438 702V0Z" transform="translate(3586.84 0)"/><path d="M659 0H273V263H644Q788 263 885.5 314Q983 365 1032 472Q1081 579 1081 746Q1081 912 1031.5 1018.5Q982 1125 885.5 1176Q789 1227 646 1227H266V1490H664Q888 1490 1049.5 1400.5Q1211 1311 1298 1144.5Q1385 978 1385 746Q1385 513 1298 346Q1211 179 1048.5 89.5Q886 0 659 0ZM440 1490V0H135V1490Z" transform="translate(5576.76 0)"/></g></g></svg>
+<section class="page" aria-label="Back">
+  <nav class="nav">
+    <span class="mark"><svg class="symbol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 16.8V7.2C3 5.985 3.985 5 5.2 5h2.1c.9 0 1.7.5 2.1 1.3L12 11l2.6-4.7c.4-.8 1.2-1.3 2.1-1.3h2.1C20.015 5 21 5.985 21 7.2v9.6c0 1.215-.985 2.2-2.2 2.2h-3.5L12 13.7 8.7 19H5.2C3.985 19 3 18.015 3 16.8Z"/></svg><svg class="wordmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 284 80" role="img" aria-label="CMMD"><g fill="currentColor"><path d="M58 10H34C15 10 4 22 4 40s11 30 30 30h24V58H34c-11 0-17-7-17-18s6-18 17-18h24Z"/><path d="M73 70V10h13l18 24 18-24h13v60h-13V31l-18 23-18-23v39Z"/><g transform="translate(284 0) scale(-1 1)"><path d="M58 10H34C15 10 4 22 4 40s11 30 30 30h24V58H34c-11 0-17-7-17-18s6-18 17-18h24Z"/><path d="M73 70V10h13l18 24 18-24h13v60h-13V31l-18 23-18-23v39Z"/></g></g></svg></span>
+    <span class="meta"><span>Developer tip sheet</span><span class="pill">v0.1.0</span></span>
+  </nav>
+
+  <header class="back-head">
+    <h1>Which skill, when</h1>
   </header>
 
-  <div class="grid-2">
-    <div class="card">
+  <section class="full">
+    <div class="index">
       <table>
-        <thead><tr><th class="label">Situation</th><th class="label">Skill</th></tr></thead>
         <tbody>
           <tr><td>New idea, plan not clear yet</td><td><span class="cmd">/debrief</span></td></tr>
           <tr><td>Not sure it is worth doing</td><td><span class="cmd">/ask-zack</span></td></tr>
@@ -286,10 +356,7 @@
           <tr><td>State machine or race</td><td><span class="cmd">/statechart</span></td></tr>
         </tbody>
       </table>
-    </div>
-    <div class="card">
-      <table class="wide-skill">
-        <thead><tr><th class="label">Situation</th><th class="label">Skill</th></tr></thead>
+      <table>
         <tbody>
           <tr><td>No UI driver yet</td><td><span class="cmd">/create-verification-skill</span></td></tr>
           <tr><td>Invariant tests miss</td><td><span class="cmd">/create-formal-verification-skill</span></td></tr>
@@ -309,44 +376,45 @@
         </tbody>
       </table>
     </div>
-  </div>
+  </section>
 
-  <div class="grid-2">
-    <div class="card">
-      <div class="head"><span class="tile warm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10.8 3H7.6C4.5 3 2 5.5 2 8.6V15.4C2 18.5 4.5 21 7.6 21H8.4C11.5 21 14 18.5 14 15.4V8.6C14 7.7 14.7 7 15.6 7H16.4C17.3 7 18 7.7 18 8.6V15.4C18 16.3 17.3 17 16.4 17H15.2L13.2 21H16.4C19.5 21 22 18.5 22 15.4V8.6C22 5.5 19.5 3 16.4 3H15.6C12.5 3 10 5.5 10 8.6V15.4C10 16.3 9.3 17 8.4 17H7.6C6.7 17 6 16.3 6 15.4V8.6C6 7.7 6.7 7 7.6 7H8.8Z"/></svg></span><h2>Playbooks inside /cmmd-mode</h2></div>
-      <p class="muted" style="margin-top:5px">Name the situation and the mode matches one.</p>
-      <div class="chips">
-        <span class="chip">Investigation</span><span class="chip">Bug fix</span><span class="chip">Perf issue</span><span class="chip">Hillclimb</span><span class="chip">Runtime forensics</span><span class="chip">Trace forensics</span><span class="chip">Feature</span><span class="chip">Refactoring</span><span class="chip">Prototype</span><span class="chip">Visual parity</span><span class="chip">Authoring a skill</span><span class="chip">Eval</span><span class="chip">Babysit</span><span class="chip">Shipping</span><span class="chip">Autonomous run</span><span class="chip">Orchestrate</span><span class="chip">Autopilot</span><span class="chip">Session pickup</span><span class="chip">Pause safely</span><span class="chip">Multi-phase plan</span><span class="chip">Worktree cleanup</span><span class="chip">Opening a PR</span>
+  <section class="full">
+    <div class="lists">
+      <div>
+        <h2 class="h3"><span class="tile"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><path d="m3 6 2 2 4-4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><rect x="12" y="5" width="9" height="3" rx="1.5"/><circle cx="5" cy="13" r="1.5"/><rect x="12" y="11.5" width="9" height="3" rx="1.5"/><circle cx="5" cy="19" r="1.5"/><rect x="12" y="17.5" width="6" height="3" rx="1.5"/></g></svg></span>Playbooks inside /cmmd-mode</h2>
+        <p class="sub">Name the situation and the mode matches one.</p>
+        <ul class="inline">
+          <li>Investigation</li><li>Bug fix</li><li>Perf issue</li><li>Hillclimb</li><li>Runtime forensics</li><li>Trace forensics</li><li>Feature</li><li>Refactoring</li><li>Prototype</li><li>Visual parity</li><li>Authoring a skill</li><li>Eval</li><li>Babysit</li><li>Shipping</li><li>Autonomous run</li><li>Orchestrate</li><li>Autopilot</li><li>Session pickup</li><li>Pause safely</li><li>Multi-phase plan</li><li>Worktree cleanup</li><li>Opening a PR</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="h3"><span class="tile"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><path d="M4 4h2a5 5 0 0 1 5 5v12l-2-2H6a3 3 0 0 1-3-3V5a1 1 0 0 1 1-1ZM20 4h-2a5 5 0 0 0-5 5v12l2-2h3a3 3 0 0 0 3-3V5a1 1 0 0 0-1-1Z"/></g></svg></span>Principles it cites</h2>
+        <p class="sub">Each is its own <code>principle-*</code> skill.</p>
+        <ul class="inline">
+          <li>Laziness protocol</li><li>Subtract before you add</li><li>Attack the premise</li><li>Model the domain</li><li>Boundary discipline</li><li>Type system discipline</li><li>Make operations idempotent</li><li>Prove it works</li><li>Fix root causes</li><li>Test behavior, not implementation</li><li>Explain the number</li><li>Build the lever</li><li>Guard the context window</li><li>Never block on the human</li><li>Encode lessons in structure</li>
+        </ul>
       </div>
     </div>
-    <div class="card">
-      <div class="head"><span class="tile violet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><path d="M4 4h2a5 5 0 0 1 5 5v12l-2-2H6a3 3 0 0 1-3-3V5a1 1 0 0 1 1-1ZM20 4h-2a5 5 0 0 0-5 5v12l2-2h3a3 3 0 0 0 3-3V5a1 1 0 0 0-1-1Z"/></g></svg></span><h2>Principles it cites</h2></div>
-      <p class="muted" style="margin-top:5px">Each is its own <code>principle-*</code> skill.</p>
-      <div class="chips">
-        <span class="chip">Laziness protocol</span><span class="chip">Subtract before you add</span><span class="chip">Attack the premise</span><span class="chip">Model the domain</span><span class="chip">Boundary discipline</span><span class="chip">Type system discipline</span><span class="chip">Make operations idempotent</span><span class="chip">Prove it works</span><span class="chip">Fix root causes</span><span class="chip">Test behavior, not implementation</span><span class="chip">Explain the number</span><span class="chip">Build the lever</span><span class="chip">Guard the context window</span><span class="chip">Never block on the human</span><span class="chip">Encode lessons in structure</span>
+  </section>
+
+  <section class="close">
+    <span class="label">Install, update, change</span>
+    <h2>One library, pinned in every repo.</h2>
+    <div class="close-grid">
+      <div>
+        <div class="step"><code>node scripts/install-cmmdstack.mjs</code><p>Installs the latest tag into <code>.agents/skills/</code> and mirrors it for every tool.</p></div>
+        <div class="step"><code>npm run check:cmmdstack-fresh</code><p>Says whether a newer tag exists. A weekly job opens the update PR for you.</p></div>
+        <div class="step"><code>/plugin marketplace add CMMD-Center/cmmdstack</code><p>Outside CMMD.</p></div>
+      </div>
+      <div>
+        <div class="step"><p>Edit a skill in the cmmdstack repo, run <code>node scripts/check.mjs</code>, release a tag.</p></div>
+        <div class="step"><p>A hand edit to <code>.agents/skills/</code> in CMMD fails <code>check:skills-vendored</code>.</p></div>
+        <div class="step"><p>CMMD-only skills (Sidekick, Forge, migrations) stay unpinned in CMMD.</p></div>
+        <div class="step"><p>The rules in <code>.agents/</code> win when a skill disagrees.</p></div>
       </div>
     </div>
-  </div>
-
-  <div class="grid-2">
-    <div class="card primary">
-      <div class="head"><span class="tile ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11 3a1 1 0 0 1 2 0v3h3a1 1 0 0 1 0 2h-3v3a1 1 0 0 1-2 0V8H8a1 1 0 0 1 0-2h3V3ZM4 12a2 2 0 0 0-2 2v5a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-5a2 2 0 0 0-2-2h-3v3a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-3Z"/></svg></span><h2>Install and update</h2></div>
-      <p style="margin-top:6px">In CMMD, <code>node scripts/install-cmmdstack.mjs</code> installs the latest tag into <code>.agents/skills/</code> and mirrors it for every tool.</p>
-      <p style="margin-top:5px"><code>npm run check:cmmdstack-fresh</code> says whether a newer tag exists. A weekly job opens the update PR for you.</p>
-      <p style="margin-top:5px">Outside CMMD:<br><code style="white-space:nowrap">/plugin marketplace add CMMD-Center/cmmdstack</code></p>
-    </div>
-    <div class="card">
-      <div class="head"><span class="tile blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><path d="M3 3h6l3 3h9a2 2 0 0 1 2 2v2H1V5a2 2 0 0 1 2-2Zm-2 9h22v7a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2Z"/></g></svg></span><h2>Changing a skill</h2></div>
-      <ul style="margin-top:6px">
-        <li>Edit it in the cmmdstack repo, run <code>node scripts/check.mjs</code>, release a tag.</li>
-        <li>A hand edit to <code>.agents/skills/</code> in CMMD fails <code>check:skills-vendored</code>.</li>
-        <li>CMMD-only skills (Sidekick, Forge, migrations) stay unpinned in CMMD.</li>
-        <li>The rules in <code>.agents/</code> win when a skill disagrees.</li>
-      </ul>
-    </div>
-  </div>
-
-  <footer class="foot"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><g color="currentColor"><path d="M18 9a3 3 0 1 0-3-3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12Z" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></g></svg>cmmdstack v0.1.0, MIT</span><span>Stuck? Type /ask-alex</span></footer>
+    <div class="close-foot"><span class="mark"><svg class="symbol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 16.8V7.2C3 5.985 3.985 5 5.2 5h2.1c.9 0 1.7.5 2.1 1.3L12 11l2.6-4.7c.4-.8 1.2-1.3 2.1-1.3h2.1C20.015 5 21 5.985 21 7.2v9.6c0 1.215-.985 2.2-2.2 2.2h-3.5L12 13.7 8.7 19H5.2C3.985 19 3 18.015 3 16.8Z"/></svg><svg class="wordmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 284 80" role="img" aria-label="CMMD"><g fill="currentColor"><path d="M58 10H34C15 10 4 22 4 40s11 30 30 30h24V58H34c-11 0-17-7-17-18s6-18 17-18h24Z"/><path d="M73 70V10h13l18 24 18-24h13v60h-13V31l-18 23-18-23v39Z"/><g transform="translate(284 0) scale(-1 1)"><path d="M58 10H34C15 10 4 22 4 40s11 30 30 30h24V58H34c-11 0-17-7-17-18s6-18 17-18h24Z"/><path d="M73 70V10h13l18 24 18-24h13v60h-13V31l-18 23-18-23v39Z"/></g></g></svg></span><span>cmmdstack v0.1.0, MIT</span><span>Stuck? Type /ask-alex</span></div>
+  </section>
 </section>
 
 </body>

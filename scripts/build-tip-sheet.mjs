@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Builds docs/tip-sheet.html from docs/tip-sheet.src.html by inlining the CMMD logo and the V11
+// Builds docs/tip-sheet.html from docs/tip-sheet.src.html by inlining the CMMD V11 logo (D Horizon Mirror) and the V11
 // app glyphs from docs/brand, then prints the PDF and one PNG per page.
 // Needs Google Chrome, poppler and network access to cmmd.ai. Fails if the PDF is not exactly
 // two pages or if the CMMD fonts did not load.
@@ -24,18 +24,16 @@ const recolor = (svg) =>
     .replace(/\srole="img"\saria-label="[^"]*"/, ' aria-hidden="true"')
     .trim();
 
-const lockup = recolor(readFileSync(join(brand, "cmmd-lockup.svg"), "utf8")).replace(
-  "<svg ",
-  '<svg class="lockup" role="img" aria-label="CMMD" ',
-);
-const mark = recolor(readFileSync(join(brand, "cmmd-mark.svg"), "utf8"));
+// The D Horizon Mirror identity, from CMMD's hashed Round 11 masters.
+const symbol = recolor(readFileSync(join(brand, "cmmd-v11-symbol.svg"), "utf8")).replace("<svg ", '<svg class="symbol" ');
+const wordmark = recolor(readFileSync(join(brand, "cmmd-v11-wordmark.svg"), "utf8")).replace("<svg ", '<svg class="wordmark" ');
 const icons = Object.fromEntries(
   readdirSync(join(brand, "icons")).map((f) => [f.replace(/\.svg$/, ""), recolor(readFileSync(join(brand, "icons", f), "utf8"))]),
 );
 
 const html = readFileSync(join(docs, "tip-sheet.src.html"), "utf8")
-  .replaceAll("{{LOCKUP}}", lockup.replace(/aria-hidden="true"\s?/, ""))
-  .replaceAll("{{MARK}}", mark)
+  .replaceAll("{{SYMBOL}}", symbol)
+  .replaceAll("{{WORDMARK}}", wordmark.replace('aria-hidden="true"', 'role="img" aria-label="CMMD"'))
   .replace(/\{\{ICON:([a-z-]+)\}\}/g, (_, name) => {
     if (!icons[name]) throw new Error(`no icon docs/brand/icons/${name}.svg`);
     return icons[name];

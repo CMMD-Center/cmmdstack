@@ -1,5 +1,6 @@
 # CMMD brand files
 
-The CMMD logo and the app icons here are copied from the CMMD app (`client/public/brand` and
-`client/src/assets/brand/app-icons/v11`) for the tip sheet. They are CMMD's marks. The MIT license
-on this repo covers the code and the skills, not these files.
+The CMMD V11 identity (the D Horizon Mirror symbol and wordmark, from
+`client/public/brand/candidates/round11/r11-d-*.svg`) and the V11 app glyphs
+(`client/src/assets/brand/app-icons/v11`) are copied from the CMMD app for the tip sheet. They are
+CMMD's marks. The MIT license on this repo covers the code and the skills, not these files.
