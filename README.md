@@ -50,7 +50,7 @@ Install one way per repo. A plugin plus a vendored copy shows every skill twice.
 
 ## Tip sheet
 
-`docs/tip-sheet.html` is a one-page, front-and-back tip sheet in the CMMD V11 style. Open it in a browser and print double-sided on letter paper.
+`docs/tip-sheet.pdf` is a one-page, front-and-back tip sheet in the CMMD V11 style, with CMMD's own colors, type, logo and app icons. Print it double-sided on letter paper. To change it, edit `docs/tip-sheet.src.html` and run `node scripts/build-tip-sheet.mjs`, which rebuilds the HTML, PDF and page images and fails if the sheet runs past two pages or the CMMD fonts did not load.
 
 ## Working on cmmdstack
 
