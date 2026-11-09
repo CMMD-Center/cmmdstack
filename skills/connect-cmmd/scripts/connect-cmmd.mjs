@@ -44,6 +44,10 @@ if (!BASE.startsWith("https://") && !LOCAL) {
   process.exit(1);
 }
 const SERVER_URL = `${BASE}/api/mcp-server/http`;
+// The Forge path: the same token, the board tools that claim a card, comment on it and link a PR.
+// CMMD refuses those writes anywhere else ("requires an authenticated Forge MCP session").
+const FORGE_URL = `${BASE}/api/mcp-server/forge/message`;
+const FORGE_NAME = "cmmd-forge";
 const CLIENT_ID = "cmmdstack";
 const SERVER_NAME = "cmmd-agent";
 const ENV_VAR = "CMMD_AGENT_MCP_TOKEN";
@@ -94,8 +98,8 @@ async function post(path, body, token) {
 }
 
 // One JSON-RPC call to the MCP server; the reply is JSON or a short event stream.
-async function rpc(token, method, params, session) {
-  const res = await fetch(SERVER_URL, {
+async function rpc(token, method, params, session, url = SERVER_URL) {
+  const res = await fetch(url, {
     method: "POST",
     headers: {
       "content-type": "application/json",
@@ -146,8 +150,14 @@ async function verify(token, pin) {
   const names = new Set((list.body?.result?.tools ?? []).map((t) => t.name));
   const missing = REQUIRED_TOOLS.filter((t) => !names.has(t));
   if (missing.length) return { status: "NO_FULL_SERVER", message: `Connected, but these tools are missing: ${missing.join(", ")}.` };
+  const forgeInit = await rpc(token, "initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "connect-cmmd", version: "1" } }, undefined, FORGE_URL);
+  const forgeList = await rpc(token, "tools/list", {}, forgeInit.session, FORGE_URL);
+  const forgeTools = new Set((forgeList.body?.result?.tools ?? []).map((t) => t.name));
+  if (!forgeTools.has("forge_claim_task") || !forgeTools.has("link_task_pull_request")) {
+    return { status: "NO_FULL_SERVER", message: "Connected, but the Forge path does not offer forge_claim_task and link_task_pull_request." };
+  }
   console.log(`workspace_id=${ws.id}`);
-  return { status: "OK", message: `Connected to CMMD as ${clean(user.email)} for workspace ${ws.id} (${clean(ws.name)}), ${names.size} tools, Brain readable.${note}` };
+  return { status: "OK", message: `Connected to CMMD as ${clean(user.email)} for workspace ${ws.id} (${clean(ws.name)}), ${names.size} tools, Brain readable, board writes on the Forge path.${note}` };
 }
 
 function openBrowser(url) {
@@ -201,11 +211,13 @@ function configureClaude() {
   writeFileSync(HEADER_HELPER, `#!/bin/sh\n# Written by cmmdstack connect-cmmd. Prints the CMMD agent header for Claude Code.\nprintf '{"Authorization":"Bearer %s"}' "$(cat "$(dirname "$0")/agent-token")"\n`, { mode: 0o700 });
   chmodSync(HEADER_HELPER, 0o700);
   if (spawnSync("claude", ["--version"], { stdio: "ignore" }).status !== 0) return "Claude Code not found; skipped.";
-  for (const scope of ["local", "project", "user"]) spawnSync("claude", ["mcp", "remove", SERVER_NAME, "-s", scope], { stdio: "ignore" });
-  const config = JSON.stringify({ type: "http", url: SERVER_URL, headersHelper: HEADER_HELPER });
-  const added = spawnSync("claude", ["mcp", "add-json", "-s", "user", SERVER_NAME, config], { encoding: "utf8" });
-  if (added.status !== 0) throw new Error(`claude mcp add-json failed: ${(added.stderr || added.stdout).split("\n")[0]}`);
-  return "Claude Code: cmmd-agent added for every project. Restart open sessions to load it.";
+  for (const [name, url] of [[SERVER_NAME, SERVER_URL], [FORGE_NAME, FORGE_URL]]) {
+    for (const scope of ["local", "project", "user"]) spawnSync("claude", ["mcp", "remove", name, "-s", scope], { stdio: "ignore" });
+    const config = JSON.stringify({ type: "http", url, headersHelper: HEADER_HELPER });
+    const added = spawnSync("claude", ["mcp", "add-json", "-s", "user", name, config], { encoding: "utf8" });
+    if (added.status !== 0) throw new Error(`claude mcp add-json ${name} failed: ${(added.stderr || added.stdout).split("\n")[0]}`);
+  }
+  return `Claude Code: ${SERVER_NAME} and ${FORGE_NAME} added for every project. Restart open sessions to load them.`;
 }
 
 // Single-quote a value for sh: ' becomes '\''.
@@ -224,10 +236,12 @@ function configureCodex() {
   if (flag("--no-codex")) return "Codex: skipped.";
   if (spawnSync("codex", ["--version"], { stdio: "ignore" }).status !== 0) return "Codex not found; skipped.";
   exportLine();
-  spawnSync("codex", ["mcp", "remove", SERVER_NAME], { stdio: "ignore" });
-  const added = spawnSync("codex", ["mcp", "add", SERVER_NAME, "--url", SERVER_URL, "--bearer-token-env-var", ENV_VAR], { encoding: "utf8" });
-  if (added.status !== 0) throw new Error(`codex mcp add failed: ${(added.stderr || added.stdout).split("\n")[0]}`);
-  return `Codex: cmmd-agent added. Start Codex from a new terminal; the codex shell function hands it ${ENV_VAR}.`;
+  for (const [name, url] of [[SERVER_NAME, SERVER_URL], [FORGE_NAME, FORGE_URL]]) {
+    spawnSync("codex", ["mcp", "remove", name], { stdio: "ignore" });
+    const added = spawnSync("codex", ["mcp", "add", name, "--url", url, "--bearer-token-env-var", ENV_VAR], { encoding: "utf8" });
+    if (added.status !== 0) throw new Error(`codex mcp add ${name} failed: ${(added.stderr || added.stdout).split("\n")[0]}`);
+  }
+  return `Codex: ${SERVER_NAME} and ${FORGE_NAME} added. Start Codex from a new terminal; the codex shell function hands it ${ENV_VAR}.`;
 }
 
 try {

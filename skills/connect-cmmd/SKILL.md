@@ -44,10 +44,19 @@ belongs to, then commit the file. Do not guess the id.
 | `NO_PIN` | No `cmmd-workspace.json` | Ask the user for the workspace and commit the file |
 | `ERROR` | Network or CLI failure | Report the line before it |
 
+## Two entries, one token
+
+The script adds two servers with the same token:
+
+- `cmmd-agent`, the full server: Brain, the Strategy app, Rocks, tasks and everything else.
+- `cmmd-forge`, the Forge path: `forge_claim_task`, `add_task_comment`, `forge_move_task` and
+  `link_task_pull_request`. CMMD accepts board writes only there, and only after the card is claimed.
+  Claim with `forge_claim_task` first, then comment, move and link through `cmmd-forge`.
+
 ## Every call names the workspace
 
 Pass `workspace_id` set to the repository's workspace (the `workspace_id=` line, or `workspaceId` in
-`cmmd-workspace.json`) as an argument on every `cmmd-agent` tool call. An account-wide token runs each
+`cmmd-workspace.json`) as an argument on every `cmmd-agent` and `cmmd-forge` tool call. An account-wide token runs each
 call in the workspace it names, after the server checks membership, and in the person's default
 workspace when it names none, which may be another company. A token bound to the workspace ignores
 nothing and accepts the same argument. Never pass a workspace the repository does not name.
@@ -56,9 +65,9 @@ nothing and accepts the same argument. Never pass a workspace the repository doe
 
 - `~/.config/cmmd/agent-token`, mode 0600. The token has no expiry. The user revokes it in CMMD.
 - `~/.config/cmmd/auth-header.sh`, which Claude Code runs to read the token at connect time.
-- A user-scope `cmmd-agent` entry for Claude Code that points at that helper, after removing any
-  older `cmmd-agent` entry in local, project or user scope.
-- A `cmmd-agent` entry for Codex that reads `CMMD_AGENT_MCP_TOKEN`, and a `codex` shell function in
+- User-scope `cmmd-agent` and `cmmd-forge` entries for Claude Code that point at that helper, after
+  removing any older entries of those names in local, project or user scope.
+- `cmmd-agent` and `cmmd-forge` entries for Codex that read `CMMD_AGENT_MCP_TOKEN`, and a `codex` shell function in
   `~/.zshrc` and `~/.bashrc` that sets it from the token file for Codex alone. Nothing else in the
   shell sees the token. Start Codex from a new terminal. `--no-codex` skips this.
 
