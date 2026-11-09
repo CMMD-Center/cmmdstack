@@ -163,7 +163,8 @@ async function login(pin) {
   console.log(`  code ${device.user_code}, valid for ${Math.round(device.expires_in / 60)} minutes`);
   if (!flag("--no-browser")) openBrowser(link);
 
-  let interval = device.interval ?? 5;
+  // Ten seconds keeps under CMMD's per-IP limit on servers older than its device-poll bucket.
+  let interval = Math.max(device.interval ?? 5, 10);
   const deadline = Date.now() + device.expires_in * 1000;
   while (Date.now() < deadline) {
     await new Promise((r) => setTimeout(r, interval * 1000));
@@ -181,7 +182,12 @@ async function login(pin) {
       return;
     }
     if (body.error === "slow_down") interval += 5;
-    else if (body.error !== "authorization_pending") throw new Error(`Login ended: ${body.error ?? res.status}.`);
+    else if (res.status === 429 || body.error === "rate_limit_exceeded") {
+      // Older CMMD servers allow fewer polls a minute than the interval they advertise. Wait out
+      // the window and poll slower; the code stays valid.
+      await new Promise((r) => setTimeout(r, 60_000));
+      interval = Math.max(interval, 10);
+    } else if (body.error !== "authorization_pending") throw new Error(`Login ended: ${body.error ?? res.status}.`);
   }
   throw new Error("The login code expired before it was approved.");
 }
