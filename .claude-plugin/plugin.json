@@ -1,7 +1,7 @@
 {
   "name": "cmmdstack",
   "displayName": "CMMD Stack",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "CMMD Stack. CMMD's agent skill library for Claude Code, Codex and Cursor.",
   "author": {
     "name": "CMMD",
