@@ -1,43 +1,62 @@
 # cmmdstack
 
-cmmdstack is CMMD's skill library for AI coding agents. The same skills run on Claude Code, Codex and Cursor. Every CMMD repo installs it, and anyone else can too.
+CMMD's skill library for AI coding agents. Give the agent a goal and a check; it picks the playbook and the skills. Works in Claude Code, Codex and Cursor.
 
-Start every non-trivial task with `cmmd-mode`. It matches the task to a playbook (bug fix, feature, refactor, perf, PR, autonomous run and more), copies the steps into the todo list, and calls the other skills as the steps need them. Not sure where to start: `/ask-alex`. Not sure the work is worth doing: `/ask-zack`. Agents reach CMMD Brain and the board through `/connect-cmmd`: one browser approval, a token that never expires, the full CMMD MCP server for the repository's company.
+<p>
+  <a href="docs/tip-sheet.pdf"><img src="docs/tip-sheet-page-1.png" alt="cmmdstack tip sheet, front: the commands to know, the hard rules and how a task flows from idea to merged PR" width="49%"></a>
+  <a href="docs/tip-sheet.pdf"><img src="docs/tip-sheet-page-2.png" alt="cmmdstack tip sheet, back: which skill to use for which situation" width="49%"></a>
+</p>
 
-## Hard rules every skill follows
-
-- Every bug fixed or caught ends with a lint, type check or static check that fails on the bad code, in the same change (`correct`).
-- Done means proven on the real surface: the browser, the API, the CLI, an end-to-end run.
-- Review comes from a different model than the author.
-- Prose follows `unslop`. The build fails on an em or en dash.
+The [tip sheet (PDF)](docs/tip-sheet.pdf) is the one-page guide. Print it double-sided.
 
 ## Install
 
-**In a CMMD repo.** Run the repo's installer, which copies a tagged release into `.agents/skills/` and mirrors it for every tool:
+**In a CMMD repo**, from the repo root:
 
 ```sh
-node scripts/install-cmmdstack.mjs            # latest tag
-node scripts/install-cmmdstack.mjs v0.1.0     # a specific tag
+node scripts/install-cmmdstack.mjs     # installs the latest release
 ```
 
-**Claude Code plugin**, for repos that do not vendor it:
+**Anywhere else, in Claude Code:**
 
 ```
 /plugin marketplace add CMMD-Center/cmmdstack
 /plugin install cmmdstack@cmmdstack
 ```
 
-**Codex plugin:** `codex plugin marketplace add CMMD-Center/cmmdstack`, then enable `cmmdstack` in `/plugins`.
+**In Codex:** `codex plugin marketplace add CMMD-Center/cmmdstack`, then turn on `cmmdstack` in `/plugins`.
 
-**Any tool, skills only:** `npx skills@latest add CMMD-Center/cmmdstack --skill '*' --copy -y`
+Pick one way per repo, or every skill shows up twice.
 
-Install one way per repo. A plugin plus a vendored copy shows every skill twice.
+## Connect to CMMD
 
-## Skills
+Run `/connect-cmmd` once per machine. You approve it in the browser, and your agents can then read your company's strategy, Brain and board. The login does not expire.
+
+## Use it
+
+| Type | When |
+|---|---|
+| `/cmmd-mode <goal and how you'll know it's done>` | Any real task: a feature, a bug, a refactor |
+| `/ask-alex` | Not sure which skill or flow fits |
+| `/ask-zack` | Not sure the work is worth doing |
+| `/correct` | After every bug: adds the check that stops it coming back |
+| `/ketchup` | Catch up on what happened while you were away |
+
+A good prompt: *"Saving a task twice creates two rows. Done when the e2e spec shows one row and a lint blocks the pattern."* Leave the skill list out; `cmmd-mode` picks them.
+
+## Hard rules
+
+- Every bug ends with a lint or static check that catches it next time.
+- Done means proven on the real thing: the browser, the API, the CLI.
+- Review comes from a different model than the one that wrote the code.
+- Plain prose, no em dashes.
+
+<details>
+<summary>All skills</summary>
 
 | Area | Skills |
 |---|---|
-| Entry and routing | `cmmd-mode`, `ask-alex`, `ask-zack`, `alex-mode`, `cmmd-help`, `setup-cmmdstack`, `connect-cmmd`, `cmmd-visual-style` |
+| Start here | `cmmd-mode`, `ask-alex`, `ask-zack`, `alex-mode`, `cmmd-help`, `setup-cmmdstack`, `connect-cmmd`, `cmmd-visual-style` |
 | Planning and design | `debrief`, `architect`, `arena`, `interrogate`, `figure-it-out`, `statechart`, the `principle-*` skills |
 | Investigation | `how`, `why`, `research`, `blast-radius`, `recall` |
 | Fixing mistakes for good | `correct`, `deslop`, `no-comments`, `thermos`, `thermo-nuclear-review`, `thermo-nuclear-code-quality-review` |
@@ -48,22 +67,16 @@ Install one way per repo. A plugin plus a vendored copy shows every skill twice.
 | Catching up | `ketchup`, `ketchup-video`, `what-did-i-get-done`, `show-me-your-work`, `reflect`, `bro` |
 | Upkeep | `cleanup`, `automate-me`, `karpathy-guidelines`, `typescript-best-practices` |
 
-## Tip sheet
+</details>
 
-Anything a skill renders (ketchup videos, diagrams, charts, pages, PDFs) uses CMMD's V11 look from `cmmd-visual-style`: one token file, the fonts, the logo and the app glyphs.
+## Changing a skill
 
-`docs/tip-sheet.pdf` is a one-page, front-and-back tip sheet in the CMMD V11 style, in CMMD's V11 brand: the D Horizon Mirror logo, the Still Horizon field, V11 type and tokens, and the V11 app glyphs. Print it double-sided on letter paper. To change it, edit `docs/tip-sheet.src.html` and run `node scripts/build-tip-sheet.mjs`, which rebuilds the HTML, PDF and page images and fails if the sheet runs past two pages or the CMMD fonts did not load.
+1. Edit it under `skills/`.
+2. Run `node scripts/check.mjs`. It has to pass.
+3. Release with `node scripts/release.mjs X.Y.Z`, then `git push origin main vX.Y.Z`. CMMD's weekly job opens the update PR.
 
-## Working on cmmdstack
-
-- `node scripts/check.mjs` must pass before every commit. It checks frontmatter, Codex prompts, relative links, dashes and manifest versions. `--fix` writes missing Codex prompts.
-- `node scripts/release.mjs 0.2.0` bumps every manifest, runs the check, commits and tags `v0.2.0`. Push the tag to publish. CMMD's weekly update job opens a PR when it sees the new tag.
-- Edit a skill in place. Keep skills free of any one repo's paths, services and private details. Those belong in that repo's own `.agents/skills/`. CMMD-wide conventions (CMMD Brain, the V11 tip sheet, the ask-alex and ask-zack habits) are fine here.
-
-## Data handling
-
-cmmdstack has no server or telemetry. Anything a skill asks the agent to read, including session transcripts, goes to your model provider. Scripts run locally, and PR tools use your GitHub CLI login.
+Keep skills free of any one repo's private details. Anything a skill draws uses CMMD's look from `cmmd-visual-style`. The tip sheet is built from `docs/tip-sheet.src.html` by `node scripts/build-tip-sheet.mjs`.
 
 ## License
 
-MIT. cmmdstack starts from boonstack and also includes skills from pstack, tstack and mattpocock/skills, all MIT. See [LICENSE](LICENSE) and [NOTICE](skills/cmmd-mode/references/licenses/NOTICE.md).
+MIT, built on boonstack, pstack, tstack and mattpocock/skills (all MIT). See [LICENSE](LICENSE) and [NOTICE](skills/cmmd-mode/references/licenses/NOTICE.md). The CMMD logo and app icons are CMMD's marks and are not covered. No telemetry: skills run locally and with your own model and GitHub logins.
