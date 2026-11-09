@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "name": "cmmdstack",
   "displayName": "CMMD Stack",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "CMMD Stack. CMMD's agent skill library for Claude Code, Codex and Cursor.",
   "compat": {
     "source": "native",
