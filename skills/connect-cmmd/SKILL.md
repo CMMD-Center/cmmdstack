@@ -28,8 +28,8 @@ belongs to, then commit the file. Do not guess the id.
 2. **On `OK`,** stop. Say which account and workspace the script reported.
 3. **On anything else,** run `node <script>` without `--check`. It prints a CMMD link and a code and
    opens the browser. Tell the user to approve it there and to pick the company the repository names.
-   The script waits for the approval, stores the token, configures Claude Code and Codex, and checks
-   again. Run it in the foreground; it finishes when the user approves or the code expires after
+   The script waits for the approval and checks which company the token reads. Only then does it
+   configure Claude Code and Codex. A token for the wrong company is deleted and nothing changes. Run it in the foreground; it finishes when the user approves or the code expires after
    15 minutes.
 4. **Restart.** Claude Code and Codex load MCP servers at startup. Tell the user to restart open
    sessions, then run `--check` again in the new session.
@@ -49,9 +49,9 @@ belongs to, then commit the file. Do not guess the id.
 - `~/.config/cmmd/auth-header.sh`, which Claude Code runs to read the token at connect time.
 - A user-scope `cmmd-agent` entry for Claude Code that points at that helper, after removing any
   older `cmmd-agent` entry in local, project or user scope.
-- A `cmmd-agent` entry for Codex that reads `CMMD_AGENT_MCP_TOKEN`, and one line in `~/.zshrc` and
-  `~/.bashrc` that exports it from the token file. Codex started outside a login shell does not see
-  it; start Codex from a terminal. `--no-codex` skips this.
+- A `cmmd-agent` entry for Codex that reads `CMMD_AGENT_MCP_TOKEN`, and a `codex` shell function in
+  `~/.zshrc` and `~/.bashrc` that sets it from the token file for Codex alone. Nothing else in the
+  shell sees the token. Start Codex from a new terminal. `--no-codex` skips this.
 
 ## Rules
 
