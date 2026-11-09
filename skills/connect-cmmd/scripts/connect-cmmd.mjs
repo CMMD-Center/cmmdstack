@@ -244,6 +244,9 @@ try {
       finish(after.status, `${after.message} The new token was deleted and no agent was changed. Revoke it in CMMD Settings, Agents.`);
     }
     if (after.status !== "OK" && after.status !== "NO_FULL_SERVER") finish(after.status, after.message);
+  } else if (before.status !== "OK" && before.status !== "NO_FULL_SERVER") {
+    // The company check did not pass (a network error, say). Change nothing.
+    finish(before.status, before.message);
   }
   console.log(configureClaude());
   console.log(configureCodex());
