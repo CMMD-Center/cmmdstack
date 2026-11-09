@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Usage: node scripts/release.mjs 0.2.0
-// Bumps every manifest and the tip sheet's version label, rebuilds the tip sheet, runs the check,
+// Bumps every manifest and the tip sheet's version label, rebuilds the tip sheet and the Sidekick
+// flow diagram, runs the check,
 // commits and tags vX.Y.Z. Push the tag to publish.
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
@@ -30,6 +31,7 @@ writeFileSync(sheet, readFileSync(sheet, "utf8").replace(/v\d+\.\d+\.\d+/g, `v${
 const touched = [...manifests, "docs"];
 try {
   run("node", ["scripts/build-tip-sheet.mjs"]);
+  run("node", ["scripts/build-flow.mjs"]);
   run("node", ["scripts/check.mjs"]);
 } catch {
   run("git", ["checkout", "--", ...touched]);

@@ -44,6 +44,17 @@ Run `/connect-cmmd` once per machine. You approve it in the browser, and your ag
 
 A good prompt: *"Saving a task twice creates two rows. Done when the e2e spec shows one row and a lint blocks the pattern."* Leave the skill list out; `cmmd-mode` picks them.
 
+## How a request flows through CMMD
+
+<a href="docs/sidekick-flow.html">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/sidekick-flow-dark.png">
+    <img src="docs/sidekick-flow-light.png" alt="One Sidekick request flows from Strategy, through Brain, Apps and Comms, to Workflow and three kinds of agents, then back to you with a result. You stay in charge at every step." width="720">
+  </picture>
+</a>
+
+You ask Sidekick once. Strategy sets the direction, Brain, Apps and Comms bring the context, Workflow plans the how, and agents do the work. [`docs/sidekick-flow.html`](docs/sidekick-flow.html) is the clickable version: open it in a browser and step through.
+
 ## Hard rules
 
 - Every bug ends with a lint or static check that catches it next time.
@@ -75,7 +86,7 @@ A good prompt: *"Saving a task twice creates two rows. Done when the e2e spec sh
 2. Run `node scripts/check.mjs`. It has to pass.
 3. Release with `node scripts/release.mjs X.Y.Z`, then `git push origin main vX.Y.Z`. CMMD's weekly job opens the update PR.
 
-Keep skills free of any one repo's private details. Anything a skill draws uses CMMD's look from `cmmd-visual-style`. The tip sheet is built from `docs/tip-sheet.src.html` by `node scripts/build-tip-sheet.mjs`.
+Keep skills free of any one repo's private details. Anything a skill draws uses CMMD's look from `cmmd-visual-style`. The tip sheet and the flow diagram are built from `docs/*.src.html` by `node scripts/build-tip-sheet.mjs` and `node scripts/build-flow.mjs`; releases rebuild both.
 
 ## License
 

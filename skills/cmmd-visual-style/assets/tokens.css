@@ -136,3 +136,40 @@
     --chart-6: #ff375f;
   }
 }
+
+/* The same dark values when a page asks for dark itself, whatever the system setting. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg-primary: #000000;
+  --color-bg-secondary: #1c1c1e;
+  --color-bg-tertiary: rgb(118 118 128 / 0.24);
+  --color-text-primary: #ffffff;
+  --color-text-secondary: rgb(235 235 245 / 0.6);
+  --color-text-tertiary: rgb(235 235 245 / 0.6);
+  --color-border-default: #38383a;
+  --color-border-subtle: #2c2c2e;
+  --color-border-strong: #48484a;
+  --color-primary: #ffffff;
+  --color-primary-hover: #ffffff;
+  --color-primary-foreground: #000000;
+  --color-error: #ff453a;
+  --color-success: #30d158;
+  --color-warning: #ff9f0a;
+  --color-info: #0a84ff;
+  --brand-layer: 255 255 255;
+  --brand-sel-bg: rgb(var(--brand-layer) / 0.14);
+  --brand-field-line: #6c6c70;
+  --brand-tile-warm-bg: #3b2e25;
+  --brand-tile-warm-fg: #f3d6c1;
+  --brand-tile-violet-bg: #312b3d;
+  --brand-tile-violet-fg: #ddd1f0;
+  --brand-tile-blue-bg: #23303c;
+  --brand-tile-blue-fg: #cfe0ee;
+  /* Apple's dark system colors, as the app's dark status colors are. */
+  --chart-1: #ffffff;
+  --chart-2: #0a84ff;
+  --chart-3: #ff9f0a;
+  --chart-4: #bf5af2;
+  --chart-5: #30d158;
+  --chart-6: #ff375f;
+}

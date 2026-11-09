@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sidekick flow</title>
+<style>
+  /*
+   * How one Sidekick request moves through CMMD. The tokens placeholder below becomes
+   * skills/cmmd-visual-style/assets/tokens.css, so the page follows CMMD's V11 look in light and dark.
+   * Edit this file, then run scripts/build-flow.mjs to rebuild docs/sidekick-flow.html and the PNGs.
+   */
+  {{TOKENS}}
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--color-bg-primary); color: var(--color-text-primary); font-family: var(--font-family-sans); -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--brand-sel-bg); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 32px 16px 40px; }
+  .label { margin: 0 0 10px; font-size: 11px; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; color: var(--color-text-secondary); }
+  h1 { margin: 0 0 8px; font-family: var(--font-family-heading); font-weight: 400; font-size: 34px; line-height: 1.05; letter-spacing: -0.04em; text-wrap: balance; }
+  .sub { margin: 0 0 20px; max-width: 60ch; color: var(--color-text-secondary); font-size: 15px; line-height: 1.5; }
+  svg { display: block; width: 100%; height: auto; }
+  .node rect { fill: var(--color-bg-secondary); stroke: var(--color-border-default); stroke-width: 1; transition: stroke 150ms var(--brand-ease), fill 150ms var(--brand-ease); }
+  .node text { fill: var(--color-text-primary); font-family: var(--font-family-sans); }
+  .node .t { font-family: var(--font-family-heading); font-size: 14px; letter-spacing: -0.01em; }
+  .node .d { font-size: 10.5px; fill: var(--color-text-secondary); }
+  .node .k { font-size: 8.5px; font-weight: 600; letter-spacing: 0.12em; fill: var(--color-text-tertiary); }
+  .node { cursor: pointer; }
+  .node:focus-visible { outline: none; }
+  .node:focus-visible rect { stroke: var(--color-text-primary); stroke-width: 2; }
+  .node.on rect { stroke: var(--color-primary); stroke-width: 1.6; fill: var(--color-bg-tertiary); }
+  .node.on .k { fill: var(--color-text-primary); }
+  .edge { fill: none; stroke: var(--color-border-strong); stroke-width: 1.3; transition: stroke 150ms var(--brand-ease); }
+  .edge.on { stroke: var(--color-primary); stroke-dasharray: 5 4; animation: flow 700ms linear infinite; }
+  .own { fill: none; stroke: var(--chart-2); stroke-width: 1; stroke-dasharray: 2 3; opacity: 0.5; }
+  .own.on { opacity: 1; stroke-width: 1.4; }
+  @keyframes flow { to { stroke-dashoffset: -9; } }
+  @media (prefers-reduced-motion: reduce) { .edge.on { animation: none; } }
+  .you rect { fill: var(--brand-tile-blue-bg); stroke: var(--chart-2); }
+  .you .k { fill: var(--brand-tile-blue-fg); }
+  .you .t, .you .d { fill: var(--brand-tile-blue-fg); }
+  .band { font-size: 9px; font-weight: 600; letter-spacing: 0.13em; fill: var(--color-text-tertiary); font-family: var(--font-family-sans); }
+  .rule { stroke: var(--color-border-subtle); stroke-width: 1; }
+  .ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 16px 0 12px; }
+  button { min-height: 36px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--color-border-default); background: var(--color-bg-secondary); color: var(--color-text-primary); font: 500 13px var(--font-family-sans); cursor: pointer; transition: background-color 150ms var(--brand-ease); }
+  button:hover { background: var(--color-bg-tertiary); }
+  button:focus-visible { outline: 2px solid var(--color-text-primary); outline-offset: 2px; }
+  button.pri { background: var(--color-primary); border-color: var(--color-primary); color: var(--color-primary-foreground); }
+  button.pri:hover { background: var(--color-primary-hover); }
+  .dots { display: flex; gap: 5px; margin-left: auto; }
+  .dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--color-border-strong); }
+  .dots i.on { background: var(--color-primary); }
+  .panel { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 18px 20px; border-radius: var(--brand-radius-xl); background: var(--color-bg-secondary); box-shadow: var(--brand-shadow-sm), 0 0 0 1px var(--color-border-subtle); }
+  .panel h2 { margin: 0 0 6px; font-size: 11px; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; color: var(--color-text-secondary); }
+  .panel p { margin: 0; font-size: 14px; line-height: 1.5; }
+  .say { margin-top: 10px; padding: 8px 10px; border-radius: var(--brand-radius-md); background: var(--color-bg-tertiary); font-family: var(--font-family-mono); font-size: 12px; line-height: 1.45; }
+  .see { margin: 0; padding-left: 16px; }
+  .see li { margin-bottom: 4px; font-size: 14px; line-height: 1.45; }
+  .see li::marker { color: var(--color-text-tertiary); }
+  .note { margin: 14px 0 0; font-size: 12px; line-height: 1.45; color: var(--color-text-tertiary); }
+  @media (max-width: 600px) { .panel { grid-template-columns: 1fr; } h1 { font-size: 28px; } }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <p class="label">CMMD · Sidekick</p>
+  <h1>One request, the whole company answers</h1>
+  <p class="sub">You ask Sidekick once. Strategy sets the direction. Brain, Apps and Comms bring the context. Workflow plans the how, and agents do the work. You stay in charge of every step and can ask for status at any point.</p>
+
+  <svg id="g" viewBox="-90 0 806 610" role="img" aria-labelledby="g-title">
+    <title id="g-title">A Sidekick request flows from Strategy, through Brain, Apps and Comms, to Workflow and three kinds of agents, and back to you with a result. You can step in at every stage.</title>
+    <defs>
+      <marker id="a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--color-text-tertiary)"/></marker>
+    </defs>
+
+    <text class="band" x="-90" y="40">ASK</text>
+    <text class="band" x="-90" y="130">DIRECTION</text>
+    <text class="band" x="-90" y="225">CONTEXT</text>
+    <text class="band" x="-90" y="340">THE HOW</text>
+    <text class="band" x="-90" y="445">THE WORK</text>
+    <text class="band" x="-90" y="570">BACK TO YOU</text>
+    <line class="rule" x1="-90" y1="81" x2="540" y2="81"/>
+    <line class="rule" x1="-90" y1="171" x2="540" y2="171"/>
+    <line class="rule" x1="-90" y1="281" x2="540" y2="281"/>
+    <line class="rule" x1="-90" y1="381" x2="540" y2="381"/>
+    <line class="rule" x1="-90" y1="511" x2="540" y2="511"/>
+
+    <path class="edge" data-s="1" d="M270 66 V96" marker-end="url(#a)"/>
+    <path class="edge" data-s="2 3" d="M270 156 C270 176 100 170 90 186" marker-end="url(#a)"/>
+    <path class="edge" data-s="2 4" d="M270 156 V186" marker-end="url(#a)"/>
+    <path class="edge" data-s="2 5" d="M270 156 C270 176 440 170 450 186" marker-end="url(#a)"/>
+    <path class="edge" data-s="6" d="M90 256 C100 290 270 280 270 306" marker-end="url(#a)"/>
+    <path class="edge" data-s="6" d="M270 256 V306" marker-end="url(#a)"/>
+    <path class="edge" data-s="6" d="M450 256 C440 290 270 280 270 306" marker-end="url(#a)"/>
+    <path class="edge" data-s="7" d="M270 366 C270 386 100 380 90 396" marker-end="url(#a)"/>
+    <path class="edge" data-s="7" d="M270 366 V396" marker-end="url(#a)"/>
+    <path class="edge" data-s="7" d="M270 366 C270 386 440 380 450 396" marker-end="url(#a)"/>
+    <path class="edge" data-s="8" d="M90 486 C100 520 270 510 270 536" marker-end="url(#a)"/>
+    <path class="edge" data-s="8" d="M270 486 V536" marker-end="url(#a)"/>
+    <path class="edge" data-s="8" d="M450 486 C440 520 270 510 270 536" marker-end="url(#a)"/>
+
+    <path class="own" d="M600 36 H360"/>
+    <path class="own" d="M600 126 H360"/>
+    <path class="own" d="M600 221 H540"/>
+    <path class="own" d="M600 336 H360"/>
+    <path class="own" d="M600 441 H540"/>
+    <path class="own" d="M600 566 H360"/>
+    <line class="own" x1="600" y1="36" x2="600" y2="566"/>
+
+    <g class="node" data-n="1" tabindex="0" role="button" transform="translate(180,6)"><rect width="180" height="60" rx="8"/>
+      <text class="k" x="12" y="18">01 · SIDEKICK</text><text class="t" x="12" y="37">One request</text><text class="d" x="12" y="52">typed once, anywhere</text></g>
+    <g class="node" data-n="2" tabindex="0" role="button" transform="translate(180,96)"><rect width="180" height="60" rx="8"/>
+      <text class="k" x="12" y="18">02 · STRATEGY</text><text class="t" x="12" y="37">Where we're going</text><text class="d" x="12" y="52">vision, goals, Rocks</text></g>
+    <g class="node" data-n="3" tabindex="0" role="button" transform="translate(10,186)"><rect width="160" height="70" rx="8"/>
+      <text class="k" x="12" y="18">03 · BRAIN</text><text class="t" x="12" y="37">What we know</text><text class="d" x="12" y="52">docs and memory, plus</text><text class="d" x="12" y="64">connected sources</text></g>
+    <g class="node" data-n="4" tabindex="0" role="button" transform="translate(190,186)"><rect width="160" height="70" rx="8"/>
+      <text class="k" x="12" y="18">04 · APPS</text><text class="t" x="12" y="37">What we're building</text><text class="d" x="12" y="52">projects, tasks,</text><text class="d" x="12" y="64">related files</text></g>
+    <g class="node" data-n="5" tabindex="0" role="button" transform="translate(370,186)"><rect width="160" height="70" rx="8"/>
+      <text class="k" x="12" y="18">05 · COMMS</text><text class="t" x="12" y="37">What was said</text><text class="d" x="12" y="52">threads, email, meetings,</text><text class="d" x="12" y="64">only when they matter</text></g>
+    <g class="node" data-n="6" tabindex="0" role="button" transform="translate(180,306)"><rect width="180" height="60" rx="8"/>
+      <text class="k" x="12" y="18">06 · WORKFLOW</text><text class="t" x="12" y="37">The plan and the how</text><text class="d" x="12" y="52">playbooks, best practice</text></g>
+    <g class="node" data-n="7a" tabindex="0" role="button" transform="translate(10,396)"><rect width="160" height="90" rx="8"/>
+      <text class="k" x="12" y="18">07 · ORG CHART</text><text class="t" x="12" y="37">Ongoing roles</text><text class="d" x="12" y="52">a seat on the org chart</text><text class="d" x="12" y="64">work on a schedule</text><text class="d" x="12" y="78">lives for months</text></g>
+    <g class="node" data-n="7b" tabindex="0" role="button" transform="translate(190,396)"><rect width="160" height="90" rx="8"/>
+      <text class="k" x="12" y="18">07 · PROJECT AGENTS</text><text class="t" x="12" y="37">Finish the project</text><text class="d" x="12" y="52">works a project's tasks</text><text class="d" x="12" y="64">the team can message it</text><text class="d" x="12" y="78">lives for the project</text></g>
+    <g class="node" data-n="7c" tabindex="0" role="button" transform="translate(370,396)"><rect width="160" height="90" rx="8"/>
+      <text class="k" x="12" y="18">07 · RUN AGENTS</text><text class="t" x="12" y="37">Do one job</text><text class="d" x="12" y="52">started for one task</text><text class="d" x="12" y="64">reports, then stops</text><text class="d" x="12" y="78">lives for minutes</text></g>
+    <g class="node" data-n="8" tabindex="0" role="button" transform="translate(180,536)"><rect width="180" height="60" rx="8"/>
+      <text class="k" x="12" y="18">08 · RESULT</text><text class="t" x="12" y="37">Done, with receipts</text><text class="d" x="12" y="52">what changed and why</text></g>
+    <g class="node you" data-n="h" tabindex="0" role="button" transform="translate(560,236)"><rect width="150" height="110" rx="8"/>
+      <text class="k" x="12" y="18">YOU</text><text class="t" x="12" y="38">In charge throughout</text>
+      <text class="d" x="12" y="56">see every step</text><text class="d" x="12" y="70">ask "status?" anytime</text><text class="d" x="12" y="84">get a picture on request</text><text class="d" x="12" y="98">approve risky moves</text></g>
+  </svg>
+
+  <div class="ctl">
+    <button id="prev" type="button">Back</button>
+    <button id="next" type="button" class="pri">Next step</button>
+    <button id="play" type="button">Play</button>
+    <div class="dots" id="dots" aria-hidden="true"></div>
+  </div>
+
+  <section class="panel" aria-live="polite">
+    <div>
+      <h2 id="sh">Step</h2>
+      <p id="what"></p>
+      <div class="say" id="say"></div>
+    </div>
+    <div>
+      <h2>What you see</h2>
+      <ul class="see" id="see"></ul>
+    </div>
+  </section>
+  <p class="note">The example request and everything it finds are made up to show the flow.</p>
+</main>
+
+<script>
+const R = 'Plan the website relaunch.';
+const S = [
+  { n:['1'], t:'01 · One request', what:'You type one sentence into Sidekick. No picking an app, no setup.',
+    say:'You: "'+R+'"', see:['One message starts the whole run','Sidekick does not ask which app or project to use'] },
+  { n:['2'], t:'02 · Strategy', what:'Sidekick reads the Strategy app first, so the plan points where the company is going.',
+    say:'Sidekick: "This serves the goal: grow sign-ups this quarter."', see:['The plan names the goal or Rock it serves','It says so when the ask works against one'] },
+  { n:['3'], t:'03 · Brain', what:'Brain answers from your documents and memory, then from connected sources.',
+    say:'Found: "Brand guide" (Brain), "Site analytics" (connected drive)', see:['Sources cited by name, each with a link','Connected sources sit beside your own documents'] },
+  { n:['4'], t:'04 · Apps', what:'Apps bring the project, its open tasks and the files that matter.',
+    say:'Project: Website · 12 open tasks · 3 related files', see:['The real project and its open tasks','Only the files this request needs'] },
+  { n:['5'], t:'05 · Comms', what:'Comms pulls in the threads and meeting notes that bear on the plan, and nothing else.',
+    say:'Quoted: #website thread, "new pricing page goes first"', see:['A quoted message with a link back to it','Nothing from Comms the request does not need'] },
+  { n:['6'], t:'06 · Workflow', what:'Workflow turns the context into a plan: steps, who does each, and the playbook each follows.',
+    say:'Plan: 5 steps · 2 agents · 1 approval from you', see:['Every step names who does it, a person or an agent','Every step names the playbook it follows','Risky steps wait for your approval'] },
+  { n:['7a','7b','7c'], t:'07 · Agents', what:'Work goes to the right kind of agent. Standing roles take their part, a project agent drives the project, and run agents do one job and stop.',
+    say:'Design lead (org chart) · Website agent (project) · 3 run agents', see:['A standing agent picks up its part','A project agent drives the project to done','Run agents start, report and stop'] },
+  { n:['8'], t:'08 · Result', what:'Results come back to you with receipts: what changed, where, and why.',
+    say:'Done: 8 of 12 tasks closed, 2 waiting on you, 2 scheduled', see:['Every change links to what it touched','Open items say who they wait on'] },
+  { n:['h'], t:'You', what:'At any step you can ask for status or a picture of the run, and approve, pause or stop it.',
+    say:'You: "status?" · "show me the plan as a chart"', see:['Status works mid-run, not only at the end','A picture of the run when you ask','Any agent can be paused or stopped'] },
+];
+let i = 0, timer = null;
+const $ = (id) => document.getElementById(id);
+const dots = $('dots');
+S.forEach(() => dots.appendChild(document.createElement('i')));
+function show(k) {
+  i = (k + S.length) % S.length;
+  const s = S[i], step = String(i + 1);
+  document.querySelectorAll('.node').forEach((g) => g.classList.toggle('on', s.n.includes(g.dataset.n)));
+  document.querySelectorAll('.edge').forEach((e) => e.classList.toggle('on', e.dataset.s.split(' ').includes(step)));
+  document.querySelectorAll('.own').forEach((e) => e.classList.toggle('on', s.n.includes('h')));
+  [...dots.children].forEach((d, j) => d.classList.toggle('on', j === i));
+  $('sh').textContent = s.t; $('what').textContent = s.what; $('say').textContent = s.say;
+  $('see').replaceChildren(...s.see.map((p) => { const li = document.createElement('li'); li.textContent = p; return li; }));
+}
+function stop() { clearInterval(timer); timer = null; $('play').textContent = 'Play'; }
+$('next').onclick = () => { stop(); show(i + 1); };
+$('prev').onclick = () => { stop(); show(i - 1); };
+$('play').onclick = () => { if (timer) { stop(); return; } $('play').textContent = 'Pause'; timer = setInterval(() => show(i + 1), 2600); };
+document.querySelectorAll('.node').forEach((g) => {
+  const go = () => { stop(); const j = S.findIndex((s) => s.n.includes(g.dataset.n)); if (j >= 0) show(j); };
+  g.addEventListener('click', go);
+  g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+});
+const start = Number(new URLSearchParams(location.search).get('step'));
+show(Number.isInteger(start) && start > 0 ? start - 1 : 0);
+</script>
+</body>
+</html>
