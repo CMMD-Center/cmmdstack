@@ -157,6 +157,43 @@
   }
 }
 
+/* The same dark values when a page asks for dark itself, whatever the system setting. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg-primary: #000000;
+  --color-bg-secondary: #1c1c1e;
+  --color-bg-tertiary: rgb(118 118 128 / 0.24);
+  --color-text-primary: #ffffff;
+  --color-text-secondary: rgb(235 235 245 / 0.6);
+  --color-text-tertiary: rgb(235 235 245 / 0.6);
+  --color-border-default: #38383a;
+  --color-border-subtle: #2c2c2e;
+  --color-border-strong: #48484a;
+  --color-primary: #ffffff;
+  --color-primary-hover: #ffffff;
+  --color-primary-foreground: #000000;
+  --color-error: #ff453a;
+  --color-success: #30d158;
+  --color-warning: #ff9f0a;
+  --color-info: #0a84ff;
+  --brand-layer: 255 255 255;
+  --brand-sel-bg: rgb(var(--brand-layer) / 0.14);
+  --brand-field-line: #6c6c70;
+  --brand-tile-warm-bg: #3b2e25;
+  --brand-tile-warm-fg: #f3d6c1;
+  --brand-tile-violet-bg: #312b3d;
+  --brand-tile-violet-fg: #ddd1f0;
+  --brand-tile-blue-bg: #23303c;
+  --brand-tile-blue-fg: #cfe0ee;
+  /* Apple's dark system colors, as the app's dark status colors are. */
+  --chart-1: #ffffff;
+  --chart-2: #0a84ff;
+  --chart-3: #ff9f0a;
+  --chart-4: #bf5af2;
+  --chart-5: #30d158;
+  --chart-6: #ff375f;
+}
+
   /* Print layout. */
   :root { --gutter: 0.5in; --rail: 1in; }
   @page { size: letter; margin: 0; }
@@ -330,7 +367,7 @@
 
   <nav class="nav">
     <span class="mark"><svg class="symbol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 16.8V7.2C3 5.985 3.985 5 5.2 5h2.1c.9 0 1.7.5 2.1 1.3L12 11l2.6-4.7c.4-.8 1.2-1.3 2.1-1.3h2.1C20.015 5 21 5.985 21 7.2v9.6c0 1.215-.985 2.2-2.2 2.2h-3.5L12 13.7 8.7 19H5.2C3.985 19 3 18.015 3 16.8Z"/></svg><svg class="wordmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 284 80" role="img" aria-label="CMMD"><g fill="currentColor"><path d="M58 10H34C15 10 4 22 4 40s11 30 30 30h24V58H34c-11 0-17-7-17-18s6-18 17-18h24Z"/><path d="M73 70V10h13l18 24 18-24h13v60h-13V31l-18 23-18-23v39Z"/><g transform="translate(284 0) scale(-1 1)"><path d="M58 10H34C15 10 4 22 4 40s11 30 30 30h24V58H34c-11 0-17-7-17-18s6-18 17-18h24Z"/><path d="M73 70V10h13l18 24 18-24h13v60h-13V31l-18 23-18-23v39Z"/></g></g></svg></span>
-    <span class="meta"><span>Developer tip sheet</span><span class="pill">v0.1.6</span></span>
+    <span class="meta"><span>Developer tip sheet</span><span class="pill">v0.1.7</span></span>
   </nav>
 
   <header class="hero">
@@ -434,7 +471,7 @@
 <section class="page" aria-label="Back">
   <nav class="nav">
     <span class="mark"><svg class="symbol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 16.8V7.2C3 5.985 3.985 5 5.2 5h2.1c.9 0 1.7.5 2.1 1.3L12 11l2.6-4.7c.4-.8 1.2-1.3 2.1-1.3h2.1C20.015 5 21 5.985 21 7.2v9.6c0 1.215-.985 2.2-2.2 2.2h-3.5L12 13.7 8.7 19H5.2C3.985 19 3 18.015 3 16.8Z"/></svg><svg class="wordmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 284 80" role="img" aria-label="CMMD"><g fill="currentColor"><path d="M58 10H34C15 10 4 22 4 40s11 30 30 30h24V58H34c-11 0-17-7-17-18s6-18 17-18h24Z"/><path d="M73 70V10h13l18 24 18-24h13v60h-13V31l-18 23-18-23v39Z"/><g transform="translate(284 0) scale(-1 1)"><path d="M58 10H34C15 10 4 22 4 40s11 30 30 30h24V58H34c-11 0-17-7-17-18s6-18 17-18h24Z"/><path d="M73 70V10h13l18 24 18-24h13v60h-13V31l-18 23-18-23v39Z"/></g></g></svg></span>
-    <span class="meta"><span>Developer tip sheet</span><span class="pill">v0.1.6</span></span>
+    <span class="meta"><span>Developer tip sheet</span><span class="pill">v0.1.7</span></span>
   </nav>
 
   <header class="back-head">
@@ -519,7 +556,7 @@
         <div class="step"><p>The rules in <code>.agents/</code> win when a skill disagrees.</p></div>
       </div>
     </div>
-    <div class="close-foot"><span class="mark"><svg class="symbol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 16.8V7.2C3 5.985 3.985 5 5.2 5h2.1c.9 0 1.7.5 2.1 1.3L12 11l2.6-4.7c.4-.8 1.2-1.3 2.1-1.3h2.1C20.015 5 21 5.985 21 7.2v9.6c0 1.215-.985 2.2-2.2 2.2h-3.5L12 13.7 8.7 19H5.2C3.985 19 3 18.015 3 16.8Z"/></svg><svg class="wordmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 284 80" role="img" aria-label="CMMD"><g fill="currentColor"><path d="M58 10H34C15 10 4 22 4 40s11 30 30 30h24V58H34c-11 0-17-7-17-18s6-18 17-18h24Z"/><path d="M73 70V10h13l18 24 18-24h13v60h-13V31l-18 23-18-23v39Z"/><g transform="translate(284 0) scale(-1 1)"><path d="M58 10H34C15 10 4 22 4 40s11 30 30 30h24V58H34c-11 0-17-7-17-18s6-18 17-18h24Z"/><path d="M73 70V10h13l18 24 18-24h13v60h-13V31l-18 23-18-23v39Z"/></g></g></svg></span><span>cmmdstack v0.1.6, MIT</span><span>Stuck? Type /ask-alex</span></div>
+    <div class="close-foot"><span class="mark"><svg class="symbol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 16.8V7.2C3 5.985 3.985 5 5.2 5h2.1c.9 0 1.7.5 2.1 1.3L12 11l2.6-4.7c.4-.8 1.2-1.3 2.1-1.3h2.1C20.015 5 21 5.985 21 7.2v9.6c0 1.215-.985 2.2-2.2 2.2h-3.5L12 13.7 8.7 19H5.2C3.985 19 3 18.015 3 16.8Z"/></svg><svg class="wordmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 284 80" role="img" aria-label="CMMD"><g fill="currentColor"><path d="M58 10H34C15 10 4 22 4 40s11 30 30 30h24V58H34c-11 0-17-7-17-18s6-18 17-18h24Z"/><path d="M73 70V10h13l18 24 18-24h13v60h-13V31l-18 23-18-23v39Z"/><g transform="translate(284 0) scale(-1 1)"><path d="M58 10H34C15 10 4 22 4 40s11 30 30 30h24V58H34c-11 0-17-7-17-18s6-18 17-18h24Z"/><path d="M73 70V10h13l18 24 18-24h13v60h-13V31l-18 23-18-23v39Z"/></g></g></svg></span><span>cmmdstack v0.1.7, MIT</span><span>Stuck? Type /ask-alex</span></div>
   </section>
 </section>
 
