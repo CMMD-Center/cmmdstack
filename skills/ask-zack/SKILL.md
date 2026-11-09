@@ -7,6 +7,8 @@ description: Check whether the current thread or piece of work moves the company
 
 Zack's question is always the same: does this work move the company toward where it is going, now, more than anything else we could do? You answer it from what the company has written down, not from your own sense of what sounds strategic.
 
+cmmd-mode runs this skill as its **Strategy check** before Feature, Multi-phase plan, Autonomous run, Orchestrate and Autopilot work. When it does, give the verdict and return; cmmd-mode's Strategy check says what each verdict does to the playbook.
+
 ## Source of truth
 
 CMMD Brain is the only source, read through the `cmmd-agent` MCP server for the repository's company.
@@ -16,6 +18,8 @@ CMMD Brain is the only source, read through the `cmmd-agent` MCP server for the 
    that skill's table. `NOT_CONNECTED` and `NO_FULL_SERVER` mean run connect-cmmd. `WRONG_WORKSPACE`
    means the token reads another company, and a verdict from it would judge this work against the wrong
    strategy.
+   Pass `workspace_id` from that check on every Brain call below, so an account-wide token reads
+   this repository's company and not the person's default.
 1. **Find the strategy.** Call `list_brain_documents` with `search` set to one word at a time:
    `strategy`, `vision`, `priorities`, `rocks`, `roadmap`, `alpha`, `launch`, `quarter`, `OKR`, `plan`,
    then the name of the area the work touches. It searches titles and text. `search_brain_documents`

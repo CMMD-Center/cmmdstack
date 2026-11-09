@@ -19,7 +19,8 @@
 // headersHelper script; Codex reads it from CMMD_AGENT_MCP_TOKEN, which a `codex` shell function sets
 // from the file for that process only. Revoke it in CMMD under Settings, Agents.
 //
-// The last line is always `status=<OK|NOT_CONNECTED|WRONG_WORKSPACE|NO_FULL_SERVER|NO_PIN|ERROR>`.
+// On OK it prints `workspace_id=<id>`, which agents pass on every cmmd-agent tool call. The last line
+// is always `status=<OK|NOT_CONNECTED|WRONG_WORKSPACE|NO_FULL_SERVER|NO_PIN|ERROR>`.
 import { appendFileSync, chmodSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { homedir, platform } from "node:os";
@@ -123,25 +124,29 @@ async function verify(token, pin) {
   const init = await rpc(token, "initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "connect-cmmd", version: "1" } });
   if (init.status !== 200) return { status: "ERROR", message: `The MCP server answered ${init.status} to initialize.` };
 
-  // A company-bound token sees one workspace. An account-wide token (what CMMD issued before it
-  // bound cmmdstack logins) sees all of them and works in the person's default one, which is fine
-  // only when the default is this repository's company.
-  let ws = workspaces.length === 1 ? workspaces[0] : null;
-  let note = "";
-  if (!ws) {
-    const ctx = await rpc(token, "tools/call", { name: "get_account_context", arguments: {} }, init.session);
-    const active = JSON.parse(ctx.body?.result?.content?.[0]?.text ?? "{}");
-    ws = workspaces.find((w) => w.id === active.activeWorkspaceId) ?? null;
-    note = " The token is account-wide; it reads this company because it is your default.";
-    if (!ws) return { status: "WRONG_WORKSPACE", message: "The token is account-wide and CMMD did not report its workspace. Run again with --relogin." };
+  // A company-bound token sees one workspace and must be the pinned one. An account-wide token sees
+  // every workspace the person belongs to; the full server runs a tool call in the workspace its
+  // workspace_id argument names, after checking membership. So an account-wide token is fine when
+  // the person belongs to the pinned workspace and agents pass workspace_id on every call.
+  const bound = workspaces.length === 1;
+  const ws = pin ? workspaces.find((w) => w.id === pin.workspaceId) : workspaces[0];
+  if (!ws || (bound && pin && workspaces[0].id !== pin.workspaceId)) {
+    const seen = workspaces.map((w) => `${w.id} (${clean(w.name)})`).join(", ");
+    return { status: "WRONG_WORKSPACE", message: `This token cannot reach workspace ${pin?.workspaceId}; it reaches ${seen || "nothing"}. Run again with --relogin and pick that workspace, or ask its admin to add you.` };
   }
-  if (pin && ws.id !== pin.workspaceId) {
-    return { status: "WRONG_WORKSPACE", message: `The token reads workspace ${ws.id} (${clean(ws.name)}); this repository needs workspace ${pin.workspaceId}. Run again with --relogin and pick that workspace in the browser.` };
+  let note = "";
+  if (!bound) {
+    const probe = await rpc(token, "tools/call", { name: "list_brain_documents", arguments: { limit: 1, workspace_id: ws.id } }, init.session);
+    if (probe.status !== 200 || probe.body?.error || probe.body?.result?.isError) {
+      return { status: "NOT_CONNECTED", message: `CMMD would not run a call in workspace ${ws.id} with this token. Authorize the token for it in CMMD Settings, Agents.` };
+    }
+    note = ` The token is account-wide, so pass workspace_id ${ws.id} on every cmmd-agent call.`;
   }
   const list = await rpc(token, "tools/list", {}, init.session);
   const names = new Set((list.body?.result?.tools ?? []).map((t) => t.name));
   const missing = REQUIRED_TOOLS.filter((t) => !names.has(t));
   if (missing.length) return { status: "NO_FULL_SERVER", message: `Connected, but these tools are missing: ${missing.join(", ")}.` };
+  console.log(`workspace_id=${ws.id}`);
   return { status: "OK", message: `Connected to CMMD as ${clean(user.email)} for workspace ${ws.id} (${clean(ws.name)}), ${names.size} tools, Brain readable.${note}` };
 }
 

@@ -25,7 +25,8 @@ belongs to, then commit the file. Do not guess the id.
 ## Steps
 
 1. **Check.** Run `node <script> --check` from the repository. The last line is the status.
-2. **On `OK`,** stop. Say which account and workspace the script reported.
+2. **On `OK`,** stop. Say which account and workspace the script reported, and keep the
+   `workspace_id=<id>` line it printed for the next section.
 3. **On anything else,** run `node <script>` without `--check`. It prints a CMMD link and a code and
    opens the browser. Tell the user to approve it there and to pick the company the repository names.
    The script waits for the approval and checks which company the token reads. Only then does it
@@ -38,10 +39,18 @@ belongs to, then commit the file. Do not guess the id.
 |---|---|---|
 | `OK` | Connected to the full server for the right company | None |
 | `NOT_CONNECTED` | No token, a revoked token, or the workspace needs the token authorized | Run without `--check`; if it repeats, the user authorizes the token in CMMD Settings, Agents |
-| `WRONG_WORKSPACE` | The token reads another company | `node <script> --relogin`, and the user picks the right company |
+| `WRONG_WORKSPACE` | The token cannot reach the repository's company | `node <script> --relogin` and pick it; if the user is not a member, a workspace admin adds them |
 | `NO_FULL_SERVER` | Connected, but Brain tools are missing | Run without `--check`; it replaces the server entry with the full server |
 | `NO_PIN` | No `cmmd-workspace.json` | Ask the user for the workspace and commit the file |
 | `ERROR` | Network or CLI failure | Report the line before it |
+
+## Every call names the workspace
+
+Pass `workspace_id` set to the repository's workspace (the `workspace_id=` line, or `workspaceId` in
+`cmmd-workspace.json`) as an argument on every `cmmd-agent` tool call. An account-wide token runs each
+call in the workspace it names, after the server checks membership, and in the person's default
+workspace when it names none, which may be another company. A token bound to the workspace ignores
+nothing and accepts the same argument. Never pass a workspace the repository does not name.
 
 ## What it writes
 

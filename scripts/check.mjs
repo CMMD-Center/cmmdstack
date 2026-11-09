@@ -110,6 +110,18 @@ for (const file of walkAll(root)) {
   }
 }
 
+// The playbooks that start real work run the Strategy check (ask-zack) first. A rewrite that drops
+// the step would let cmmd-mode build off-strategy work without asking.
+for (const pb of ["feature", "multi-phase-plan", "autonomous-run", "orchestrate", "autopilot-full"]) {
+  const text = readFileSync(join(skillsDir, "cmmd-mode", "playbooks", `${pb}.md`), "utf8");
+  if (!text.includes("**Strategy check**") || !text.includes("ask-zack")) {
+    errors.push(`skills/cmmd-mode/playbooks/${pb}.md: must run cmmd-mode's **Strategy check** (the ask-zack skill) before work starts`);
+  }
+}
+if (!readFileSync(join(skillsDir, "cmmd-mode", "SKILL.md"), "utf8").includes("## Strategy check")) {
+  errors.push("skills/cmmd-mode/SKILL.md: the Strategy check section is missing");
+}
+
 // Codex reads prompt frontmatter as YAML: an unquoted value with ": " in it does not parse.
 for (const p of readdirSync(promptsDir)) {
   const fm = readFileSync(join(promptsDir, p), "utf8").match(/^---\n([\s\S]*?)\n---/);

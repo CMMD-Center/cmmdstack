@@ -26,7 +26,7 @@ Remaining triggers:
 - Code crossing a function boundary → the **architect** skill, parallel design exploration before implementing.
 - Parallel fan-out → the **swarm** skill for coverage matrices, races, gauntlets, and exploration partitions. Use **arena** for design or code bakeoffs with base selection and grafting.
 - Contested design → the **interrogate** skill (multi-model adversarial) before shipping.
-- Nontrivial multi-step → write the throughput checkpoint (Feature step 3).
+- Nontrivial multi-step → write the throughput checkpoint (Feature step 4).
 - Any prose surface, your reply to the user included → the **unslop** skill. Write the reply per **Writing the reply**. Agent-facing prose also follows the **plugin-dev:skill-development** skill (Claude Code's authoring guidance for SKILL.md files).
 - Docs, RFCs, readmes, PR descriptions, or commit messages → the **technical-writing** skill (`/technical-writing`), on top of **unslop**.
 - Before commit → the **deslop** skill (`/deslop`).
@@ -38,7 +38,7 @@ Remaining triggers:
 - An automated PR-review bot or the agentic security review commented → skeptical posture. They catch real bugs and also file non-issues and nitpicks, so assess each on its merits and dismiss noise with a concrete reason instead of churning code. Triage fix / dismiss / ask per `references/bugbot-triage.md`.
 - Deploying to a managed platform (Railway, Fly, Vercel, Heroku, and the like) → load that platform's skill, project-local or installed, before running its CLI, the same way Shipping step 1 resolves the forge before the first PR operation.
 - Any bug fixed or issue caught, by you, a reviewer or a bot → the same change adds a lint, type check or static check that fails on the bad code, via the **correct** skill. A test is the fallback only when no static check can express the rule, and the PR says why. A fix that leaves the mistake possible is not done.
-- Work whose business value is unclear, or that grows past its first scope → the **ask-zack** skill before you continue. An `OFF TRACK` verdict stops the work until the user overrides it.
+- New work about to start, work whose business value is unclear, or work that grows past its first scope → the **Strategy check** below.
 - A defect found mid-task → severity decides its artifact, not where it turned up. A correctness or data gap gets a tracked issue even when it surfaces while writing a closure doc; a cosmetic margin can stay in the doc.
 - Broken skill mid-task → fix it in its own PR. Don't block. Don't silently work around it.
 - Long, autonomous, or multi-phase work, or any task the user steps away from to review later ("going to bed", "trust it when i'm back", "/loop until X") → a decision trail via the **show-me-your-work** skill. Commit it when stakes need an auditable record. Keep it local otherwise.
@@ -129,6 +129,17 @@ Every playbook ends with a reply written this way, PR link as `https://github.co
 ## Comments
 
 Comments follow the same rule as the reply. Write them clean as you go. Keep a comment only for a non-obvious *why* the code can't show. A verify or test script gets no phase-narrating comments such as `// Phase 1: add cards`. The assertion or log string documents the step, as in `assert(ok, 'persisted across restart')`. This applies to every file you produce, including the delegate's diff.
+
+## Strategy check
+
+The Feature, Multi-phase plan, Autonomous run, Orchestrate and Autopilot playbooks run it before any code or plan is written, and any playbook runs it again when the work grows past the scope it started with. Bug fix, Perf issue, Refactoring, Investigation and the forensics playbooks skip it: fixing what is broken is always on track.
+
+Run the **ask-zack** skill on the task as the user stated it, with the thread for context. Skip it with `skip: <reason>` only when this thread already has a verdict for the same scope, or the user recorded an override. Act on the verdict:
+
+- `ON TRACK`: continue. Put the priority it serves in the PR body.
+- `DRIFTING`: cut or reorder the scope the way the verdict says, tell the user what changed, then continue with the smaller scope.
+- `OFF TRACK`: stop before writing anything. Reply with the verdict and the work the strategy names instead. Continue only when the user overrides it, and record the override and the reason in the PR body.
+- `BLOCKED`: the check could not run (no connection, wrong company, no strategy document). Do not stop the task for it. Record `skip: ask-zack BLOCKED <status>` in the todolist, tell the user once in the reply with the fix ask-zack named, and continue.
 
 ## Playbooks
 
