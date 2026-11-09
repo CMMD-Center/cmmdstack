@@ -1,6 +1,6 @@
 # Visuals for a PR summary
 
-Pick the smallest view that makes the key point clear.
+Pick the smallest view that makes the key point clear. A rendered image, chart or Mermaid diagram follows [`cmmd-visual-style`](../../cmmd-visual-style/SKILL.md).
 
 - Show logic or an algorithm as pseudocode:
 

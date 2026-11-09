@@ -1,12 +1,13 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>cmmdstack tip sheet</title>
 <style>
   /*
-   * CMMD V11, Round 11 preset V, set for print. Every value comes from the CMMD app:
+   * CMMD V11, Round 11 preset V, set for print. The tokens placeholder below becomes skills/cmmd-visual-style/assets/tokens.css,
+   * the one copy of CMMD's tokens that every cmmdstack visual uses. Its values come from the CMMD app:
    *   tokens and type      client/src/styles/brand-v11.css
    *   page language        client/src/pages/front-page/front-page.css (cmmd.ai)
    *   Still Horizon field  client/src/components/brand/brand-horizon.css
@@ -17,42 +18,9 @@
    * ink on paper with hairline rules.
    * Edit this file, then run scripts/build-tip-sheet.mjs.
    */
-  @font-face {
-    font-family: "CMMD Google Sans V11";
-    font-weight: 400 700;
-    font-display: block;
-    src: url("https://cmmd.ai/fonts/google-sans-latin-v11.woff2") format("woff2");
-  }
-  @font-face {
-    font-family: "CMMD Roboto V11";
-    font-weight: 100 900;
-    font-display: block;
-    src: url("https://cmmd.ai/fonts/roboto-latin-v11.woff2") format("woff2");
-  }
-  :root {
-    --color-bg-primary: #fbfbfa;
-    --color-bg-secondary: #ffffff;
-    --color-bg-tertiary: #f6f6f4;
-    --color-text-primary: #171717;
-    --color-text-secondary: #525252;
-    --color-text-tertiary: #6b6b6b;
-    --color-border-default: #e6e6e2;
-    --color-border-subtle: #efefec;
-    --color-border-strong: #d4d4d0;
-    --brand-layer: 23 23 23;
-    --brand-radius-md: 4px;
-    --brand-radius-lg: 6px;
-    --brand-radius-xl: 8px;
-    --brand-shadow-md: 0 4px 12px rgb(var(--brand-layer) / 0.08), 0 1px 2px rgb(var(--brand-layer) / 0.04);
-    --brand-warm: #ff6b35;
-    --brand-pink: #ff0082;
-    --brand-cool: #00b4ff;
-    --font-family-sans: "CMMD Roboto V11", Roboto, system-ui, -apple-system, "Segoe UI", sans-serif;
-    --font-family-heading: "CMMD Google Sans V11", "CMMD Roboto V11", Roboto, system-ui, sans-serif;
-    --font-family-mono: "SF Mono", SFMono-Regular, ui-monospace, Menlo, Monaco, monospace;
-    --gutter: 0.5in;
-    --rail: 1in;
-  }
+  {{TOKENS}}
+  /* Print layout. */
+  :root { --gutter: 0.5in; --rail: 1in; }
   @page { size: letter; margin: 0; }
   * { box-sizing: border-box; }
   html, body { margin: 0; background: #e9e9e6; color: var(--color-text-primary); font-family: var(--font-family-sans); -webkit-font-smoothing: antialiased; }

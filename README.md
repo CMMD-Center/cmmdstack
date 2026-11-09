@@ -37,7 +37,7 @@ Install one way per repo. A plugin plus a vendored copy shows every skill twice.
 
 | Area | Skills |
 |---|---|
-| Entry and routing | `cmmd-mode`, `ask-alex`, `ask-zack`, `alex-mode`, `cmmd-help`, `setup-cmmdstack`, `connect-cmmd` |
+| Entry and routing | `cmmd-mode`, `ask-alex`, `ask-zack`, `alex-mode`, `cmmd-help`, `setup-cmmdstack`, `connect-cmmd`, `cmmd-visual-style` |
 | Planning and design | `debrief`, `architect`, `arena`, `interrogate`, `figure-it-out`, `statechart`, the `principle-*` skills |
 | Investigation | `how`, `why`, `research`, `blast-radius`, `recall` |
 | Fixing mistakes for good | `correct`, `deslop`, `no-comments`, `thermos`, `thermo-nuclear-review`, `thermo-nuclear-code-quality-review` |
@@ -49,6 +49,8 @@ Install one way per repo. A plugin plus a vendored copy shows every skill twice.
 | Upkeep | `cleanup`, `automate-me`, `karpathy-guidelines`, `typescript-best-practices` |
 
 ## Tip sheet
+
+Anything a skill renders (ketchup videos, diagrams, charts, pages, PDFs) uses CMMD's V11 look from `cmmd-visual-style`: one token file, the fonts, the logo and the app glyphs.
 
 `docs/tip-sheet.pdf` is a one-page, front-and-back tip sheet in the CMMD V11 style, in CMMD's V11 brand: the D Horizon Mirror logo, the Still Horizon field, V11 type and tokens, and the V11 app glyphs. Print it double-sided on letter paper. To change it, edit `docs/tip-sheet.src.html` and run `node scripts/build-tip-sheet.mjs`, which rebuilds the HTML, PDF and page images and fails if the sheet runs past two pages or the CMMD fonts did not load.
 

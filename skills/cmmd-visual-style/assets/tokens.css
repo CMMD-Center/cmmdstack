@@ -1,0 +1,138 @@
+/*
+ * CMMD V11 design tokens (Round 11, preset V), for anything an agent renders: video slides, HTML
+ * pages, PDFs, charts and diagrams. Values are copied from the CMMD app:
+ *   client/src/styles/brand-v11.css            surfaces, ink, text, borders, tiles, type, corners, shadows
+ *   client/src/styles/tokens.css               light error color
+ *   client/src/components/brand/brand-horizon.css   the Horizon field and its three hues
+ * Names match the app, so CSS written against these works there too. tokens.json holds the same
+ * values for scripts and renderers; scripts/check.mjs in cmmdstack fails when the two disagree.
+ *
+ * The fonts load from cmmd.ai, which refuses cross-origin requests from a page opened from disk.
+ * Before rendering, run scripts/inline-fonts.mjs on the finished HTML. Never commit the font files:
+ * Google Sans is not ours to redistribute.
+ */
+@font-face {
+  font-family: "CMMD Google Sans V11";
+  font-weight: 400 700;
+  font-display: block;
+  src: url("https://cmmd.ai/fonts/google-sans-latin-v11.woff2") format("woff2");
+}
+@font-face {
+  font-family: "CMMD Roboto V11";
+  font-weight: 100 900;
+  font-display: block;
+  src: url("https://cmmd.ai/fonts/roboto-latin-v11.woff2") format("woff2");
+}
+
+:root {
+  color-scheme: light;
+  /* Light: soft mono. Ink on warm paper. */
+  --color-bg-primary: #fbfbfa;
+  --color-bg-secondary: #ffffff;
+  --color-bg-tertiary: #f6f6f4;
+  --color-text-primary: #171717;
+  --color-text-secondary: #525252;
+  --color-text-tertiary: #6b6b6b;
+  --color-border-default: #e6e6e2;
+  --color-border-subtle: #efefec;
+  --color-border-strong: #d4d4d0;
+  --color-primary: #171717;
+  --color-primary-hover: #2e2e2e;
+  --color-primary-foreground: #ffffff;
+  --color-error: #dc2626;
+  --color-success: #1f7a4d;
+  --color-warning: #8a5300;
+  --color-info: #1d5fbf;
+  --brand-layer: 23 23 23;
+  --brand-sel-bg: rgb(var(--brand-layer) / 0.1);
+  --brand-field-line: #8a8a85;
+  --brand-tile-warm-bg: #f5e3d4;
+  --brand-tile-warm-fg: #643b22;
+  --brand-tile-violet-bg: #e9e2f3;
+  --brand-tile-violet-fg: #4e3b66;
+  --brand-tile-blue-bg: #dce8f2;
+  --brand-tile-blue-fg: #304e69;
+
+  /* The three Horizon hues. Spend them only as thin rules, the Horizon field and its glow. */
+  --brand-warm: #ff6b35;
+  --brand-pink: #ff0082;
+  --brand-cool: #00b4ff;
+
+  /* Chart series, in order. Ink first, then the 600 steps of the V11 palette
+     (client/src/styles/brand-v11-palette.css), each at least 4.5:1 on white. */
+  --chart-1: #171717;
+  --chart-2: #0064d1;
+  --chart-3: #a35f00;
+  --chart-4: #9043b6;
+  --chart-5: #22833b;
+  --chart-6: #d12546;
+
+  /* Type: Google Sans headings over Roboto text; system mono for code. */
+  --font-family-sans: "CMMD Roboto V11", Roboto, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-family-heading: "CMMD Google Sans V11", "CMMD Roboto V11", Roboto, system-ui, sans-serif;
+  --font-family-mono: "SF Mono", SFMono-Regular, ui-monospace, Menlo, Monaco, monospace;
+
+  /* Corners: 4px controls, 6 to 10px containers. */
+  --brand-radius-sm: 3px;
+  --brand-radius-md: 4px;
+  --brand-radius-lg: 6px;
+  --brand-radius-xl: 8px;
+  --brand-radius-2xl: 10px;
+
+  /* Lift: cards sit on a soft shadow, not a heavy border. */
+  --brand-shadow-sm: 0 1px 2px rgb(var(--brand-layer) / 0.06), 0 1px 1px rgb(var(--brand-layer) / 0.04);
+  --brand-shadow-md: 0 4px 12px rgb(var(--brand-layer) / 0.08), 0 1px 2px rgb(var(--brand-layer) / 0.04);
+  --brand-shadow-lg: 0 16px 40px rgb(var(--brand-layer) / 0.14), 0 2px 6px rgb(var(--brand-layer) / 0.06);
+  --brand-ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* The Still Horizon: paper with the three hues glowing from its edges. */
+  --brand-horizon:
+    linear-gradient(115deg, var(--color-bg-primary) 0%, rgb(251 251 250 / 0.82) 34%, rgb(255 255 255 / 0.32) 100%),
+    radial-gradient(105% 90% at 6% 72%, rgb(255 107 53 / 34%) 0%, rgb(255 107 53 / 12%) 37%, transparent 70%),
+    radial-gradient(116% 92% at 46% 88%, rgb(255 0 130 / 22%) 0%, rgb(255 0 130 / 8%) 42%, transparent 72%),
+    radial-gradient(120% 98% at 94% 26%, rgb(0 180 255 / 30%) 0%, rgb(0 180 255 / 10%) 42%, transparent 76%);
+  /* The Horizon glow under a black panel. */
+  --brand-horizon-glow:
+    radial-gradient(ellipse at 0% 100%, #ff6b35 0%, transparent 65%),
+    radial-gradient(ellipse at 55% 100%, #ff0082 0%, transparent 62%),
+    radial-gradient(ellipse at 100% 100%, #00b4ff 0%, transparent 62%);
+}
+
+/* Dark: strict mono on Apple's dark layers. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-bg-primary: #000000;
+    --color-bg-secondary: #1c1c1e;
+    --color-bg-tertiary: rgb(118 118 128 / 0.24);
+    --color-text-primary: #ffffff;
+    --color-text-secondary: rgb(235 235 245 / 0.6);
+    --color-text-tertiary: rgb(235 235 245 / 0.6);
+    --color-border-default: #38383a;
+    --color-border-subtle: #2c2c2e;
+    --color-border-strong: #48484a;
+    --color-primary: #ffffff;
+    --color-primary-hover: #ffffff;
+    --color-primary-foreground: #000000;
+    --color-error: #ff453a;
+    --color-success: #30d158;
+    --color-warning: #ff9f0a;
+    --color-info: #0a84ff;
+    --brand-layer: 255 255 255;
+    --brand-sel-bg: rgb(var(--brand-layer) / 0.14);
+    --brand-field-line: #6c6c70;
+    --brand-tile-warm-bg: #3b2e25;
+    --brand-tile-warm-fg: #f3d6c1;
+    --brand-tile-violet-bg: #312b3d;
+    --brand-tile-violet-fg: #ddd1f0;
+    --brand-tile-blue-bg: #23303c;
+    --brand-tile-blue-fg: #cfe0ee;
+    /* Apple's dark system colors, as the app's dark status colors are. */
+    --chart-1: #ffffff;
+    --chart-2: #0a84ff;
+    --chart-3: #ff9f0a;
+    --chart-4: #bf5af2;
+    --chart-5: #30d158;
+    --chart-6: #ff375f;
+  }
+}

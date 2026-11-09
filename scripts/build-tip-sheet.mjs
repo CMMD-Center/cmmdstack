@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Builds docs/tip-sheet.html from docs/tip-sheet.src.html by inlining the CMMD V11 logo (D Horizon Mirror) and the V11
-// app glyphs from docs/brand, then prints the PDF and one PNG per page.
+// app glyphs from skills/cmmd-visual-style/assets/brand, then prints the PDF and one PNG per page.
 // Needs Google Chrome, poppler and network access to cmmd.ai. Fails if the PDF is not exactly
 // two pages or if the CMMD fonts did not load.
 //
@@ -11,9 +11,11 @@ import { readFileSync, writeFileSync, readdirSync, rmSync, mkdtempSync } from "n
 import { tmpdir } from "node:os";
 import { execFileSync } from "node:child_process";
 import { join, dirname, resolve } from "node:path";
+import { inlineFonts } from "../skills/cmmd-visual-style/scripts/inline-fonts.mjs";
 
 const docs = resolve(dirname(new URL(import.meta.url).pathname), "..", "docs");
-const brand = join(docs, "brand");
+const style = resolve(docs, "..", "skills", "cmmd-visual-style");
+const brand = join(style, "assets", "brand");
 
 // Glyphs are drawn in #171717 or #0A0A0A. currentColor lets a tile set the glyph color.
 const recolor = (svg) =>
@@ -31,7 +33,9 @@ const icons = Object.fromEntries(
   readdirSync(join(brand, "icons")).map((f) => [f.replace(/\.svg$/, ""), recolor(readFileSync(join(brand, "icons", f), "utf8"))]),
 );
 
+const tokens = readFileSync(join(style, "assets", "tokens.css"), "utf8");
 const html = readFileSync(join(docs, "tip-sheet.src.html"), "utf8")
+  .replace("  {{TOKENS}}\n", `${tokens}\n`)
   .replaceAll("{{SYMBOL}}", symbol)
   .replaceAll("{{WORDMARK}}", wordmark.replace('aria-hidden="true"', 'role="img" aria-label="CMMD"'))
   .replace(/\{\{ICON:([a-z-]+)\}\}/g, (_, name) => {
@@ -41,13 +45,7 @@ const html = readFileSync(join(docs, "tip-sheet.src.html"), "utf8")
 if (html.includes("{{")) throw new Error("tip-sheet.src.html has an unfilled placeholder");
 writeFileSync(join(docs, "tip-sheet.html"), html);
 
-let printable = html;
-for (const [, url] of html.matchAll(/url\("(https:\/\/cmmd\.ai\/fonts\/[^"]+\.woff2)"\)/g)) {
-  const res = await fetch(url);
-  if (!res.ok || !res.headers.get("content-type")?.includes("woff2")) throw new Error(`could not fetch ${url}`);
-  const data = Buffer.from(await res.arrayBuffer()).toString("base64");
-  printable = printable.replace(url, `data:font/woff2;base64,${data}`);
-}
+const printable = await inlineFonts(html);
 const printFile = join(mkdtempSync(join(tmpdir(), "tip-sheet-")), "tip-sheet.html");
 writeFileSync(printFile, printable);
 

@@ -17,14 +17,11 @@ import {
   type Graph,
   hasSection,
   key,
-  type Lasso,
   LEVEL,
   type PathStep,
   type Rule,
-  ruleKey,
   show,
   type Spec,
-  type State,
   stateRules,
   type Step,
   type Value,
@@ -70,11 +67,6 @@ const graphOf = (states: StateRow[], steps: StepRow[]) => {
   return graph;
 };
 
-const lookup = <K, V>(map: ReadonlyMap<K, V>, k: K) => {
-  const v = map.get(k);
-  assert.ok(v !== undefined, `${inspect(k)} is missing`);
-  return v;
-};
 
 const field = (value: Value, name: string) => {
   if (typeof value !== "object" || value.kind !== "function")

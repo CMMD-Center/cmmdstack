@@ -3,6 +3,7 @@
 // Run with --fix to write missing Codex prompts.
 import { readFileSync, writeFileSync, readdirSync, existsSync, statSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
+import { readTokens } from "../skills/cmmd-visual-style/scripts/tokens.mjs";
 
 const root = resolve(dirname(new URL(import.meta.url).pathname), "..");
 const fix = process.argv.includes("--fix");
@@ -129,6 +130,31 @@ for (const pb of ["feature", "multi-phase-plan", "autonomous-run", "orchestrate"
 }
 if (!readFileSync(join(skillsDir, "cmmd-mode", "SKILL.md"), "utf8").includes("## Strategy check")) {
   errors.push("skills/cmmd-mode/SKILL.md: the Strategy check section is missing");
+}
+
+// CMMD's look has one source, skills/cmmd-visual-style. Every visual skill points at it, its JSON
+// and Mermaid copies agree with tokens.css, and the tip sheet builds from it.
+{
+  const style = join(skillsDir, "cmmd-visual-style", "assets");
+  const tokens = readTokens();
+  const json = JSON.parse(readFileSync(join(style, "tokens.json"), "utf8"));
+  if (JSON.stringify(json) !== JSON.stringify(tokens)) {
+    errors.push("skills/cmmd-visual-style/assets/tokens.json: differs from tokens.css; run node skills/cmmd-visual-style/scripts/tokens.mjs > skills/cmmd-visual-style/assets/tokens.json");
+  }
+  const palette = new Set(Object.values(tokens.light).map((v) => v.toLowerCase()));
+  for (const hex of readFileSync(join(style, "mermaid-init.txt"), "utf8").match(/#[0-9a-fA-F]{6}/g) ?? []) {
+    if (!palette.has(hex.toLowerCase())) errors.push(`skills/cmmd-visual-style/assets/mermaid-init.txt: ${hex} is not a light token in tokens.css`);
+  }
+  const visual = ["ketchup/SKILL.md", "ketchup-video/SKILL.md", "how/references/explainer-prompt.md", "teach/SKILL.md", "pr/references/visuals.md"];
+  for (const f of visual) {
+    if (!readFileSync(join(skillsDir, f), "utf8").includes("cmmd-visual-style")) errors.push(`skills/${f}: draws visuals but does not point at cmmd-visual-style`);
+  }
+  const sheet = readFileSync(join(root, "docs", "tip-sheet.src.html"), "utf8");
+  if (!sheet.includes("  {{TOKENS}}")) errors.push("docs/tip-sheet.src.html: must take its tokens from {{TOKENS}} (cmmd-visual-style)");
+  const version = JSON.parse(readFileSync(join(root, ".claude-plugin", "plugin.json"), "utf8")).version;
+  for (const [, v] of sheet.matchAll(/v(\d+\.\d+\.\d+)/g)) {
+    if (v !== version) errors.push(`docs/tip-sheet.src.html: says v${v}, the release is v${version}; edit it and run scripts/build-tip-sheet.mjs`);
+  }
 }
 
 // Codex reads prompt frontmatter as YAML: an unquoted value with ": " in it does not parse.

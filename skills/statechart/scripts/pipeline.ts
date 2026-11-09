@@ -4,7 +4,6 @@ import { report } from "./backends/report.ts";
 import {
   type Answers,
   type Bug,
-  type Chart,
   type CheckedView,
   type CheckResult,
   type Graph,
